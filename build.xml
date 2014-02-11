@@ -1,0 +1,210 @@
+<project default="compile">
+
+  <!-- build.xml for choice points 2, W12, CS56
+       name: Peter Bennion -->
+
+   <property environment="env"/> <!-- load the environment variables -->
+   <property name="webRoot" value="${env.HOME}/public_html/cs56" />
+   <property name="mantisWebRoot" value="${env.HOME}/public_html/cs56/W12/issues/0000548" />
+   <property name="webBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs56" />
+   <property name="mantisWebBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs56/W12/issues/0000548" />
+   <property name="projectName" value="cp2" />
+   <property name="mainClass" value="edu.ucsb.cs56.W12.pbennion.cp2.BinaryClock" />
+   <property name="jwsDest" value="${webRoot}/${projectName}/jws" /> 
+   <property name="mantisJwsDest" value="${mantisWebRoot}/jws" />
+   <property name="jwsURL" value="${webBaseUrl}/${projectName}/jws" />
+   <property name="mantisJwsURL" value="${mantisWebBaseUrl}/jws" />
+   <property name="javadocDest" value="${webRoot}/${projectName}/javadoc" />
+   <property name="mantisJavadocDest" value="${mantisWebRoot}/javadoc" />
+   <property name="javadocURL" value="${webBaseURL}/${projectName}/javadoc" />
+   <property name="mantisJavadocURL" value="${mantisWebBaseURL}/javadoc" />
+
+  <target name="compile" description="compile my code">
+
+      <mkdir dir="build" />
+      <javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
+      <classpath>
+        <pathelement location="build" />
+        <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">                                          
+   <mkdir dir="dist" />                                                         
+   <jar destfile="dist/${projectName}.jar" basedir="build">
+    <manifest>
+      <attribute name="Main-Class" value="${mainClass}"/>
+    </manifest>               
+   </jar>     
+ </target> 
+
+ <target name="publish" depends="jar,javadoc,download,jws,linenumbers, publishMantis">
+   
+   <mkdir dir="${webRoot}/${projectName}" />         
+   <delete dir="${webRoot}/${projectName}/browse" />    
+   <mkdir dir="${webRoot}/${projectName}/browse" />                       
+   <delete dir="${webRoot}/${projectName}/download" />   
+   <mkdir dir="${webRoot}/${projectName}/download" /> 
+   <copy file="html/index.html" todir="${webRoot}/${projectName}"/>
+   <copy file="numberedsource.txt" todir="${webRoot}/${projectName}/browse"/>
+   <copy todir="${webRoot}/${projectName}/download" >   
+     <fileset dir="download"/>                
+     <fileset dir="dist" />             
+   </copy>     
+   <copy file="build.xml" todir="${webRoot}/${projectName}/browse"/>       
+   <copy todir="${webRoot}/${projectName}/browse/src" >         
+     <fileset dir="src"/>                                              
+   </copy>                                                         
+   <chmod dir="${webRoot}/${projectName}"         
+          perm="755" type="both" includes="**/*"/>                
+   <echo>Project published to ${webBaseUrl}/${projectName}</echo>      
+ </target>    
+
+ <target name="publishMantis" depends="jar,mantisJavadoc,download,mantisJws,linenumbers">
+
+   <mkdir dir="${mantisWebRoot}" />
+   <delete dir="${mantisWebRoot}/browse" />
+   <mkdir dir="${mantisWebRoot}/browse" />
+   <delete dir="${mantisWebRoot}/download" />
+   <mkdir dir="${mantisWebRoot}/download" />
+   <copy file="html/index.html" todir="${mantisWebRoot}"/>
+   <copy file="numberedsource.txt" todir="${mantisWebRoot}/browse"/>
+   <copy todir="${mantisWebRoot}/download" >
+     <fileset dir="download"/>
+     <fileset dir="dist" />
+   </copy>
+   <copy file="build.xml" todir="${mantisWebRoot}/browse"/>
+   <copy todir="${mantisWebRoot}/browse/src" >
+     <fileset dir="src"/>
+   </copy>
+   <chmod dir="${mantisWebRoot}"
+          perm="755" type="both" includes="**/*"/>
+   <echo>Project published to ${mantisWebBaseUrl}</echo>
+ </target>
+
+  <target name="mantisJavadoc" depends="compile">
+
+    <delete dir="javadoc" quiet="true" />
+    <javadoc  destdir="javadoc" author="true" version="true" use="true" >
+      <fileset dir="src" includes="**/*.java"/>
+      <classpath>
+        <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+      </classpath>
+    </javadoc>
+    <delete quiet="true" dir="${mantisJavadocDest}" />
+    <copy todir="${mantisJavadocDest}" >
+      <fileset dir="javadoc"/>
+    </copy>
+    <chmod dir="${mantisJavadocDest}" perm="755"  type="dir" includes="**" />
+    <chmod dir="${mantisJavadocDest}" perm="755"  type="file" includes="**/*" />
+    <echo>Javadoc deployed to ${mantisJavadocURL}</echo>
+  </target>
+
+  <target name="run" depends="compile" description="run the main class">
+
+    <java classname="${mainClass}" classpath="build" fork="true" />
+  </target>
+
+ <target name="mantisJws" depends="compile,jar">
+
+   <delete dir="${mantisWebRoot}/jws" />
+   <mkdir dir="${mantisWebRoot}/jws" />
+   <copy todir="${mantisJwsDest}" file="dist/${projectName}.jar" />
+   <copy todir="${mantisJwsDest}" >
+       <fileset dir="jws" includes="*.html"/>
+       <fileset dir="jws" includes="*.jnlp"/>
+       <fileset dir="jws" includes="*.png"/>
+       <fileset dir="jws" includes=".htaccess"/>
+   </copy>
+   <echo>Java web start at ${mantisJwsURL}</echo>
+ </target>
+ 
+ <target name="test" description="Test using JUnit" depends="compile">
+
+    <junit haltonerror="no" haltonfailure="no">
+       <classpath>
+         <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+         <pathelement location="build"/>
+       </classpath>
+       <batchtest fork="yes">
+          <fileset dir="src">
+            <include name="**/*Test.java"/>
+          </fileset>
+       </batchtest>
+       <formatter type="plain" usefile="false" />
+    </junit>
+  </target>
+
+  <target name="clean" description="delete all compiled .class files">
+
+    <delete dir="build" quiet="true" />
+    <delete dir="dist" quiet="true" />  
+    <delete dir="javadoc" quiet="true" />
+    <delete dir="download" quiet="true" />
+    <delete dir="temp" quiet="true" />
+    <delete file="numberedsource.txt" quiet="true" />
+  </target>
+
+  <target name="javadoc" depends="compile">
+
+    <delete dir="javadoc" quiet="true" />
+    <javadoc  destdir="javadoc" author="true" version="true" use="true" >
+      <fileset dir="src" includes="**/*.java"/>
+      <classpath>
+        <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+      </classpath>
+    </javadoc>
+    <delete quiet="true" dir="${javadocDest}" />
+    <copy todir="${javadocDest}" >
+      <fileset dir="javadoc"/>
+    </copy>
+    <chmod dir="${javadocDest}" perm="755"  type="dir" includes="**" />
+    <chmod dir="${javadocDest}" perm="755"  type="file" includes="**/*" />
+    <echo>Javadoc deployed to ${javadocURL}</echo>
+  </target>
+
+<target name="download" depends="">  
+
+  <delete quiet="true">        
+     <fileset dir="temp" includes="**/*" />     
+     <fileset dir="download" includes="**/*" />     
+  </delete>                
+  <mkdir dir="download" />           
+  <mkdir dir="temp" />      
+  <mkdir dir="temp/${projectName}" />
+  <copy todir="temp/${projectName}">                   
+    <fileset dir="."                      
+     excludes="build/**, javadoc/**, **/*~, temp/**, dist/**, download/**"/>
+  </copy>                                                                          <tar destfile="temp/${projectName}.tar" basedir="temp" includes="${projectName}/**"/>                                               
+  <gzip zipfile="download/${projectName}.tgz" src="temp/${projectName}.tar" />                        
+ <zip destfile="download/${projectName}.zip" basedir="temp" includes="${projectName}/**"/>                
+  <delete quiet="true">           
+     <fileset dir="temp" includes="**/*"/>    
+  </delete> 
+ </target>     
+
+
+ <target name="jws" depends="compile,jar">
+
+   <delete dir="${webRoot}/${projectName}/jws" />
+   <mkdir dir="${webRoot}/${projectName}/jws" />
+   <copy todir="${jwsDest}" file="dist/${projectName}.jar" />
+   <copy todir="${jwsDest}" >
+       <fileset dir="jws" includes="*.html"/>
+       <fileset dir="jws" includes="*.jnlp"/>
+       <fileset dir="jws" includes="*.png"/>
+       <fileset dir="jws" includes=".htaccess"/>
+   </copy>
+   <echo>Java web start at ${jwsURL}</echo>
+ </target>
+
+<target name="linenumbers" description="Creates a file containing all source files with line numbers"> 
+              
+    <exec executable="bash">                                   
+      <arg value="-c"/>                                  
+      <arg value='tree -ifQ src | grep \.java\"$ | xargs pr -n > numberedsource.txt'/>                                
+    </exec>                              
+  </target>        
+
+</project>
