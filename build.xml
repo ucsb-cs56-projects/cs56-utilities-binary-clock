@@ -9,7 +9,7 @@
    <property name="webBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs56" />
    <property name="mantisWebBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs56/W12/issues/0000548" />
    <property name="projectName" value="cp2" />
-   <property name="mainClass" value="edu.ucsb.cs56.W12.pbennion.cp2.BinaryClock" />
+   <property name="mainClass" value="edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock" />
    <property name="jwsDest" value="${webRoot}/${projectName}/jws" /> 
    <property name="mantisJwsDest" value="${mantisWebRoot}/jws" />
    <property name="jwsURL" value="${webBaseUrl}/${projectName}/jws" />
