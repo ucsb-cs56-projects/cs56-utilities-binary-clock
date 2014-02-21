@@ -9,7 +9,7 @@
    <property name="webBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs56" />
    <property name="mantisWebBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs56/W12/issues/0000548" />
    <property name="projectName" value="cp2" />
-   <property name="mainClass" value="edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.BinaryClock" />
+   <property name="mainClass" value="edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock" />
    <property name="jwsDest" value="${webRoot}/${projectName}/jws" /> 
    <property name="mantisJwsDest" value="${mantisWebRoot}/jws" />
    <property name="jwsURL" value="${webBaseUrl}/${projectName}/jws" />
@@ -65,7 +65,13 @@
 
    <mkdir dir="${mantisWebRoot}" />
    <delete dir="${mantisWebRoot}/browse" />
-   <mkdir dir="${mantisWebRoot}/browse" />
+ <classpath>
+        <pathelement location="build" />
+        <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+      </classpath> <classpath>
+        <pathelement location="build" />
+        <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+      </classpath>   <mkdir dir="${mantisWebRoot}/browse" />
    <delete dir="${mantisWebRoot}/download" />
    <mkdir dir="${mantisWebRoot}/download" />
    <copy file="html/index.html" todir="${mantisWebRoot}"/>
@@ -102,12 +108,13 @@
   </target>
 
   <target name="run" depends="compile" description="run the main class">
-  	<java classname="${mainClass}" fork="true" >
-    		<classpath>
-        		<pathelement location="build" />
-	        	<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
-      		</classpath>
-	</java>
+
+    <java classname="${mainClass}" fork="true" >
+      <classpath>
+        <pathelement location="build" />
+        <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+      </classpath>
+    </java>
   </target>
 
  <target name="mantisJws" depends="compile,jar">
