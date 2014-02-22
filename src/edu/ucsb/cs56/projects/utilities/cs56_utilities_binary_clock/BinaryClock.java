@@ -79,7 +79,7 @@ public class BinaryClock implements Runnable
     {
         //fetch time data
         date = String.format("%tr", new Date());
-
+     
         //break up time data into binary strings, then feed to blocks
         hour = Integer.toBinaryString(Integer.parseInt(date.substring(0, 2)));
             updateBlocks(hour, panel.getHour());
