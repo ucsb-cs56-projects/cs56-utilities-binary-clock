@@ -1,7 +1,9 @@
 package edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock;
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.geom.*;
+import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.GeneralPathWrapper;
+import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.ShapeTransforms;
 
 /**
  * Used by TimePanel to build BinaryClock's graphical representation.
@@ -12,9 +14,10 @@ import java.awt.*;
  * @@@ - May want to lose the Canvas parent. Swing and awt sometimes
  *          have issues with each other.
  * @author Peter Bennion
- * @version for UCSB CS56, W12, choice points 2
+ * @author Yantsey Tsai
+ * @version cs56 legacy code project, W14
 */
-public class Block extends Canvas
+public class Block extends GeneralPathWrapper implements Shape
 {
     protected boolean on;
     protected Color colorOn;
@@ -27,7 +30,7 @@ public class Block extends Canvas
     */
     public Block()
     {
-        super();
+        /*super();
 
         x = getX();
         y = getY();
@@ -39,7 +42,12 @@ public class Block extends Canvas
         this.on = false;
 
         setBackground(colorOff);
-        repaint();
+        repaint();*/
+	this.colorOn  = Color.red;
+        this.colorOff = Color.blue;
+	Rectangle2D block = this.getBounds2D();
+	GeneralPath wholeBlock = this.get();
+	wholeBlock.append(block, false);
     }
 
     /**
@@ -49,7 +57,7 @@ public class Block extends Canvas
     */
     public Block(Color on, Color off)
     {
-        super();
+        /*super();
 
         x = getX();
         y = getY();
@@ -61,7 +69,12 @@ public class Block extends Canvas
         this.on = false;
 
         setBackground(colorOff);
-        repaint();
+        repaint();*/
+	this.colorOn  = on;
+        this.colorOff = off;
+	Rectangle2D block = this.getBounds2D();
+	GeneralPath wholeBlock = this.get();
+        wholeBlock.append(block, false);
     }
 
     /**
@@ -87,10 +100,10 @@ public class Block extends Canvas
 
         if(on)
         {
-            setBackground(colorOn);
+	    // setBackground(colorOn);
         } else
         {
-            setBackground(colorOff);
+            //setBackground(colorOff);
         }
 
         repaint();
