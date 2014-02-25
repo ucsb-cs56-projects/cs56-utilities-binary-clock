@@ -25,8 +25,8 @@ import java.awt.geom.AffineTransform;
  So, GeneralPathWrapper is a wrapper around a GeneralPath object
  that we can extend
 
- * @author P. Conrad  
- * @version CS56, Winter 2011, UCSB
+ * @author Yantsey Tsai  
+ * @version CS56, W14
  */
 
 public class GeneralPathWrapper implements Shape

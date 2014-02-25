@@ -19,8 +19,8 @@ import java.awt.Color; // class for Colors
    Some static methods for transforming objects that implement
    the java.awt.Shape interface
    
-   @author Phill Conrad 
-   @version for CS56, W11, UCSB, 02/23/2011
+   @author Yantsey Tsai 
+   @version CS56 W14
    @see java.awt.Shape
 */
 
