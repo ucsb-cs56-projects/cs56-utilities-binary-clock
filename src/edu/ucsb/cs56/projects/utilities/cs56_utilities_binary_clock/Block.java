@@ -17,7 +17,7 @@ import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.ShapeTransfo
  * @author Yantsey Tsai
  * @version cs56 legacy code project, W14
 */
-public class Block extends GeneralPathWrapper implements Shape
+public class Block extends Canvas
 {
     protected boolean on;
     protected Color colorOn;
@@ -30,7 +30,7 @@ public class Block extends GeneralPathWrapper implements Shape
     */
     public Block()
     {
-        /*super();
+        super();
 
         x = getX();
         y = getY();
@@ -42,12 +42,7 @@ public class Block extends GeneralPathWrapper implements Shape
         this.on = false;
 
         setBackground(colorOff);
-        repaint();*/
-	this.colorOn  = Color.red;
-        this.colorOff = Color.blue;
-	Rectangle2D block = this.getBounds2D();
-	GeneralPath wholeBlock = this.get();
-	wholeBlock.append(block, false);
+        repaint();
     }
 
     /**
@@ -57,7 +52,7 @@ public class Block extends GeneralPathWrapper implements Shape
     */
     public Block(Color on, Color off)
     {
-        /*super();
+        super();
 
         x = getX();
         y = getY();
@@ -69,12 +64,8 @@ public class Block extends GeneralPathWrapper implements Shape
         this.on = false;
 
         setBackground(colorOff);
-        repaint();*/
-	this.colorOn  = on;
-        this.colorOff = off;
-	Rectangle2D block = this.getBounds2D();
-	GeneralPath wholeBlock = this.get();
-        wholeBlock.append(block, false);
+        repaint();
+	
     }
 
     /**
@@ -100,10 +91,10 @@ public class Block extends GeneralPathWrapper implements Shape
 
         if(on)
         {
-	    // setBackground(colorOn);
+	    setBackground(colorOn);
         } else
         {
-            //setBackground(colorOff);
+            setBackground(colorOff);
         }
 
         repaint();
