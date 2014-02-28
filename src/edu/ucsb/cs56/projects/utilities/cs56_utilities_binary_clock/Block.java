@@ -90,13 +90,11 @@ public class Block extends Canvas
             on = true;
         else on = false;
 
-        if(on)
-        {   
+        if(on){   
 	    repaint();
 	    setBackground(colorOn);
-	    
-        } else
-        {
+        }
+	else{
 	    repaint();
 	    setBackground(colorOff);
         }
@@ -108,12 +106,12 @@ public class Block extends Canvas
         Used by the system to render the block. Currently bugged and will only display background color.
         @param g A variable representing graphics. Only available to the system.
     */
-    public void paintComponent(Graphics g)
+    public void paint(Graphics g)
     {
         Graphics2D g2d = (Graphics2D) g;
 
         //GradientPaint gradient;
-       
+	System.out.println("paint comp was called");
 
         if(on)
         {
@@ -150,9 +148,9 @@ public class Block extends Canvas
         int g = brushColor.getGreen();
         int b = brushColor.getBlue();
 	
-        if(r> 0) r-=100;
-        if(g> 0) g-=100;
-        if(b> 0) b-=100;
+        if(r> 0) r--;
+        if(g> 0) g--;
+        if(b> 0) b--;
 
         return new Color(r,g,b);
     }
