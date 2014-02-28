@@ -104,7 +104,7 @@ public class BinaryClock implements Runnable
             updateAmPmBlocks(AM_PM, panel.getAmPm());
 
         //set text on the time panel for debugging purposes. Temporary.
-        time.setText(date);
+        //time.setText(date);
 
         frame.setVisible(true);
 

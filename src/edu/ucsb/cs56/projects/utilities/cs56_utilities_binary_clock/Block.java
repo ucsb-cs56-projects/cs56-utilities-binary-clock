@@ -91,11 +91,9 @@ public class Block extends Canvas
         else on = false;
 
         if(on){   
-	    repaint();
 	    setBackground(colorOn);
         }
 	else{
-	    repaint();
 	    setBackground(colorOff);
         }
 
@@ -110,36 +108,23 @@ public class Block extends Canvas
     {
         Graphics2D g2d = (Graphics2D) g;
 
-        //GradientPaint gradient;
-	System.out.println("paint comp was called");
-
-        if(on)
-        {
-	    //setBackground(colorOn);
+        if(on){
 	    brushColor = colorOn;
-	    for(int i=0; i<getHeight(); i++)
-	    {
+	    for(int i=0; i<getHeight(); i++){
 		g.setColor(brushColor);
 		brushColor = getDarker();
 		g.fillRect(0,i,getWidth(),1);
 	    }
-        } else
-        {
-	    //setBackground(colorOff);
+        } 
+	else{
 	    brushColor = colorOff;
-	    for(int i=0; i<getHeight(); i++)
-	    {
+	    for(int i=0; i<getHeight(); i++){
 		g.setColor(brushColor);
 		brushColor = getDarker();
 		g.fillRect(0,i,getWidth(),1);
 	    }
         }
-
 	
-        /*gradient = new GradientPaint(x + (w/2), y, brushColor, x + (w/2), y + h, Color.BLACK);
-
-        g2d.setPaint(gradient);
-        g2d.fillRect(x+5, y+5, w-10, h-10);*/
     }
 
     private Color getDarker()
@@ -148,9 +133,9 @@ public class Block extends Canvas
         int g = brushColor.getGreen();
         int b = brushColor.getBlue();
 	
-        if(r> 0) r--;
-        if(g> 0) g--;
-        if(b> 0) b--;
+        if(r> 0) r-=1;
+        if(g> 0) g-=1;
+        if(b> 0) b-=1;
 
         return new Color(r,g,b);
     }
