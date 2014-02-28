@@ -33,6 +33,7 @@ public class BinaryClock implements Runnable
     protected String date;
     
     private long startTime,runningTime;
+    private long secTimer,minTimer,hrTimer,slast,mlast,hlast;
     /**
         Constructor
     */
@@ -109,6 +110,9 @@ public class BinaryClock implements Runnable
 
 	//start thread timer
 	startTime = System.currentTimeMillis();
+	slast = System.currentTimeMillis(); // temporary
+	mlast = System.currentTimeMillis(); // temporary
+	hlast = System.currentTimeMillis(); // temporary
         //tell the thread to sleep for a twentieth of a second before reiterating
         try
         {
@@ -126,31 +130,38 @@ public class BinaryClock implements Runnable
     */
     protected void update()
     {
-	runningTime = System.currentTimeMillis() - startTime;
+	//runningTime = System.currentTimeMillis() - startTime;
+	secTimer = System.currentTimeMillis() - slast;
+	minTimer = System.currentTimeMillis() - mlast;
+	hrTimer = System.currentTimeMillis() - hlast;
         date = String.format("%tr", new Date());
+
 	// This loop is more efficient because it only updates the blocks that need to be updated
 	// For example, hour won't get updated every single second
 	
 	// update seconds after every 1000 ms
-        if(runningTime > 999){
+        if(secTimer > 990){
 	    second10s = Integer.toBinaryString(Integer.parseInt(date.substring(6, 7)));
             updateBlocks(second10s, panel.getSecond10s());
-        second1s = Integer.toBinaryString(Integer.parseInt(date.substring(7, 8)));
-            updateBlocks(second1s, panel.getSecond1s());
+	    second1s = Integer.toBinaryString(Integer.parseInt(date.substring(7, 8)));
+	    updateBlocks(second1s, panel.getSecond1s());
+	    slast = System.currentTimeMillis();
 	}
 	
 	// update minute after every 60,000 ms
-	if(runningTime > 1000 * 60){
+	if(minTimer > 1000 * 60){
 	    minute10s = Integer.toBinaryString(Integer.parseInt(date.substring(3, 4)));
 	    updateBlocks(minute10s, panel.getMinute10s());
-        minute1s = Integer.toBinaryString(Integer.parseInt(date.substring(4, 5)));
+	    minute1s = Integer.toBinaryString(Integer.parseInt(date.substring(4, 5)));
 	    updateBlocks(minute1s, panel.getMinute1s());
+	    mlast = System.currentTimeMillis();
 	}
-
+	
 	// update hour after 3,600,000 ms
-	if(runningTime > 1000 * 60 * 60){
-	   hour = Integer.toBinaryString(Integer.parseInt(date.substring(0, 2)));
-	   updateBlocks(hour, panel.getHour()); 
+	if(hrTimer > 1000 * 60 * 60){
+	    hour = Integer.toBinaryString(Integer.parseInt(date.substring(0, 2)));
+	    updateBlocks(hour, panel.getHour()); 
+	    hlast = System.currentTimeMillis();
 	}
         
 	          
@@ -162,7 +173,7 @@ public class BinaryClock implements Runnable
         //tell the thread to sleep before reiterating
         try
         {
-            Thread.sleep(990);
+            Thread.sleep(800);
         } catch(InterruptedException ex)
         {
             ex.printStackTrace();
