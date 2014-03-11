@@ -1,8 +1,12 @@
-package edu.ucsb.cs56.W12.pbennion.cp2;
+package edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.*;
+import java.awt.geom.*;
 import java.util.*;
+import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.GeneralPathWrapper;
+import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.ShapeTransforms;
+
 
 /**
  * The main display for the Binary Clock, uses Block.
@@ -12,7 +16,8 @@ import java.util.*;
  * @@@ - Better looking text labels for tutorial mode
  * @@@ - Windowless fullscreen support?
  * @author Peter Bennion
- * @version for UCSB CS56, W12, choice points 2
+ * @author Yantsey Tsai
+ * @version legacy code project cs56, W14
  */
 public class TimePanel extends JPanel
 {

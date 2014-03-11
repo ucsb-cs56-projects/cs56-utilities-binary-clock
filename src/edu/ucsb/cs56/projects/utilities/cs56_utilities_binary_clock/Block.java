@@ -1,7 +1,9 @@
-package edu.ucsb.cs56.W12.pbennion.cp2;
+package edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock;
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.geom.*;
+import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.GeneralPathWrapper;
+import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.ShapeTransforms;
 
 /**
  * Used by TimePanel to build BinaryClock's graphical representation.
@@ -12,13 +14,15 @@ import java.awt.*;
  * @@@ - May want to lose the Canvas parent. Swing and awt sometimes
  *          have issues with each other.
  * @author Peter Bennion
- * @version for UCSB CS56, W12, choice points 2
+ * @author Yantsey Tsai
+ * @version cs56 legacy code project, W14
 */
 public class Block extends Canvas
 {
     protected boolean on;
     protected Color colorOn;
     protected Color colorOff;
+    protected Color brushColor;
 
     int x, y, w, h;
 
@@ -62,6 +66,7 @@ public class Block extends Canvas
 
         setBackground(colorOff);
         repaint();
+	
     }
 
     /**
@@ -85,42 +90,56 @@ public class Block extends Canvas
             on = true;
         else on = false;
 
-        if(on)
-        {
-            setBackground(colorOn);
-        } else
-        {
-            setBackground(colorOff);
+        if(on){   
+	    setBackground(colorOn);
+        }
+	else{
+	    setBackground(colorOff);
         }
 
-        repaint();
+	repaint();
     }
 
     /**
         Used by the system to render the block. Currently bugged and will only display background color.
         @param g A variable representing graphics. Only available to the system.
     */
-    public void paintComponent(Graphics g)
+    public void paint(Graphics g)
     {
         Graphics2D g2d = (Graphics2D) g;
 
-        GradientPaint gradient;
-        Color brushColor;
-
-        if(on)
-        {
-            brushColor = colorOn;
-            setBackground(colorOn);
-        } else
-        {
-            brushColor = colorOff;
-            setBackground(colorOff);
+        if(on){
+	    brushColor = colorOn;
+	    for(int i=0; i<getHeight(); i++){
+		g.setColor(brushColor);
+		brushColor = getDarker();
+		g.fillRect(0,i,getWidth(),1);
+	    }
+        } 
+	else{
+	    brushColor = colorOff;
+	    for(int i=0; i<getHeight(); i++){
+		g.setColor(brushColor);
+		brushColor = getDarker();
+		g.fillRect(0,i,getWidth(),1);
+	    }
         }
-
-        gradient = new GradientPaint(x + (w/2), y, brushColor, x + (w/2), y + h, Color.BLACK);
-
-        g2d.setPaint(gradient);
-        g2d.fillRect(x+5, y+5, w-10, h-10);
+	
     }
+
+    private Color getDarker()
+    {
+	int r = brushColor.getRed();
+        int g = brushColor.getGreen();
+        int b = brushColor.getBlue();
+	
+        if(r> 0) r-=1;
+        if(g> 0) g-=1;
+        if(b> 0) b-=1;
+
+        return new Color(r,g,b);
+    }
+    
+
 
 }
