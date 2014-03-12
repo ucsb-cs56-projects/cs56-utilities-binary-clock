@@ -9,7 +9,6 @@ Here is a screenshot of the binary clock in its current state:
 
 ![](http://puu.sh/7seUa.png)
 
-In this case, the clock reads 4:20:00 PM
 
 Documentation
 =============
@@ -27,7 +26,7 @@ How to Run
 * Use `ant run` to run the binary clock GUI
 
 Other Notes
-==
+=
 
 * Currently, the gradient is done by using a for loop to pain several rectangles over each other, with each successive rectangle decreasing 1 pixel in height, and getting darker by 1 RGB value.
 * There may be a way to use GradientPaint, but that involves refactoring the entire project and changing the Block class to implement Shape rather than extend Canvas. You would have to change code in every single class.
