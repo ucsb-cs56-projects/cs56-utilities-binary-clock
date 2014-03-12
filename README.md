@@ -9,7 +9,7 @@ Here is a screenshot of the binary clock in its current state:
 
 ![](http://puu.sh/7seUa.png)
 
-* In this case, the clock reads 4:20:00 PM
+In this case, the clock reads 4:20:00 PM
 
 Documentation
 =============
