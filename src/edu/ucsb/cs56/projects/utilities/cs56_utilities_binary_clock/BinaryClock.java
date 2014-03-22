@@ -34,6 +34,7 @@ public class BinaryClock implements Runnable
     
     private long startTime,runningTime;
     private long secTimer,minTimer,hrTimer,slast,mlast,hlast;
+    private long ampmTimer, ampmlast; // you need to implement these for the flickering issue
     /**
         Constructor
     */
