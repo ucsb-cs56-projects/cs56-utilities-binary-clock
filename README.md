@@ -9,6 +9,13 @@ Here is a screenshot of the binary clock in its current state:
 
 ![](http://puu.sh/7seUa.png)
 
+project history
+===============
+```
+ W14 | bkiefer13 5pm | yantsey | Graphical Binary Clock
+```
+
+
 
 Documentation
 =============
