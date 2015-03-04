@@ -38,8 +38,9 @@ public class Block extends Canvas
         w = getWidth();
         h = getHeight();
 
+	// Default colors
         this.colorOn  = Color.red;
-        this.colorOff = Color.blue;
+        this.colorOff = Color.orange;
         this.on = false;
 
         setBackground(colorOff);
@@ -86,6 +87,8 @@ public class Block extends Canvas
     */
     public void input(char c)
     {
+	/*
+	// Original version
         if(c=='1')
             on = true;
         else on = false;
@@ -96,10 +99,27 @@ public class Block extends Canvas
 	else{
 	    setBackground(colorOff);
         }
-
 	repaint();
-    }
+	*/
+	
+	// New verison
+	if(c == '1' && on == false){
+	    //off but should be on
+	    on = true;
+	    brushColor = Color.white;
+	    setBackground(colorOn);
+	    repaint();
+	}
+	else if(c == '0' && on == true){
+	    // on but should be off
+	    on = false;
+	    setBackground(colorOff);
+	    repaint();
+	}
 
+	
+    }
+    
     /**
         Used by the system to render the block. Currently bugged and will only display background color.
         @param g A variable representing graphics. Only available to the system.

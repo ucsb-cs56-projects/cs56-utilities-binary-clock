@@ -114,6 +114,7 @@ public class BinaryClock implements Runnable
 	slast = System.currentTimeMillis(); // temporary
 	mlast = System.currentTimeMillis(); // temporary
 	hlast = System.currentTimeMillis(); // temporary
+	ampmlast = System.currentTimeMillis(); // temporary
         //tell the thread to sleep for a twentieth of a second before reiterating
         try
         {
@@ -134,19 +135,22 @@ public class BinaryClock implements Runnable
 	secTimer = System.currentTimeMillis() - slast;
 	minTimer = System.currentTimeMillis() - mlast;
 	hrTimer = System.currentTimeMillis() - hlast;
+	ampmTimer = System.currentTimeMillis() - ampmlast;
         date = String.format("%tr", new Date());
 
 	// This loop is more efficient because it only updates the blocks that need to be updated
 	// For example, hour won't get updated every single second
 	
 	// update seconds after every 1000 ms
-        if(secTimer > 900){
+	if(secTimer > 900){
 	    second10s = Integer.toBinaryString(Integer.parseInt(date.substring(6, 7)));
             updateBlocks(second10s, panel.getSecond10s());
+
 	    second1s = Integer.toBinaryString(Integer.parseInt(date.substring(7, 8)));
 	    updateBlocks(second1s, panel.getSecond1s());
 	    slast = System.currentTimeMillis();
 	}
+	
 	
 	// update minute after every 60,000 ms
 	if(minTimer > 1000 * 60 - 100){
@@ -158,26 +162,28 @@ public class BinaryClock implements Runnable
 	}
 	
 	// update hour after 3,600,000 ms
-	if(hrTimer > 1000 * 60 * 60 - 100){
+	    if(hrTimer > 1000 * 60 * 60 - 100){
 	    hour = Integer.toBinaryString(Integer.parseInt(date.substring(0, 2)));
 	    updateBlocks(hour, panel.getHour()); 
 	    hlast = System.currentTimeMillis();
-	}
+	    }
         
-	          
-        if(date.charAt(9)=='A')
-	    AM_PM = "1";
-        else AM_PM = "0";
-            updateAmPmBlocks(AM_PM, panel.getAmPm());
-
+	// update am/pm after 12 hours (3,600,000 * 12)
+	if(ampmTimer > 1000 * 60 * 60 * 12 - 100){
+	    if(date.charAt(9)=='A')
+		AM_PM = "1";
+	    else AM_PM = "0";
+	    updateAmPmBlocks(AM_PM, panel.getAmPm());
+	}
+	
         //tell the thread to sleep before reiterating
         try
-        {
-            Thread.sleep(500);
-        } catch(InterruptedException ex)
-        {
-            ex.printStackTrace();
-        }
+	    {
+		Thread.sleep(500);
+	    } catch(InterruptedException ex)
+	    {
+		ex.printStackTrace();
+	    }
         update();
     }
 
@@ -188,12 +194,13 @@ public class BinaryClock implements Runnable
     */
     protected void updateBlocks(String s, Block[] blocks)
     {
-        for(int i = 0; i < Array.getLength(blocks); i++)
+        for(int i =  Array.getLength(blocks) - 1; i >= 0; i--)
         {
             //associates appropriate blocks to their bits
             if(i<s.length())
                 blocks[i].input(s.charAt(s.length()-1-i));
             else blocks[i].input('0');
+
         }
     }
 
