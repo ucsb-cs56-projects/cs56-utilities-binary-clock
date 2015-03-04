@@ -108,12 +108,14 @@ public class Block extends Canvas
     public void paint(Graphics g)
     {
         Graphics2D g2d = (Graphics2D) g;
-
         if(on){
 	    brushColor = colorOn;
 	    for(int i=0; i<getHeight(); i++){
 		g.setColor(brushColor);
-		brushColor = getDarker();
+		// get darker every 3 loops
+		if(i % 3 == 0){
+		    brushColor = getDarker();
+		}
 		g.fillRect(0,i,getWidth(),1);
 	    }
         } 
@@ -121,7 +123,10 @@ public class Block extends Canvas
 	    brushColor = colorOff;
 	    for(int i=0; i<getHeight(); i++){
 		g.setColor(brushColor);
-		brushColor = getDarker();
+		// get darker every 3 loops
+		if(i % 3 == 0){
+		    brushColor = getDarker();
+		}
 		g.fillRect(0,i,getWidth(),1);
 	    }
         }
@@ -134,9 +139,9 @@ public class Block extends Canvas
         int g = brushColor.getGreen();
         int b = brushColor.getBlue();
 	
-        if(r> 0) r-=1;
-        if(g> 0) g-=1;
-        if(b> 0) b-=1;
+        if(r> 0) r-=5;
+        if(g> 0) g-=5;
+        if(b> 0) b-=5;
 
         return new Color(r,g,b);
     }
