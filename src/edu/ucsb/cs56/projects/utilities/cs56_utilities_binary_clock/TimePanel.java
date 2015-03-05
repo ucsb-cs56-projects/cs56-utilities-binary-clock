@@ -95,49 +95,49 @@ public class TimePanel extends JPanel
 
         //create the guide labels
         JLabel AMLabel = new JLabel("AM");
-            AMLabel.setForeground(Color.WHITE);
+            AMLabel.setForeground(Color.BLACK);
             AMLabel.setHorizontalTextPosition(SwingConstants.CENTER);
             AMLabel.setVerticalTextPosition(SwingConstants.CENTER);
         JLabel PMLabel = new JLabel("PM");
-            PMLabel.setForeground(Color.WHITE);
+            PMLabel.setForeground(Color.BLACK);
             PMLabel.setHorizontalAlignment(SwingConstants.CENTER);
             PMLabel.setVerticalAlignment(SwingConstants.CENTER);
 
         JLabel HLabel = new JLabel("Hours");
-            HLabel.setForeground(Color.WHITE);
+            HLabel.setForeground(Color.BLACK);
             HLabel.setHorizontalAlignment(SwingConstants.CENTER);
             HLabel.setVerticalAlignment(SwingConstants.CENTER);
         JLabel M10Label = new JLabel("Minute 10's");
-            M10Label.setForeground(Color.WHITE);
+	    M10Label.setForeground(Color.BLACK);
             M10Label.setHorizontalAlignment(SwingConstants.CENTER);
             M10Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel M1_Label = new JLabel("Minute 1's");
-            M1_Label.setForeground(Color.WHITE);
+            M1_Label.setForeground(Color.BLACK);
             M1_Label.setHorizontalAlignment(SwingConstants.CENTER);
             M1_Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel S10Label = new JLabel("Second 10's");
-            S10Label.setForeground(Color.WHITE);
+            S10Label.setForeground(Color.BLACK);
             S10Label.setHorizontalAlignment(SwingConstants.CENTER);
             S10Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel S1_Label = new JLabel("Second 1's");
-            S1_Label.setForeground(Color.WHITE);
+            S1_Label.setForeground(Color.BLACK);
             S1_Label.setHorizontalAlignment(SwingConstants.CENTER);
             S1_Label.setVerticalAlignment(SwingConstants.CENTER);
 
         JLabel N8Label = new JLabel("8");
-            N8Label.setForeground(Color.WHITE);
+            N8Label.setForeground(Color.BLACK);
             N8Label.setHorizontalAlignment(SwingConstants.CENTER);
             N8Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel N4Label = new JLabel("4");
-            N4Label.setForeground(Color.WHITE);
+            N4Label.setForeground(Color.BLACK);
             N4Label.setHorizontalAlignment(SwingConstants.CENTER);
             N4Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel N2Label = new JLabel("2");
-            N2Label.setForeground(Color.WHITE);
+            N2Label.setForeground(Color.BLACK);
             N2Label.setHorizontalAlignment(SwingConstants.CENTER);
             N2Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel N1Label = new JLabel("1");
-            N1Label.setForeground(Color.WHITE);
+            N1Label.setForeground(Color.BLACK);
             N1Label.setHorizontalAlignment(SwingConstants.CENTER);
             N1Label.setVerticalAlignment(SwingConstants.CENTER);
 
