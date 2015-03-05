@@ -19,7 +19,7 @@ import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.ShapeTransfo
  * @author Yantsey Tsai
  * @version legacy code project cs56, W14
  */
-public class TimePanel extends JPanel
+public class TimePanel extends JPanel 
 {
     protected GroupLayout layout;
 
@@ -28,21 +28,26 @@ public class TimePanel extends JPanel
     protected Block h1, h2, h4, h8;
     protected Block PM, AM;
 
+    private Color timePanelBackgroundColor;
+    private Color onBlockColor = Color.RED;
+    private Color offBlockColor = Color.BLUE;
+
     /**
         Constructor
         @param type String representing the layout type, "Tutorial", "Grid", or "Fill"
                     Defaults to "Tutorial" if invalid param
                     currently, only "Tutorial" is supported
     */
-    public TimePanel(String type)
+    public TimePanel(String type, Color timePanelBackgroundColor_)
     {
         layout = new GroupLayout(this);
-            setLayout(layout);
+	// Set input colors
+	timePanelBackgroundColor = timePanelBackgroundColor_;
 
-        setBackground(Color.BLACK);
-
-        initBlocks();
-        initTutorial();
+	setLayout(layout);
+	setBackground(timePanelBackgroundColor);
+	initBlocks();
+	initTutorial();
     }
 
     /**
@@ -50,30 +55,32 @@ public class TimePanel extends JPanel
     */
     protected void initBlocks()
     {
-        s1 = new Block();
-        s2 = new Block();
-        s4 = new Block();
-        s8 = new Block();
-        s10= new Block();
-        s20= new Block();
-        s40= new Block();
+        s1 = new Block(onBlockColor, offBlockColor);
+        s2 = new Block(onBlockColor, offBlockColor);
+        s4 = new Block(onBlockColor, offBlockColor);
+        s8 = new Block(onBlockColor, offBlockColor);
+        s10= new Block(onBlockColor, offBlockColor);
+        s20= new Block(onBlockColor, offBlockColor);
+        s40= new Block(onBlockColor, offBlockColor);
 
-        m1 = new Block();
-        m2 = new Block();
-        m4 = new Block();
-        m8 = new Block();
-        m10= new Block();
-        m20= new Block();
-        m40= new Block();
+        m1 = new Block(onBlockColor, offBlockColor);
+        m2 = new Block(onBlockColor, offBlockColor);
+        m4 = new Block(onBlockColor, offBlockColor);
+        m8 = new Block(onBlockColor, offBlockColor);
+        m10= new Block(onBlockColor, offBlockColor);
+        m20= new Block(onBlockColor, offBlockColor);
+        m40= new Block(onBlockColor, offBlockColor);
 
-        h1 = new Block();
-        h2 = new Block();
-        h4 = new Block();
-        h8 = new Block();
+        h1 = new Block(onBlockColor, offBlockColor);
+        h2 = new Block(onBlockColor, offBlockColor);
+        h4 = new Block(onBlockColor, offBlockColor);
+        h8 = new Block(onBlockColor, offBlockColor);
 
-        AM = new Block();
-        PM = new Block();
+        AM = new Block(onBlockColor, offBlockColor);
+        PM = new Block(onBlockColor, offBlockColor);
+
     }
+
 
     /**
         Initializes a beginner-friendly format with guide labels
@@ -83,6 +90,8 @@ public class TimePanel extends JPanel
         //add gaps between components and edges
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
+
+	
 
         //create the guide labels
         JLabel AMLabel = new JLabel("AM");
@@ -132,6 +141,7 @@ public class TimePanel extends JPanel
             N1Label.setHorizontalAlignment(SwingConstants.CENTER);
             N1Label.setVerticalAlignment(SwingConstants.CENTER);
 
+	
         //tell the layout how to set up columns
         GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
         hGroup.addGroup(layout.createParallelGroup().

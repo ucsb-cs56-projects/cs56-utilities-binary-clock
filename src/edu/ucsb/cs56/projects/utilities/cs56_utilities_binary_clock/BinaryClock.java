@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.util.*;
 import java.lang.reflect.Array;
 
+
 /**
  * Creates a power of 2 binary clock widget that gets the
  * current time and displays it as a set of 2D blocks.
@@ -19,7 +20,7 @@ import java.lang.reflect.Array;
  * @author Yantsey Tsai
  * @version for UCSB CS56, W14, legacy code project
  */
-public class BinaryClock implements Runnable
+public class BinaryClock extends JFrame implements Runnable, ActionListener
 {
     protected JFrame frame;
     protected int frameheight;
@@ -31,21 +32,26 @@ public class BinaryClock implements Runnable
 
     protected String hour, minute10s, minute1s, second10s, second1s, AM_PM;
     protected String date;
-    
+
     private long startTime,runningTime;
     private long secTimer,minTimer,hrTimer,slast,mlast,hlast;
     private long ampmTimer, ampmlast; // you need to implement these for the flickering issue
+
+    private Color setBackgroundColor = Color.BLACK;
+    private Color setOnBoxColor = Color.RED;
+    private Color setOffBoxColor = Color.BLUE;
+
     /**
         Constructor
     */
     public BinaryClock()
     {
-        frameheight = 960;
+        frameheight = 1160;
         framewidth = 720;
 	
         //Make frame and all objects
         frame = new JFrame();
-	frame.getContentPane().setBackground(Color.BLACK);
+	frame.getContentPane().setBackground(setBackgroundColor);
 	frame.setSize(frameheight, framewidth);
 	frame.setTitle("Binary Clock");
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,14 +59,127 @@ public class BinaryClock implements Runnable
 	time.setForeground(Color.WHITE);
 	JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
 	tut.setForeground(Color.WHITE);
-	panel = new TimePanel("Tutorial"); //No real modes are supported at the moment
-	
+	panel = new TimePanel("Tutorial", setBackgroundColor); //No real modes are supported at the moment
+
 	//add objects to the frame
-	frame. getContentPane().add(BorderLayout.CENTER, panel);
-	frame. getContentPane().add(BorderLayout.SOUTH, time);
-	frame. getContentPane().add(BorderLayout.NORTH, tut);
+        frame. getContentPane().add(BorderLayout.CENTER, panel);
+	frame. getContentPane().add(BorderLayout.NORTH, time);
+	frame. getContentPane().add(BorderLayout.SOUTH, tut);
+
+	//
+	// Menu bar
+	//
+	JMenuBar menubar = new JMenuBar();
+	frame.setJMenuBar(menubar);
+	
+	// Menus
+	JMenu file = new JMenu("File");
+	menubar.add(file);
+	JMenuItem exit = new JMenuItem("Exit");
+	file.add(exit);
+
+	JMenu backgroundColorSelector = new JMenu("Background Color");
+	menubar.add(backgroundColorSelector);
+	JMenuItem blackBackground = new JMenuItem("Black");
+	JMenuItem whiteBackground = new JMenuItem("White");
+	JMenuItem greenBackground = new JMenuItem("Green");
+	JMenuItem redBackground = new JMenuItem("Red");
+	JMenuItem blueBackground = new JMenuItem("Blue");
+	JMenuItem orangeBackground = new JMenuItem("Light Orange");
+	backgroundColorSelector.add(blackBackground);
+	backgroundColorSelector.add(whiteBackground);
+	backgroundColorSelector.add(greenBackground);
+	backgroundColorSelector.add(redBackground);
+	backgroundColorSelector.add(blueBackground);
+	backgroundColorSelector.add(orangeBackground); 
+
+	// Exit listener for exit menuItem
+	class exitaction implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		System.exit(0);
+	    }
+	}
+	exit.addActionListener(new exitaction());
+
+	// Black Background
+	class blackBackgroundClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		frame.getContentPane().setBackground(Color.BLACK);
+	    }
+	}
+	blackBackground.addActionListener( new blackBackgroundClass());
+
+	// White Background
+	class whiteBackgroundClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		setBackgroundColor = Color.WHITE;
+		frame.getContentPane().setBackground(setBackgroundColor);
+		
+	    }
+	}
+	whiteBackground.addActionListener( new whiteBackgroundClass());
+
+	// Blue Background
+	class blueBackgroundClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		frame.getContentPane().setBackground(Color.CYAN);
+	    }
+	}
+	blueBackground.addActionListener( new blueBackgroundClass());
+
+	// Red Background
+	class redBackgroundClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		frame.getContentPane().setBackground(Color.RED);
+	    }
+	}
+	redBackground.addActionListener( new redBackgroundClass());
+
+	// Orange Background
+	class orangeBackgroundClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		frame.getContentPane().setBackground(Color.ORANGE);
+	    }
+	}
+	orangeBackground.addActionListener( new orangeBackgroundClass());
+
+	// Green Background
+	class greenBackgroundClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		frame.getContentPane().setBackground(Color.GREEN);
+	    }
+	}
+	greenBackground.addActionListener( new greenBackgroundClass());
+
     }
     
+    
+
+    public void InterfaceThree(){
+	JButton startButton = new JButton("Minimize Window");
+	startButton.addActionListener(this);
+	//FlowLayout ex = new FlowLayout();
+        //frame.getContentPane().setLayout(ex);
+	frame.getContentPane().add(startButton);
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+	setVisible(true);
+    }
+    
+    public void actionPerformed(ActionEvent a) {
+	// JButton startButton = new JButton("Minimize Window");
+	// startButton.addActionListener(this);
+
+	// BorderLayout ex1 = new BorderLayout();
+	// frame.getContentPane().setLayout(ex1);
+
+	// frame.getContentPane().add(BorderLayout.WEST, startButton);
+	// setDefaultCloseOperation(EXIT_ON_CLOSE);
+	// setVisible(true);
+	//	frame.pack();
+    }
+	
+ 
+
     /**
         Main Function
         @param args not used
@@ -68,7 +187,7 @@ public class BinaryClock implements Runnable
     public static void main(String[] args)
     {
         BinaryClock bc = new BinaryClock();
-	
+	//bc.InterfaceThree();
         //Create update thread and start it
         Thread clockUpdater = new Thread(bc);
 	clockUpdater.start();
