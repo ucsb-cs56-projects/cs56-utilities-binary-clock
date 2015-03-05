@@ -20,26 +20,29 @@ import java.lang.reflect.Array;
  * @author Yantsey Tsai
  * @version for UCSB CS56, W14, legacy code project
  */
-public class BinaryClock extends JFrame implements Runnable, ActionListener
+public class BinaryClock extends JFrame implements Runnable
 {
     protected JFrame frame;
     protected int frameheight;
     protected int framewidth;
 
-    protected JLabel time;
+    protected JLabel time, tut;
 
     protected TimePanel panel;
 
     protected String hour, minute10s, minute1s, second10s, second1s, AM_PM;
     protected String date;
 
+    protected static Boolean refresh = false;
+
     private long startTime,runningTime;
     private long secTimer,minTimer,hrTimer,slast,mlast,hlast;
     private long ampmTimer, ampmlast; // you need to implement these for the flickering issue
 
-    private Color setBackgroundColor = Color.BLACK;
+    protected Color setBackgroundColor = Color.BLACK;
     private Color setOnBoxColor = Color.RED;
     private Color setOffBoxColor = Color.BLUE;
+
 
     /**
         Constructor
@@ -57,22 +60,31 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	time = new JLabel();
 	time.setForeground(Color.WHITE);
-	JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
+	tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
 	tut.setForeground(Color.WHITE);
 	panel = new TimePanel("Tutorial", setBackgroundColor); //No real modes are supported at the moment
+    }
+    void resetAll() {
+	frame.getContentPane().removeAll();
+	frame.setSize(frameheight,framewidth);
+	JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
+	tut.setForeground(Color.WHITE);
+	panel = new TimePanel("Tutorial", setBackgroundColor);
+	frame. getContentPane().add(BorderLayout.CENTER, panel);
+	frame. getContentPane().add(BorderLayout.NORTH, time);
+	frame. getContentPane().add(BorderLayout.SOUTH, tut);
+	frame.getContentPane().validate();
+	frame.getContentPane().repaint();
+	refresh = true;
+    }
+    void setContents() {
 
 	//add objects to the frame
          frame. getContentPane().add(BorderLayout.CENTER, panel);
 	 frame. getContentPane().add(BorderLayout.NORTH, time);
 	 frame. getContentPane().add(BorderLayout.SOUTH, tut);
 	 
-	 FlowLayout ex = new FlowLayout();
-	 frame.getContentPane().setLayout(ex);
-
-
-	//
 	// Menu bar
-	//
 	JMenuBar menubar = new JMenuBar();
 	frame.setJMenuBar(menubar);
 	
@@ -85,13 +97,13 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	JMenu backgroundColorSelector = new JMenu("Background Color");
 	menubar.add(backgroundColorSelector);
 	JMenuItem blackBackground = new JMenuItem("Black");
-	JMenuItem whiteBackground = new JMenuItem("White");
+	JMenuItem pinkBackground = new JMenuItem("Pink");
 	JMenuItem greenBackground = new JMenuItem("Green");
 	JMenuItem redBackground = new JMenuItem("Red");
 	JMenuItem blueBackground = new JMenuItem("Blue");
 	JMenuItem orangeBackground = new JMenuItem("Light Orange");
 	backgroundColorSelector.add(blackBackground);
-	backgroundColorSelector.add(whiteBackground);
+	backgroundColorSelector.add(pinkBackground);
 	backgroundColorSelector.add(greenBackground);
 	backgroundColorSelector.add(redBackground);
 	backgroundColorSelector.add(blueBackground);
@@ -101,7 +113,9 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	menubar.add(screenSettings);
 	JMenuItem minimize = new JMenuItem("Minimize");
 	screenSettings.add(minimize);
+	//}
 
+    //  void addListeners() {
 	// Exit listener for exit menuItem
 	class exitaction implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
@@ -110,42 +124,62 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	}
 	exit.addActionListener(new exitaction());
 
+	
+
+
 	// Minimize Screen 
 	class minimizeScreen implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 
-	     FlowLayout ex = new FlowLayout();
-	     frame.getContentPane().setLayout(ex);
-	     
+		frameheight = 1050;
+		framewidth = 250;
+		frame.getContentPane().removeAll();
+		frame.setSize(frameheight,framewidth);
 
-	   
-	   
+		JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
+		tut.setForeground(Color.WHITE);
+		panel = new TimePanel("Tutorial", setBackgroundColor);
+		frame. getContentPane().add(BorderLayout.CENTER, panel);
+		frame. getContentPane().add(BorderLayout.NORTH, time);
+		frame. getContentPane().add(BorderLayout.SOUTH, tut);
+		FlowLayout ex = new FlowLayout();
+		frame.getContentPane().setLayout(ex);
+		frame.getContentPane().validate();
+		frame.getContentPane().repaint();
+		refresh = true;
 	    }
 	}
+
 	minimize.addActionListener(new minimizeScreen());
 
 	// Black Background
 	class blackBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 		frame.getContentPane().setBackground(Color.BLACK);
+		setBackgroundColor = Color.BLACK;
+		resetAll();
 	    }
 	}
 	blackBackground.addActionListener( new blackBackgroundClass());
 
-	// White Background
-	class whiteBackgroundClass implements ActionListener{
+	// Pink Background
+	class pinkBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-		setBackgroundColor = Color.WHITE;
-		frame.getContentPane().setBackground(setBackgroundColor);
+		frame.getContentPane().setBackground(Color.PINK);
+		setBackgroundColor = Color.PINK;
+	        resetAll();
+
 		
 	    }
 	}
-	whiteBackground.addActionListener( new whiteBackgroundClass());
+	pinkBackground.addActionListener( new pinkBackgroundClass());
 
 	// Blue Background
 	class blueBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 		frame.getContentPane().setBackground(Color.CYAN);
+	        setBackgroundColor = Color.CYAN;
+		resetAll();
 	    }
 	}
 	blueBackground.addActionListener( new blueBackgroundClass());
@@ -154,6 +188,8 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	class redBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 		frame.getContentPane().setBackground(Color.RED);
+	        setBackgroundColor = Color.RED;
+		resetAll();
 	    }
 	}
 	redBackground.addActionListener( new redBackgroundClass());
@@ -162,6 +198,8 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	class orangeBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 		frame.getContentPane().setBackground(Color.ORANGE);
+		setBackgroundColor = Color.ORANGE;
+		resetAll();
 	    }
 	}
 	orangeBackground.addActionListener( new orangeBackgroundClass());
@@ -170,41 +208,14 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	class greenBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 		frame.getContentPane().setBackground(Color.GREEN);
+		setBackgroundColor = Color.GREEN;
+		resetAll();
 	    }
 	}
 	greenBackground.addActionListener( new greenBackgroundClass());
-
-    } // end BinaryClock constructor
-    
-    
-
-    public void InterfaceThree(){
-	JLabel startButton = new JLabel("Minimize Window");
-	FlowLayout ex = new FlowLayout();
-        frame.getContentPane().setLayout(ex);
-	frame.getContentPane().add(startButton);
-	setDefaultCloseOperation(EXIT_ON_CLOSE);
-	setVisible(true);
     }
     
-    public void actionPerformed(ActionEvent a) {
-	// JButton startButton = new JButton("Minimize Window");
-	// startButton.addActionListener(this);
-
-	// BorderLayout ex1 = new BorderLayout();
-	// frame.getContentPane().setLayout(ex1);
-
-	// frame.getContentPane().add(BorderLayout.WEST, startButton);
-	// setDefaultCloseOperation(EXIT_ON_CLOSE);
-	// setVisible(true);
-	// FlowLayout ex = new FlowLayout();
-        // frame.getContentPane().setLayout(ex);
-	// setDefaultCloseOperation(EXIT_ON_CLOSE);
-	// setVisible(true);   
-	
-    }
-	
- 
+   
 
     /**
         Main Function
@@ -213,10 +224,14 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
     public static void main(String[] args)
     {
         BinaryClock bc = new BinaryClock();
-	//	bc.InterfaceThree();
+	bc.setContents();
+	//	bc.addListeners();
         //Create update thread and start it
-        Thread clockUpdater = new Thread(bc);
-	clockUpdater.start();
+        Thread ClockUpdater = new Thread(bc);
+	ClockUpdater.start();
+	// if (refresh == true) {
+	//     ClockUpdater.start();
+	// }
     }
     
     /**
@@ -298,7 +313,7 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	
 	
 	// update minute after every 60,000 ms
-	if(minTimer > 1000 * 60 - 100){
+	if((minTimer > 1000 * 60 - 100) || (refresh == true)){
 	    minute10s = Integer.toBinaryString(Integer.parseInt(date.substring(3, 4)));
 	    updateBlocks(minute10s, panel.getMinute10s());
 	    minute1s = Integer.toBinaryString(Integer.parseInt(date.substring(4, 5)));
@@ -307,18 +322,19 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	}
 	
 	// update hour after 3,600,000 ms
-	    if(hrTimer > 1000 * 60 * 60 - 100){
+	if((hrTimer > 1000 * 60 * 60 - 100) || (refresh == true)){
 	    hour = Integer.toBinaryString(Integer.parseInt(date.substring(0, 2)));
 	    updateBlocks(hour, panel.getHour()); 
 	    hlast = System.currentTimeMillis();
 	    }
         
 	// update am/pm after 12 hours (3,600,000 * 12)
-	if(ampmTimer > 1000 * 60 * 60 * 12 - 100){
+	if((ampmTimer > 1000 * 60 * 60 * 12 - 100) || (refresh == true)){
 	    if(date.charAt(9)=='A')
 		AM_PM = "1";
 	    else AM_PM = "0";
 	    updateAmPmBlocks(AM_PM, panel.getAmPm());
+	    refresh = false;
 	}
 	
         //tell the thread to sleep before reiterating

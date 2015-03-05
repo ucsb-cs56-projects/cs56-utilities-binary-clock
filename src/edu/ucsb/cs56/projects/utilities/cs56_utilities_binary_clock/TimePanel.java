@@ -29,8 +29,8 @@ public class TimePanel extends JPanel
     protected Block PM, AM;
 
     private Color timePanelBackgroundColor;
-    private Color onBlockColor = Color.RED;
-    private Color offBlockColor = Color.BLUE;
+    private Color onBlockColor = Color.ORANGE;
+    private Color offBlockColor = Color.CYAN;
 
     /**
         Constructor
