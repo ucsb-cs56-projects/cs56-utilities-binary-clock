@@ -62,9 +62,13 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	panel = new TimePanel("Tutorial", setBackgroundColor); //No real modes are supported at the moment
 
 	//add objects to the frame
-        frame. getContentPane().add(BorderLayout.CENTER, panel);
-	frame. getContentPane().add(BorderLayout.NORTH, time);
-	frame. getContentPane().add(BorderLayout.SOUTH, tut);
+         frame. getContentPane().add(BorderLayout.CENTER, panel);
+	 frame. getContentPane().add(BorderLayout.NORTH, time);
+	 frame. getContentPane().add(BorderLayout.SOUTH, tut);
+	 
+	 FlowLayout ex = new FlowLayout();
+	 frame.getContentPane().setLayout(ex);
+
 
 	//
 	// Menu bar
@@ -93,6 +97,11 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	backgroundColorSelector.add(blueBackground);
 	backgroundColorSelector.add(orangeBackground); 
 
+	JMenu screenSettings = new JMenu("Screen Settings");
+	menubar.add(screenSettings);
+	JMenuItem minimize = new JMenuItem("Minimize");
+	screenSettings.add(minimize);
+
 	// Exit listener for exit menuItem
 	class exitaction implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
@@ -100,6 +109,20 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	    }
 	}
 	exit.addActionListener(new exitaction());
+
+	// Minimize Screen 
+	class minimizeScreen implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+
+	     FlowLayout ex = new FlowLayout();
+	     frame.getContentPane().setLayout(ex);
+	     
+
+	   
+	   
+	    }
+	}
+	minimize.addActionListener(new minimizeScreen());
 
 	// Black Background
 	class blackBackgroundClass implements ActionListener{
@@ -151,15 +174,14 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	}
 	greenBackground.addActionListener( new greenBackgroundClass());
 
-    }
+    } // end BinaryClock constructor
     
     
 
     public void InterfaceThree(){
-	JButton startButton = new JButton("Minimize Window");
-	startButton.addActionListener(this);
-	//FlowLayout ex = new FlowLayout();
-        //frame.getContentPane().setLayout(ex);
+	JLabel startButton = new JLabel("Minimize Window");
+	FlowLayout ex = new FlowLayout();
+        frame.getContentPane().setLayout(ex);
 	frame.getContentPane().add(startButton);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	setVisible(true);
@@ -175,7 +197,11 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
 	// frame.getContentPane().add(BorderLayout.WEST, startButton);
 	// setDefaultCloseOperation(EXIT_ON_CLOSE);
 	// setVisible(true);
-	//	frame.pack();
+	// FlowLayout ex = new FlowLayout();
+        // frame.getContentPane().setLayout(ex);
+	// setDefaultCloseOperation(EXIT_ON_CLOSE);
+	// setVisible(true);   
+	
     }
 	
  
@@ -187,7 +213,7 @@ public class BinaryClock extends JFrame implements Runnable, ActionListener
     public static void main(String[] args)
     {
         BinaryClock bc = new BinaryClock();
-	//bc.InterfaceThree();
+	//	bc.InterfaceThree();
         //Create update thread and start it
         Thread clockUpdater = new Thread(bc);
 	clockUpdater.start();
