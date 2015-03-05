@@ -134,6 +134,12 @@ public class BinaryClock extends JFrame implements Runnable
 	JMenuItem maxamize = new JMenuItem("Maxamize");
 	screenSettings.add(maxamize);
 
+	JMenu help = new JMenu("Help");
+	menubar.add(help);
+	JMenuItem instructions = new JMenuItem("Instructions");
+	help.add(instructions);
+
+
 	// Exit listener for exit menuItem
 	class exitaction implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
@@ -141,6 +147,14 @@ public class BinaryClock extends JFrame implements Runnable
 	    }
 	}
 	exit.addActionListener(new exitaction());
+
+	// Instructions under help
+	class instructions implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		BinaryClock.helpBox("This is a binary clock. Think of the clock showing the time as 00:00:00 AM/PM, \n which represents hours:minutes:seconds.Find out the time by adding each column \n with its respective value, shown on the left of each row. The first column on \n the left displays if it AM or PM. The next column shows the hours. The next two \n columns represents the minutes, where the third column is the minutes by multiples \n of ten and the fourth column with the minutes in ones. The last column shows the \n seconds.", "Instructions");
+	    }
+	}
+	instructions.addActionListener(new instructions());
 
 	// Minimize Screen 
 	class minimizeScreen implements ActionListener{
@@ -176,7 +190,6 @@ public class BinaryClock extends JFrame implements Runnable
 		BorderLayout ex = new BorderLayout();
 		frame.getContentPane().setLayout(ex);
 		resetAll();
-
 	    }
 	}
 
@@ -471,4 +484,13 @@ public class BinaryClock extends JFrame implements Runnable
             blocks[1].input('1');
         }
     }
+
+    public static void helpBox(String helpMessage, String titleBar)
+    {
+	final JOptionPane pane = new JOptionPane(helpMessage);
+	final JDialog d = pane.createDialog((JFrame)null, titleBar);
+	d.setLocation(250,80);
+	d.setVisible(true);
+    }
+
 }
