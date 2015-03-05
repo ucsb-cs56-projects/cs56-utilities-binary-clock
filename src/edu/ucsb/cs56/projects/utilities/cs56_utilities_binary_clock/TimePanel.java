@@ -29,8 +29,6 @@ public class TimePanel extends JPanel
     protected Block PM, AM;
 
     private Color timePanelBackgroundColor;
-    private Color onBlockColor = Color.ORANGE;
-    private Color offBlockColor = Color.CYAN;
 
     /**
         Constructor
@@ -38,7 +36,7 @@ public class TimePanel extends JPanel
                     Defaults to "Tutorial" if invalid param
                     currently, only "Tutorial" is supported
     */
-    public TimePanel(String type, Color timePanelBackgroundColor_)
+    public TimePanel(String type, Color timePanelBackgroundColor_, Color onBlockColor_, Color offBlockColor_)
     {
         layout = new GroupLayout(this);
 	// Set input colors
@@ -46,38 +44,38 @@ public class TimePanel extends JPanel
 
 	setLayout(layout);
 	setBackground(timePanelBackgroundColor);
-	initBlocks();
+	initBlocks(onBlockColor_, offBlockColor_);
 	initTutorial();
     }
 
     /**
         Initializes the blocks with a basic style.
     */
-    protected void initBlocks()
+    protected void initBlocks(Color onBlockColor_, Color offBlockColor_)
     {
-        s1 = new Block(onBlockColor, offBlockColor);
-        s2 = new Block(onBlockColor, offBlockColor);
-        s4 = new Block(onBlockColor, offBlockColor);
-        s8 = new Block(onBlockColor, offBlockColor);
-        s10= new Block(onBlockColor, offBlockColor);
-        s20= new Block(onBlockColor, offBlockColor);
-        s40= new Block(onBlockColor, offBlockColor);
+        s1 = new Block(onBlockColor_, offBlockColor_);
+        s2 = new Block(onBlockColor_, offBlockColor_);
+        s4 = new Block(onBlockColor_, offBlockColor_);
+        s8 = new Block(onBlockColor_, offBlockColor_);
+        s10= new Block(onBlockColor_, offBlockColor_);
+        s20= new Block(onBlockColor_, offBlockColor_);
+        s40= new Block(onBlockColor_, offBlockColor_);
 
-        m1 = new Block(onBlockColor, offBlockColor);
-        m2 = new Block(onBlockColor, offBlockColor);
-        m4 = new Block(onBlockColor, offBlockColor);
-        m8 = new Block(onBlockColor, offBlockColor);
-        m10= new Block(onBlockColor, offBlockColor);
-        m20= new Block(onBlockColor, offBlockColor);
-        m40= new Block(onBlockColor, offBlockColor);
+        m1 = new Block(onBlockColor_, offBlockColor_);
+        m2 = new Block(onBlockColor_, offBlockColor_);
+        m4 = new Block(onBlockColor_, offBlockColor_);
+        m8 = new Block(onBlockColor_, offBlockColor_);
+        m10= new Block(onBlockColor_, offBlockColor_);
+        m20= new Block(onBlockColor_, offBlockColor_);
+        m40= new Block(onBlockColor_, offBlockColor_);
 
-        h1 = new Block(onBlockColor, offBlockColor);
-        h2 = new Block(onBlockColor, offBlockColor);
-        h4 = new Block(onBlockColor, offBlockColor);
-        h8 = new Block(onBlockColor, offBlockColor);
+        h1 = new Block(onBlockColor_, offBlockColor_);
+        h2 = new Block(onBlockColor_, offBlockColor_);
+        h4 = new Block(onBlockColor_, offBlockColor_);
+        h8 = new Block(onBlockColor_, offBlockColor_);
 
-        AM = new Block(onBlockColor, offBlockColor);
-        PM = new Block(onBlockColor, offBlockColor);
+        AM = new Block(onBlockColor_, offBlockColor_);
+        PM = new Block(onBlockColor_, offBlockColor_);
 
     }
 

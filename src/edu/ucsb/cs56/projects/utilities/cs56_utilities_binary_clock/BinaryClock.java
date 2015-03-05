@@ -40,8 +40,8 @@ public class BinaryClock extends JFrame implements Runnable
     private long ampmTimer, ampmlast; // you need to implement these for the flickering issue
 
     protected Color setBackgroundColor = new Color(0xFFFF66);
-    private Color setOnBoxColor = new Color(0x9933FF);
-    private Color setOffBoxColor = new Color(0x0099CC);
+    private Color setOnBlockColor = Color.RED;
+    private Color setOffBlockColor = Color.BLUE;
 
 
     /**
@@ -62,14 +62,14 @@ public class BinaryClock extends JFrame implements Runnable
 	time.setForeground(Color.BLACK);
 	tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
 	tut.setForeground(Color.BLACK);
-	panel = new TimePanel("Tutorial", setBackgroundColor); //No real modes are supported at the moment
+	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
     }
     void resetAll() {
 	frame.getContentPane().removeAll();
 	frame.setSize(frameheight,framewidth);
 	JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
 	tut.setForeground(Color.BLACK);
-	panel = new TimePanel("Tutorial", setBackgroundColor);
+	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
 	frame. getContentPane().add(BorderLayout.CENTER, panel);
 	frame. getContentPane().add(BorderLayout.NORTH, time);
 	frame. getContentPane().add(BorderLayout.SOUTH, tut);
@@ -109,13 +109,27 @@ public class BinaryClock extends JFrame implements Runnable
 	backgroundColorSelector.add(blueBackground);
 	backgroundColorSelector.add(orangeBackground); 
 
+	JMenu onBlockColorSelector = new JMenu("On Block Color");
+	menubar.add(onBlockColorSelector);
+	JMenuItem redOnBlock = new JMenuItem("Red");
+	JMenuItem orangeOnBlock = new JMenuItem("Orange");
+	onBlockColorSelector.add(redOnBlock);
+	onBlockColorSelector.add(orangeOnBlock);
+
+	JMenu offBlockColorSelector = new JMenu("Off Block Color");
+	menubar.add(offBlockColorSelector);
+	JMenuItem blueOffBlock = new JMenuItem("Blue");
+	JMenuItem greenOffBlock = new JMenuItem("Green");
+	offBlockColorSelector.add(blueOffBlock);
+	offBlockColorSelector.add(greenOffBlock);
+
 	JMenu screenSettings = new JMenu("Screen Settings");
 	menubar.add(screenSettings);
 	JMenuItem minimize = new JMenuItem("Minimize");
 	screenSettings.add(minimize);
 	JMenuItem maxamize = new JMenuItem("Maxamize");
 	screenSettings.add(maxamize);
-  
+
 	// Exit listener for exit menuItem
 	class exitaction implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
@@ -123,9 +137,6 @@ public class BinaryClock extends JFrame implements Runnable
 	    }
 	}
 	exit.addActionListener(new exitaction());
-
-	
-
 
 	// Minimize Screen 
 	class minimizeScreen implements ActionListener{
@@ -138,7 +149,7 @@ public class BinaryClock extends JFrame implements Runnable
 
 		JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
 		tut.setForeground(Color.BLACK);
-		panel = new TimePanel("Tutorial", setBackgroundColor);
+		panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
 		frame. getContentPane().add(BorderLayout.CENTER, panel);
 		frame. getContentPane().add(BorderLayout.NORTH, time);
 		frame. getContentPane().add(BorderLayout.SOUTH, tut);
@@ -234,6 +245,39 @@ public class BinaryClock extends JFrame implements Runnable
 	    }
 	}
 	greenBackground.addActionListener( new greenBackgroundClass());
+
+	// Red On Box
+	class redOnBoxClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+  
+	    }
+	}
+	redOnBlock.addActionListener( new redOnBoxClass());
+
+	// Orange On Box
+	class orangeOnBoxClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+  
+	    }
+	}
+	orangeOnBlock.addActionListener( new orangeOnBoxClass());
+
+	// Blue Off Box
+	class blueOffBoxClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+  
+	    }
+	}
+	blueOffBlock.addActionListener( new blueOffBoxClass());
+
+	// Green On Box
+	class greenOffBoxClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+  
+	    }
+	}
+	greenOffBlock.addActionListener( new greenOffBoxClass());
+
     }
     
    
