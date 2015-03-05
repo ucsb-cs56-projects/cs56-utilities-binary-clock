@@ -40,8 +40,8 @@ public class BinaryClock extends JFrame implements Runnable
     private long ampmTimer, ampmlast; // you need to implement these for the flickering issue
 
     protected Color setBackgroundColor = new Color(0xFFFF66);
-    private Color setOnBoxColor = Color.RED;
-    private Color setOffBoxColor = Color.BLUE;
+    private Color setOnBoxColor = new Color(0x9933FF);
+    private Color setOffBoxColor = new Color(0x0099CC);
 
 
     /**
@@ -113,6 +113,8 @@ public class BinaryClock extends JFrame implements Runnable
 	menubar.add(screenSettings);
 	JMenuItem minimize = new JMenuItem("Minimize");
 	screenSettings.add(minimize);
+	JMenuItem maxamize = new JMenuItem("Maxamize");
+	screenSettings.add(maxamize);
 	//}
 
     //  void addListeners() {
@@ -151,6 +153,31 @@ public class BinaryClock extends JFrame implements Runnable
 	}
 
 	minimize.addActionListener(new minimizeScreen());
+
+	// Maxamize Screen 
+	class maxamizeScreen implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		frameheight = 1160;
+		framewidth = 720;
+		frame.getContentPane().removeAll();
+		frame.setSize(frameheight,framewidth);
+
+		JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
+		tut.setForeground(Color.BLACK);
+		panel = new TimePanel("Tutorial", setBackgroundColor);
+		frame. getContentPane().add(BorderLayout.CENTER, panel);
+		frame. getContentPane().add(BorderLayout.NORTH, time);
+		frame. getContentPane().add(BorderLayout.SOUTH, tut);
+		BorderLayout ex = new BorderLayout();
+		frame.getContentPane().setLayout(ex);
+		frame.getContentPane().validate();
+		frame.getContentPane().repaint();
+		refresh = true;
+	    }
+	}
+
+	maxamize.addActionListener(new maxamizeScreen());
+	
 
 	// Yellow Background
 	class yellowBackgroundClass implements ActionListener{
