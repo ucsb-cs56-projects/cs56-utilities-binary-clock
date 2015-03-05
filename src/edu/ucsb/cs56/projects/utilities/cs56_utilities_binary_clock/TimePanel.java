@@ -28,8 +28,6 @@ public class TimePanel extends JPanel
     protected Block h1, h2, h4, h8;
     protected Block PM, AM;
 
-    private Color timePanelBackgroundColor;
-
     /**
         Constructor
         @param type String representing the layout type, "Tutorial", "Grid", or "Fill"
@@ -40,10 +38,8 @@ public class TimePanel extends JPanel
     {
         layout = new GroupLayout(this);
 	// Set input colors
-	timePanelBackgroundColor = timePanelBackgroundColor_;
-
 	setLayout(layout);
-	setBackground(timePanelBackgroundColor);
+	setBackground(timePanelBackgroundColor_);
 	initBlocks(onBlockColor_, offBlockColor_);
 	initTutorial();
     }

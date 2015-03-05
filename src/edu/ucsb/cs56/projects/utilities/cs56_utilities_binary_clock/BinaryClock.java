@@ -40,8 +40,8 @@ public class BinaryClock extends JFrame implements Runnable
     private long ampmTimer, ampmlast; // you need to implement these for the flickering issue
 
     protected Color setBackgroundColor = new Color(0xFFFF66);
-    private Color setOnBlockColor = Color.RED;
-    private Color setOffBlockColor = Color.BLUE;
+    protected Color setOnBlockColor = Color.PINK;
+    protected Color setOffBlockColor = Color.CYAN;
 
 
     /**
@@ -113,15 +113,19 @@ public class BinaryClock extends JFrame implements Runnable
 	menubar.add(onBlockColorSelector);
 	JMenuItem redOnBlock = new JMenuItem("Red");
 	JMenuItem orangeOnBlock = new JMenuItem("Orange");
+	JMenuItem magentaOnBlock = new JMenuItem("Mangenta");
 	onBlockColorSelector.add(redOnBlock);
 	onBlockColorSelector.add(orangeOnBlock);
+	onBlockColorSelector.add(magentaOnBlock);
 
 	JMenu offBlockColorSelector = new JMenu("Off Block Color");
 	menubar.add(offBlockColorSelector);
 	JMenuItem blueOffBlock = new JMenuItem("Blue");
 	JMenuItem greenOffBlock = new JMenuItem("Green");
+	JMenuItem whiteOffBlock = new JMenuItem("Grey");
 	offBlockColorSelector.add(blueOffBlock);
 	offBlockColorSelector.add(greenOffBlock);
+	offBlockColorSelector.add(whiteOffBlock);
 
 	JMenu screenSettings = new JMenu("Screen Settings");
 	menubar.add(screenSettings);
@@ -196,8 +200,6 @@ public class BinaryClock extends JFrame implements Runnable
 		frame.getContentPane().setBackground(Color.PINK);
 		setBackgroundColor = Color.PINK;
 	        resetAll();
-
-		
 	    }
 	}
 	pinkBackground.addActionListener( new pinkBackgroundClass());
@@ -249,7 +251,8 @@ public class BinaryClock extends JFrame implements Runnable
 	// Red On Box
 	class redOnBoxClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-  
+		setOnBlockColor = Color.RED;
+		resetAll();
 	    }
 	}
 	redOnBlock.addActionListener( new redOnBoxClass());
@@ -257,26 +260,47 @@ public class BinaryClock extends JFrame implements Runnable
 	// Orange On Box
 	class orangeOnBoxClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-  
+		setOnBlockColor = Color.ORANGE;
+		resetAll();
 	    }
 	}
 	orangeOnBlock.addActionListener( new orangeOnBoxClass());
 
+	// Magenta On Box
+	class magentaOnBoxClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		setOnBlockColor = Color.MAGENTA;
+		resetAll();
+	    }
+	}
+	magentaOnBlock.addActionListener( new magentaOnBoxClass());
+
 	// Blue Off Box
 	class blueOffBoxClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-  
+		setOffBlockColor = Color.CYAN;
+		resetAll();
 	    }
 	}
 	blueOffBlock.addActionListener( new blueOffBoxClass());
 
-	// Green On Box
+	// Green Off Box
 	class greenOffBoxClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-  
+		setOffBlockColor = Color.GREEN;
+		resetAll();
 	    }
 	}
 	greenOffBlock.addActionListener( new greenOffBoxClass());
+
+	// Grey Off Box
+	class whiteOffBoxClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		setOffBlockColor = Color.WHITE;
+		resetAll();
+	    }
+	}
+	whiteOffBlock.addActionListener( new whiteOffBoxClass());
 
     }
     
