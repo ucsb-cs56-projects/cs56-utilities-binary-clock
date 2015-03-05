@@ -115,9 +115,7 @@ public class BinaryClock extends JFrame implements Runnable
 	screenSettings.add(minimize);
 	JMenuItem maxamize = new JMenuItem("Maxamize");
 	screenSettings.add(maxamize);
-	//}
-
-    //  void addListeners() {
+  
 	// Exit listener for exit menuItem
 	class exitaction implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
@@ -157,22 +155,13 @@ public class BinaryClock extends JFrame implements Runnable
 	// Maxamize Screen 
 	class maxamizeScreen implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
+
 		frameheight = 1160;
 		framewidth = 720;
-		frame.getContentPane().removeAll();
-		frame.setSize(frameheight,framewidth);
-
-		JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
-		tut.setForeground(Color.BLACK);
-		panel = new TimePanel("Tutorial", setBackgroundColor);
-		frame. getContentPane().add(BorderLayout.CENTER, panel);
-		frame. getContentPane().add(BorderLayout.NORTH, time);
-		frame. getContentPane().add(BorderLayout.SOUTH, tut);
 		BorderLayout ex = new BorderLayout();
 		frame.getContentPane().setLayout(ex);
-		frame.getContentPane().validate();
-		frame.getContentPane().repaint();
-		refresh = true;
+		resetAll();
+
 	    }
 	}
 
