@@ -19,7 +19,7 @@ import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.ShapeTransfo
  * @author Yantsey Tsai
  * @version legacy code project cs56, W14
  */
-public class TimePanel extends JPanel
+public class TimePanel extends JPanel 
 {
     protected GroupLayout layout;
 
@@ -34,46 +34,47 @@ public class TimePanel extends JPanel
                     Defaults to "Tutorial" if invalid param
                     currently, only "Tutorial" is supported
     */
-    public TimePanel(String type)
+    public TimePanel(String type, Color timePanelBackgroundColor_, Color onBlockColor_, Color offBlockColor_)
     {
         layout = new GroupLayout(this);
-            setLayout(layout);
-
-        setBackground(Color.BLACK);
-
-        initBlocks();
-        initTutorial();
+	// Set input colors
+	setLayout(layout);
+	setBackground(timePanelBackgroundColor_);
+	initBlocks(onBlockColor_, offBlockColor_);
+	initTutorial();
     }
 
     /**
         Initializes the blocks with a basic style.
     */
-    protected void initBlocks()
+    protected void initBlocks(Color onBlockColor_, Color offBlockColor_)
     {
-        s1 = new Block();
-        s2 = new Block();
-        s4 = new Block();
-        s8 = new Block();
-        s10= new Block();
-        s20= new Block();
-        s40= new Block();
+        s1 = new Block(onBlockColor_, offBlockColor_);
+        s2 = new Block(onBlockColor_, offBlockColor_);
+        s4 = new Block(onBlockColor_, offBlockColor_);
+        s8 = new Block(onBlockColor_, offBlockColor_);
+        s10= new Block(onBlockColor_, offBlockColor_);
+        s20= new Block(onBlockColor_, offBlockColor_);
+        s40= new Block(onBlockColor_, offBlockColor_);
 
-        m1 = new Block();
-        m2 = new Block();
-        m4 = new Block();
-        m8 = new Block();
-        m10= new Block();
-        m20= new Block();
-        m40= new Block();
+        m1 = new Block(onBlockColor_, offBlockColor_);
+        m2 = new Block(onBlockColor_, offBlockColor_);
+        m4 = new Block(onBlockColor_, offBlockColor_);
+        m8 = new Block(onBlockColor_, offBlockColor_);
+        m10= new Block(onBlockColor_, offBlockColor_);
+        m20= new Block(onBlockColor_, offBlockColor_);
+        m40= new Block(onBlockColor_, offBlockColor_);
 
-        h1 = new Block();
-        h2 = new Block();
-        h4 = new Block();
-        h8 = new Block();
+        h1 = new Block(onBlockColor_, offBlockColor_);
+        h2 = new Block(onBlockColor_, offBlockColor_);
+        h4 = new Block(onBlockColor_, offBlockColor_);
+        h8 = new Block(onBlockColor_, offBlockColor_);
 
-        AM = new Block();
-        PM = new Block();
+        AM = new Block(onBlockColor_, offBlockColor_);
+        PM = new Block(onBlockColor_, offBlockColor_);
+
     }
+
 
     /**
         Initializes a beginner-friendly format with guide labels
@@ -84,54 +85,57 @@ public class TimePanel extends JPanel
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
+	
+
         //create the guide labels
         JLabel AMLabel = new JLabel("AM");
-            AMLabel.setForeground(Color.WHITE);
+            AMLabel.setForeground(Color.BLACK);
             AMLabel.setHorizontalTextPosition(SwingConstants.CENTER);
             AMLabel.setVerticalTextPosition(SwingConstants.CENTER);
         JLabel PMLabel = new JLabel("PM");
-            PMLabel.setForeground(Color.WHITE);
+            PMLabel.setForeground(Color.BLACK);
             PMLabel.setHorizontalAlignment(SwingConstants.CENTER);
             PMLabel.setVerticalAlignment(SwingConstants.CENTER);
 
         JLabel HLabel = new JLabel("Hours");
-            HLabel.setForeground(Color.WHITE);
+            HLabel.setForeground(Color.BLACK);
             HLabel.setHorizontalAlignment(SwingConstants.CENTER);
             HLabel.setVerticalAlignment(SwingConstants.CENTER);
         JLabel M10Label = new JLabel("Minute 10's");
-            M10Label.setForeground(Color.WHITE);
+	    M10Label.setForeground(Color.BLACK);
             M10Label.setHorizontalAlignment(SwingConstants.CENTER);
             M10Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel M1_Label = new JLabel("Minute 1's");
-            M1_Label.setForeground(Color.WHITE);
+            M1_Label.setForeground(Color.BLACK);
             M1_Label.setHorizontalAlignment(SwingConstants.CENTER);
             M1_Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel S10Label = new JLabel("Second 10's");
-            S10Label.setForeground(Color.WHITE);
+            S10Label.setForeground(Color.BLACK);
             S10Label.setHorizontalAlignment(SwingConstants.CENTER);
             S10Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel S1_Label = new JLabel("Second 1's");
-            S1_Label.setForeground(Color.WHITE);
+            S1_Label.setForeground(Color.BLACK);
             S1_Label.setHorizontalAlignment(SwingConstants.CENTER);
             S1_Label.setVerticalAlignment(SwingConstants.CENTER);
 
         JLabel N8Label = new JLabel("8");
-            N8Label.setForeground(Color.WHITE);
+            N8Label.setForeground(Color.BLACK);
             N8Label.setHorizontalAlignment(SwingConstants.CENTER);
             N8Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel N4Label = new JLabel("4");
-            N4Label.setForeground(Color.WHITE);
+            N4Label.setForeground(Color.BLACK);
             N4Label.setHorizontalAlignment(SwingConstants.CENTER);
             N4Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel N2Label = new JLabel("2");
-            N2Label.setForeground(Color.WHITE);
+            N2Label.setForeground(Color.BLACK);
             N2Label.setHorizontalAlignment(SwingConstants.CENTER);
             N2Label.setVerticalAlignment(SwingConstants.CENTER);
         JLabel N1Label = new JLabel("1");
-            N1Label.setForeground(Color.WHITE);
+            N1Label.setForeground(Color.BLACK);
             N1Label.setHorizontalAlignment(SwingConstants.CENTER);
             N1Label.setVerticalAlignment(SwingConstants.CENTER);
 
+	
         //tell the layout how to set up columns
         GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
         hGroup.addGroup(layout.createParallelGroup().
