@@ -12,7 +12,7 @@ Here is a screenshot of the binary clock in its current state:
 project history
 ===============
 ```
-W16
+W14 | bkiefer13 5pm | yantsey | Graphical Binary Clock
 ```
 
 
