@@ -38,8 +38,9 @@ public class Block extends Canvas
         w = getWidth();
         h = getHeight();
 
+	// Default colors
         this.colorOn  = Color.red;
-        this.colorOff = Color.blue;
+        this.colorOff = Color.orange;
         this.on = false;
 
         setBackground(colorOff);
@@ -86,6 +87,8 @@ public class Block extends Canvas
     */
     public void input(char c)
     {
+	/*
+	// Original version
         if(c=='1')
             on = true;
         else on = false;
@@ -96,10 +99,27 @@ public class Block extends Canvas
 	else{
 	    setBackground(colorOff);
         }
-
 	repaint();
-    }
+	*/
+	
+	// New verison
+	if(c == '1' && on == false){
+	    //off but should be on
+	    on = true;
+	    brushColor = Color.white;
+	    setBackground(colorOn);
+	    repaint();
+	}
+	else if(c == '0' && on == true){
+	    // on but should be off
+	    on = false;
+	    setBackground(colorOff);
+	    repaint();
+	}
 
+	
+    }
+    
     /**
         Used by the system to render the block. Currently bugged and will only display background color.
         @param g A variable representing graphics. Only available to the system.
@@ -108,12 +128,14 @@ public class Block extends Canvas
     public void paint(Graphics g)
     {
         Graphics2D g2d = (Graphics2D) g;
-
         if(on){
 	    brushColor = colorOn;
 	    for(int i=0; i<getHeight(); i++){
 		g.setColor(brushColor);
-		brushColor = getDarker();
+		// get darker every 3 loops
+		if(i % 3 == 0){
+		    brushColor = getDarker();
+		}
 		g.fillRect(0,i,getWidth(),1);
 	    }
         } 
@@ -121,7 +143,10 @@ public class Block extends Canvas
 	    brushColor = colorOff;
 	    for(int i=0; i<getHeight(); i++){
 		g.setColor(brushColor);
-		brushColor = getDarker();
+		// get darker every 3 loops
+		if(i % 3 == 0){
+		    brushColor = getDarker();
+		}
 		g.fillRect(0,i,getWidth(),1);
 	    }
         }
@@ -134,9 +159,9 @@ public class Block extends Canvas
         int g = brushColor.getGreen();
         int b = brushColor.getBlue();
 	
-        if(r> 0) r-=1;
-        if(g> 0) g-=1;
-        if(b> 0) b-=1;
+        if(r> 0) r-=5;
+        if(g> 0) g-=5;
+        if(b> 0) b-=5;
 
         return new Color(r,g,b);
     }
