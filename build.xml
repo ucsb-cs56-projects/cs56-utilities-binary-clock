@@ -10,10 +10,6 @@
    <property name="mantisWebBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs56/W12/issues/0000548" />
    <property name="projectName" value="cp2" />
    <property name="mainClass" value="edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.BinaryClock" />
-   <property name="jwsDest" value="${webRoot}/${projectName}/jws" /> 
-   <property name="mantisJwsDest" value="${mantisWebRoot}/jws" />
-   <property name="jwsURL" value="${webBaseUrl}/${projectName}/jws" />
-   <property name="mantisJwsURL" value="${mantisWebBaseUrl}/jws" />
    <property name="javadocDest" value="${webRoot}/${projectName}/javadoc" />
    <property name="mantisJavadocDest" value="${mantisWebRoot}/javadoc" />
    <property name="javadocURL" value="${webBaseURL}/${projectName}/javadoc" />
@@ -86,7 +82,6 @@
     <delete dir="build" quiet="true" />
     <delete dir="dist" quiet="true" />  
     <delete dir="javadoc" quiet="true" />
-    <delete dir="download" quiet="true" />
     <delete dir="temp" quiet="true" />
     <delete file="numberedsource.txt" quiet="true" />
   </target>
