@@ -5,13 +5,10 @@ Description:
 
 This program displays a GUI of a binary clock. A binary clock consists of several blocks that resemble the hour, minute, and second of the current time in binary, or base 2. To read this binary clock, add the values of the "on" (red) blocks in each column. These values represent the hour, minute, and second of the current time in decimal, or base 10. It's pretty self explanatory when you see the actual binary clock GUI.
 
-Here is a screenshot of the binary clock in its current state:
-
-![](http://puu.sh/7seUa.png)
-
 project history
 ===============
 ```
+W15 | mbahia | glee | Graphical Binary Clock
 W14 | bkiefer13 5pm | yantsey | Graphical Binary Clock
 ```
 
