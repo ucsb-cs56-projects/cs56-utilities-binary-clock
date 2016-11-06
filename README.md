@@ -12,6 +12,8 @@ W15 | JohnUCSB, mbahia (4pm) | Graphical Binary Clock
 W14 | bkiefer13, yantsey (5pm) | Graphical Binary Clock
 ```
 
+![alt tag](https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Binary_clock.svg/500px-Binary_clock.svg.png) 
+
 
 
 Documentation
