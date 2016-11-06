@@ -7,7 +7,7 @@ This program displays a GUI of a binary clock. A binary clock consists of severa
 
 project history
 ===============
-```
+F16 | KevinL123, mschanteltc | Graphical Binary Clock```
 W15 | JohnUCSB, mbahia (4pm) | Graphical Binary Clock
 W14 | bkiefer13, yantsey (5pm) | Graphical Binary Clock
 ```
