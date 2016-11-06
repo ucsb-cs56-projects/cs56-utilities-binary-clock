@@ -11,6 +11,10 @@ F16 | KevinL123, mschanteltc | Graphical Binary Clock```
 W15 | JohnUCSB, mbahia (4pm) | Graphical Binary Clock
 W14 | bkiefer13, yantsey (5pm) | Graphical Binary Clock
 ```
+Example of a Binary Clock
+
+
+![example binary clock 2](https://cloud.githubusercontent.com/assets/22383747/20042784/cd345452-a434-11e6-9ddb-1632acc35106.jpg)
 
 
 
