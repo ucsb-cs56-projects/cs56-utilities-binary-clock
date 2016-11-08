@@ -181,8 +181,8 @@ public class BinaryClock extends JFrame implements Runnable
 
 	minimize.addActionListener(new minimizeScreen());
 
-	// Maxamize Screen 
-	class maxamizeScreen implements ActionListener{
+	// Maximize Screen 
+	class maximizeScreen implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 
 		frameheight = 1160;
@@ -193,7 +193,7 @@ public class BinaryClock extends JFrame implements Runnable
 	    }
 	}
 
-	maxamize.addActionListener(new maxamizeScreen());
+	maximize.addActionListener(new maximizeScreen());
 	
 
 	// Yellow Background

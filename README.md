@@ -4,13 +4,21 @@ cs56-utilities-binary-clock
 Description:
 
 This program displays a GUI of a binary clock. A binary clock consists of several blocks that resemble the hour, minute, and second of the current time in binary, or base 2. To read this binary clock, add the values of the "on" (red) blocks in each column. These values represent the hour, minute, and second of the current time in decimal, or base 10. It's pretty self explanatory when you see the actual binary clock GUI.
+#Pictures
+Here is an example of a digital clock versus a binary clock. Both clocks read 12:15:45. 
+![example binary clock 2] (https://cloud.githubusercontent.com/assets/22383747/20042784/cd345452-a434-11e6-9ddb-1632acc35106.jpg)
 
-project history
+This is our default binary clock program. 
+![binary clock program](https://cloud.githubusercontent.com/assets/22383747/20042850/31aa3d38-a436-11e6-8ef4-463d73653569.png)
+#Project History
 ===============
 ```
+F16 | KevinL123, mschanteltc | Graphical Binary Clock
 W15 | JohnUCSB, mbahia (4pm) | Graphical Binary Clock
 W14 | bkiefer13, yantsey (5pm) | Graphical Binary Clock
 ```
+
+
 
 
 
