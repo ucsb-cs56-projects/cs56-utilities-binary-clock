@@ -131,8 +131,8 @@ public class BinaryClock extends JFrame implements Runnable
 	menubar.add(screenSettings);
 	JMenuItem minimize = new JMenuItem("Minimize");
 	screenSettings.add(minimize);
-	JMenuItem maxamize = new JMenuItem("Maxamize");
-	screenSettings.add(maxamize);
+	JMenuItem maximize = new JMenuItem("Maxamize");
+	screenSettings.add(maximize);
 
 	JMenu help = new JMenu("Help");
 	menubar.add(help);
