@@ -16,9 +16,9 @@ import java.lang.reflect.Array;
  *          and maybe a multicolored one with tick animations.
  * @@@ - More efficient thread loop
  * @@@ - Windowless fullscreen support? (ie ctrl+shift+F11)
- * @author Peter Bennion
- * @author Yantsey Tsai
- * @version for UCSB CS56, W14, legacy code project
+ * @author Kevin La
+ * @author Chantel Chan
+ * @version for UCSB CS56, F16, legacy code project
  */
 public class BinaryClock extends JFrame implements Runnable
 {
@@ -64,6 +64,8 @@ public class BinaryClock extends JFrame implements Runnable
 	tut.setForeground(Color.BLACK);
 	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
     }
+  
+
     void resetAll() {
 	frame.getContentPane().removeAll();
 	frame.setSize(frameheight,framewidth);
@@ -77,16 +79,21 @@ public class BinaryClock extends JFrame implements Runnable
 	frame.getContentPane().repaint();
 	refresh = true;
     }
-    void setContents() {
+
+    // Menu bar
+    JMenuBar menubar = new JMenuBar();
+
+
+
+
+    //This is the Drop Down Menu Bar, options
+    void setFrameBase() {
 
 	//add objects to the frame
          frame. getContentPane().add(BorderLayout.CENTER, panel);
 	 frame. getContentPane().add(BorderLayout.NORTH, time);
 	 frame. getContentPane().add(BorderLayout.SOUTH, tut);
-	 
-	// Menu bar
-	JMenuBar menubar = new JMenuBar();
-	frame.setJMenuBar(menubar);
+	 frame. setJMenuBar(menubar);
 	
 	// Menus
 	JMenu file = new JMenu("File");
@@ -94,6 +101,34 @@ public class BinaryClock extends JFrame implements Runnable
 	JMenuItem exit = new JMenuItem("Exit");
 	file.add(exit);
 
+	// Exit listener for exit menuItem
+	class exitaction implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		System.exit(0);
+	    }
+	}
+	exit.addActionListener(new exitaction());
+
+	JMenu help = new JMenu("Help");
+	menubar.add(help);
+	JMenuItem instructions = new JMenuItem("Instructions");
+	help.add(instructions);
+
+		// Instructions under help
+	class instructions implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		BinaryClock.helpBox("This is a binary clock. Think of the clock showing the time as 00:00:00 AM/PM, \n which represents hours:minutes:seconds.Find out the time by adding each column \n with its respective value, shown on the left of each row. The first column on \n the left displays if it AM or PM. The next column shows the hours. The next two \n columns represents the minutes, where the third column is the minutes by multiples \n of ten and the fourth column with the minutes in ones. The last column shows the \n seconds.", "Instructions");
+	    }
+	}
+	instructions.addActionListener(new instructions());
+    }
+
+
+
+
+    //This is to set the color of the background
+    void setBackgroundColor() {
+	
 	JMenu backgroundColorSelector = new JMenu("Background Color");
 	menubar.add(backgroundColorSelector);
 	JMenuItem yellowBackground = new JMenuItem("Yellow");
@@ -107,94 +142,7 @@ public class BinaryClock extends JFrame implements Runnable
 	backgroundColorSelector.add(greenBackground);
 	backgroundColorSelector.add(redBackground);
 	backgroundColorSelector.add(blueBackground);
-	backgroundColorSelector.add(orangeBackground); 
-
-	JMenu onBlockColorSelector = new JMenu("On Block Color");
-	menubar.add(onBlockColorSelector);
-	JMenuItem redOnBlock = new JMenuItem("Red");
-	JMenuItem orangeOnBlock = new JMenuItem("Orange");
-	JMenuItem magentaOnBlock = new JMenuItem("Mangenta");
-	onBlockColorSelector.add(redOnBlock);
-	onBlockColorSelector.add(orangeOnBlock);
-	onBlockColorSelector.add(magentaOnBlock);
-
-	JMenu offBlockColorSelector = new JMenu("Off Block Color");
-	menubar.add(offBlockColorSelector);
-	JMenuItem blueOffBlock = new JMenuItem("Blue");
-	JMenuItem greenOffBlock = new JMenuItem("Green");
-	JMenuItem whiteOffBlock = new JMenuItem("Grey");
-	offBlockColorSelector.add(blueOffBlock);
-	offBlockColorSelector.add(greenOffBlock);
-	offBlockColorSelector.add(whiteOffBlock);
-
-	JMenu screenSettings = new JMenu("Screen Settings");
-	menubar.add(screenSettings);
-	JMenuItem minimize = new JMenuItem("Minimize");
-	screenSettings.add(minimize);
-	JMenuItem maximize = new JMenuItem("Maxamize");
-	screenSettings.add(maximize);
-
-	JMenu help = new JMenu("Help");
-	menubar.add(help);
-	JMenuItem instructions = new JMenuItem("Instructions");
-	help.add(instructions);
-
-
-	// Exit listener for exit menuItem
-	class exitaction implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		System.exit(0);
-	    }
-	}
-	exit.addActionListener(new exitaction());
-
-	// Instructions under help
-	class instructions implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		BinaryClock.helpBox("This is a binary clock. Think of the clock showing the time as 00:00:00 AM/PM, \n which represents hours:minutes:seconds.Find out the time by adding each column \n with its respective value, shown on the left of each row. The first column on \n the left displays if it AM or PM. The next column shows the hours. The next two \n columns represents the minutes, where the third column is the minutes by multiples \n of ten and the fourth column with the minutes in ones. The last column shows the \n seconds.", "Instructions");
-	    }
-	}
-	instructions.addActionListener(new instructions());
-
-	// Minimize Screen 
-	class minimizeScreen implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-
-		frameheight = 1050;
-		framewidth = 250;
-		frame.getContentPane().removeAll();
-		frame.setSize(frameheight,framewidth);
-
-		JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
-		tut.setForeground(Color.BLACK);
-		panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
-		frame. getContentPane().add(BorderLayout.CENTER, panel);
-		frame. getContentPane().add(BorderLayout.NORTH, time);
-		frame. getContentPane().add(BorderLayout.SOUTH, tut);
-		FlowLayout ex = new FlowLayout();
-		frame.getContentPane().setLayout(ex);
-		frame.getContentPane().validate();
-		frame.getContentPane().repaint();
-		refresh = true;
-	    }
-	}
-
-	minimize.addActionListener(new minimizeScreen());
-
-	// Maximize Screen 
-	class maximizeScreen implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-
-		frameheight = 1160;
-		framewidth = 720;
-		BorderLayout ex = new BorderLayout();
-		frame.getContentPane().setLayout(ex);
-		resetAll();
-	    }
-	}
-
-	maximize.addActionListener(new maximizeScreen());
-	
+	backgroundColorSelector.add(orangeBackground);
 
 	// Yellow Background
 	class yellowBackgroundClass implements ActionListener{
@@ -260,7 +208,32 @@ public class BinaryClock extends JFrame implements Runnable
 	    }
 	}
 	greenBackground.addActionListener( new greenBackgroundClass());
+    }
 
+
+
+    
+    //Set the color of the individual blocks
+    void setBlockColor(){
+	JMenu onBlockColorSelector = new JMenu("On Block Color");
+	menubar.add(onBlockColorSelector);
+	JMenuItem redOnBlock = new JMenuItem("Red");
+	JMenuItem orangeOnBlock = new JMenuItem("Orange");
+	JMenuItem magentaOnBlock = new JMenuItem("Mangenta");
+	onBlockColorSelector.add(redOnBlock);
+	onBlockColorSelector.add(orangeOnBlock);
+	onBlockColorSelector.add(magentaOnBlock);
+
+	JMenu offBlockColorSelector = new JMenu("Off Block Color");
+	menubar.add(offBlockColorSelector);
+	JMenuItem blueOffBlock = new JMenuItem("Blue");
+	JMenuItem greenOffBlock = new JMenuItem("Green");
+	JMenuItem whiteOffBlock = new JMenuItem("Grey");
+	offBlockColorSelector.add(blueOffBlock);
+	offBlockColorSelector.add(greenOffBlock);
+	offBlockColorSelector.add(whiteOffBlock);
+
+	
 	// Red On Box
 	class redOnBoxClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
@@ -316,8 +289,61 @@ public class BinaryClock extends JFrame implements Runnable
 	whiteOffBlock.addActionListener( new whiteOffBoxClass());
 
     }
-    
-   
+
+
+
+
+    //Method to be able to set the screen size in JMenu 
+    void setWindowSize(){
+	JMenu screenSettings = new JMenu("Screen Settings");
+	menubar.add(screenSettings);
+	JMenuItem minimize = new JMenuItem("Minimize");
+	screenSettings.add(minimize);
+	JMenuItem maximize = new JMenuItem("Maximize");
+	screenSettings.add(maximize);
+
+	// Minimize Screen 
+	class minimizeScreen implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+
+		frameheight = 1050;
+		framewidth = 250;
+		frame.getContentPane().removeAll();
+		frame.setSize(frameheight,framewidth);
+
+		JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
+		tut.setForeground(Color.BLACK);
+		panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+		frame. getContentPane().add(BorderLayout.CENTER, panel);
+		frame. getContentPane().add(BorderLayout.NORTH, time);
+		frame. getContentPane().add(BorderLayout.SOUTH, tut);
+		FlowLayout ex = new FlowLayout();
+		frame.getContentPane().setLayout(ex);
+		frame.getContentPane().validate();
+		frame.getContentPane().repaint();
+		refresh = true;
+	    }
+	}
+
+	minimize.addActionListener(new minimizeScreen());
+
+	// Maximize Screen 
+	class maximizeScreen implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+
+		frameheight = 1160;
+		framewidth = 720;
+		BorderLayout ex = new BorderLayout();
+		frame.getContentPane().setLayout(ex);
+		resetAll();
+	    }
+	}
+
+	maximize.addActionListener(new maximizeScreen());
+	
+    }
+       
+
 
     /**
         Main Function
@@ -326,14 +352,13 @@ public class BinaryClock extends JFrame implements Runnable
     public static void main(String[] args)
     {
         BinaryClock bc = new BinaryClock();
-	bc.setContents();
-	//	bc.addListeners();
-        //Create update thread and start it
+	bc.setFrameBase();
+	bc.setBackgroundColor();
+	bc.setBlockColor();
+	bc.setWindowSize();	   
+
         Thread ClockUpdater = new Thread(bc);
 	ClockUpdater.start();
-	// if (refresh == true) {
-	//     ClockUpdater.start();
-	// }
     }
     
     /**
@@ -341,6 +366,7 @@ public class BinaryClock extends JFrame implements Runnable
        Loops into itself for inefficient updates.
        @@@ Will call update() to begin more efficient loop@@@
     */
+    
     public void run()
     {
         //fetch time data
@@ -381,7 +407,9 @@ public class BinaryClock extends JFrame implements Runnable
         try
         {
             Thread.sleep(50);
-        } catch(InterruptedException ex)
+        }
+
+	catch(InterruptedException ex)
         {
             ex.printStackTrace();
         }
@@ -392,6 +420,7 @@ public class BinaryClock extends JFrame implements Runnable
         Used by main's thread to update the clock display every 50ms.
         Currently an unused placeholder, will be a more efficient loop than run().
     */
+    
     protected void update()
     {
 	secTimer = System.currentTimeMillis() - slast;
@@ -443,7 +472,9 @@ public class BinaryClock extends JFrame implements Runnable
         try
 	    {
 		Thread.sleep(500);
-	    } catch(InterruptedException ex)
+	    }
+
+	catch(InterruptedException ex)
 	    {
 		ex.printStackTrace();
 	    }
