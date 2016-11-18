@@ -49,16 +49,21 @@ public class BinaryClock extends JFrame implements Runnable
     */
     public BinaryClock()
     {
-        frameheight = 1160;
-        framewidth = 720;
+        frameheight = 720;
+        framewidth = 1160;
+        
 
 
         //Make frame and all objects
         frame = new JFrame();
 	frame.getContentPane().setBackground(setBackgroundColor);
-	frame.setSize(frameheight, framewidth);
+	frame.setSize(framewidth, frameheight);
 	frame.setTitle("Binary Clock");
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+	//frame.getContentPane().setLayout(new FlowLayout());
+        //frame.setVisible(true);
+				   
 	time = new JLabel();
 	time.setForeground(Color.BLACK);
 	tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
@@ -72,7 +77,7 @@ public class BinaryClock extends JFrame implements Runnable
     }
 
     public static int getFrameWidth(){
-
+   	
 	return framewidth;
     }
    
@@ -80,7 +85,7 @@ public class BinaryClock extends JFrame implements Runnable
     
         void resetAll() {
 	frame.getContentPane().removeAll();
-	frame.setSize(frameheight,framewidth);
+	frame.setSize(framewidth,frameheight);
 	JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
 	tut.setForeground(Color.BLACK);
 	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
@@ -318,12 +323,12 @@ public class BinaryClock extends JFrame implements Runnable
 	class minimizeScreen implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 
-		frameheight = 1050;
-		framewidth = 250;
+		framewidth = 1050;
+		frameheight = 480;
 		frame.getContentPane().removeAll();
-		frame.setSize(frameheight,framewidth);
+		frame.setSize(framewidth,frameheight);
 
-		JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
+		JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds." + System.lineSeparator() + "Add the values of each column to get the digit's total value.");
 		tut.setForeground(Color.BLACK);
 		panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
 		frame. getContentPane().add(BorderLayout.CENTER, panel);
@@ -343,8 +348,8 @@ public class BinaryClock extends JFrame implements Runnable
 	class maximizeScreen implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 
-		frameheight = 1160;
-		framewidth = 720;
+		framewidth = 1160;
+     		frameheight = 720;
 		BorderLayout ex = new BorderLayout();
 		frame.getContentPane().setLayout(ex);
 		resetAll();
@@ -363,7 +368,9 @@ public class BinaryClock extends JFrame implements Runnable
     */
     public static void main(String[] args)
     {
-        BinaryClock bc = new BinaryClock();
+	//SwingUtilities.invokeLater(new ResolutionChangedDemo());
+	
+	BinaryClock bc = new BinaryClock();
 	bc.setFrameBase();
 	bc.setBackgroundColor();
 	bc.setBlockColor();
@@ -407,7 +414,7 @@ public class BinaryClock extends JFrame implements Runnable
         //set text on the time panel for debugging purposes. Temporary.
         //time.setText(date);
 
-        frame.setVisible(true);
+	frame.setVisible(true);
 
 	//start thread timer
 	startTime = System.currentTimeMillis();

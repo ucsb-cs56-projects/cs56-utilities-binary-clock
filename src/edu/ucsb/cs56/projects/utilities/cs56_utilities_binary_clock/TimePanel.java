@@ -88,70 +88,90 @@ public class TimePanel extends JPanel
 	
       
         //create the guide labels
-        JLabel AMLabel = new JLabel("AM"); //AM
+        JLabel AMLabel = new JLabel("AM"); 
             AMLabel.setForeground(Color.BLACK);
-            AMLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-            AMLabel.setVerticalTextPosition(SwingConstants.CENTER);
-	    AMLabel.setSize(BinaryClock.getFrameWidth()/20, BinaryClock.getFrameHeight()/5);
-	JLabel PMLabel = new JLabel("PM"); //PM
+            AMLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            AMLabel.setVerticalAlignment(SwingConstants.CENTER);
+	    AMLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	    AMLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	    AMLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	JLabel PMLabel = new JLabel("PM"); 
             PMLabel.setForeground(Color.BLACK);
             PMLabel.setHorizontalAlignment(SwingConstants.CENTER);
             PMLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    PMLabel.setSize(BinaryClock.getFrameWidth()/20, BinaryClock.getFrameHeight()/5);
-	JLabel extraLabel = new JLabel("                      ");  //extra delete later
+	    PMLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	    PMLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	    PMLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	JLabel extraLabel = new JLabel(" ");  //placeholder whitespace for leftmost column
             extraLabel.setForeground(Color.BLACK);
             extraLabel.setHorizontalAlignment(SwingConstants.CENTER);
             extraLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    extraLabel.setSize(BinaryClock.getFrameWidth()*3/20, BinaryClock.getFrameHeight()/10);
-        JLabel HLabel = new JLabel("Hours           ");
+	    extraLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    extraLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    extraLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+        JLabel HLabel = new JLabel("Hours");
             HLabel.setForeground(Color.BLACK);
             HLabel.setHorizontalAlignment(SwingConstants.CENTER);
             HLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    HLabel.setSize(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/10);
-        JLabel M10Label = new JLabel("Minutes 10's ");
-	//Minutes 10's
+	    HLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    HLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    HLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+        JLabel M10Label = new JLabel("Minutes 10's");
     	    M10Label.setForeground(Color.BLACK);
             M10Label.setHorizontalAlignment(SwingConstants.CENTER);
             M10Label.setVerticalAlignment(SwingConstants.CENTER);
-	    M10Label.setSize(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/10);
-        JLabel M1_Label = new JLabel("Minutes 1's  ");
-	//Minute 1's
+	    M10Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    M10Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    M10Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+        JLabel M1_Label = new JLabel("Minutes 1's");
             M1_Label.setForeground(Color.BLACK);
             M1_Label.setHorizontalAlignment(SwingConstants.CENTER);
             M1_Label.setVerticalAlignment(SwingConstants.CENTER);
-	    M1_Label.setSize(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/10);
+	    M1_Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    M1_Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    M1_Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
         JLabel S10Label = new JLabel("Seconds 10's");
-	//Second 10's
             S10Label.setForeground(Color.BLACK);
             S10Label.setHorizontalAlignment(SwingConstants.CENTER);
             S10Label.setVerticalAlignment(SwingConstants.CENTER);
-	    S10Label.setSize(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/10);
-        JLabel S1_Label = new JLabel("Seconds 1's ");
-	//Second 1's
+      	    S10Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    S10Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    S10Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	JLabel S1_Label = new JLabel("Seconds 1's");
             S1_Label.setForeground(Color.BLACK);
             S1_Label.setHorizontalAlignment(SwingConstants.CENTER);
             S1_Label.setVerticalAlignment(SwingConstants.CENTER);
-	    S1_Label.setSize(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/10);
+	    S1_Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    S1_Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    S1_Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
 	JLabel N8Label = new JLabel("8"); //8
             N8Label.setForeground(Color.BLACK);
             N8Label.setHorizontalAlignment(SwingConstants.CENTER);
             N8Label.setVerticalAlignment(SwingConstants.CENTER);
-	    N8Label.setSize(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/10);
+	    N8Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N8Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N8Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
         JLabel N4Label = new JLabel("4"); //4
             N4Label.setForeground(Color.BLACK);
             N4Label.setHorizontalAlignment(SwingConstants.CENTER);
             N4Label.setVerticalAlignment(SwingConstants.CENTER);
-	    N4Label.setSize(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/10);
+	    N4Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N4Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N4Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
         JLabel N2Label = new JLabel("2"); //2
             N2Label.setForeground(Color.BLACK);
             N2Label.setHorizontalAlignment(SwingConstants.CENTER);
             N2Label.setVerticalAlignment(SwingConstants.CENTER);
-	    N2Label.setSize(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/10);
+	    N2Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N2Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N2Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
         JLabel N1Label = new JLabel("1");
-	N1Label.setForeground(Color.BLACK); //1
+	    N1Label.setForeground(Color.BLACK); //1
             N1Label.setHorizontalAlignment(SwingConstants.CENTER);
             N1Label.setVerticalAlignment(SwingConstants.CENTER);
-	    N1Label.setSize(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/10);
+	    N1Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N1Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N1Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
 
  	
         //tell the layout how to set up columns
