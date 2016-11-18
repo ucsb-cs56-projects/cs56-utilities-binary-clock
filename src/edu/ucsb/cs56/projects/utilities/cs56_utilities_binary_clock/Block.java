@@ -124,7 +124,7 @@ public class Block extends Canvas
         Used by the system to render the block. Currently bugged and will only display background color.
         @param g A variable representing graphics. Only available to the system.
     */
-    // for the flickering issue, you might want to change the parameters of the loops
+    /*   // for the flickering issue, you might want to change the parameters of the loops
     public void paint(Graphics g)
     {
         Graphics2D g2d = (Graphics2D) g;
@@ -152,7 +152,7 @@ public class Block extends Canvas
         }
 	
     }
-
+    
     private Color getDarker()
     {
 	int r = brushColor.getRed();
@@ -166,6 +166,6 @@ public class Block extends Canvas
         return new Color(r,g,b);
     }
     
-
+    */
 
 }

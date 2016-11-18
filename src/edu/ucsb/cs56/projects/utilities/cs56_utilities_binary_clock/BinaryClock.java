@@ -22,9 +22,9 @@ import java.lang.reflect.Array;
  */
 public class BinaryClock extends JFrame implements Runnable
 {
-    protected JFrame frame;
-    protected int frameheight;
-    protected int framewidth;
+    private JFrame frame;
+    private static int frameheight;
+    private static int framewidth;
 
     protected JLabel time, tut;
 
@@ -51,7 +51,8 @@ public class BinaryClock extends JFrame implements Runnable
     {
         frameheight = 1160;
         framewidth = 720;
-	
+
+
         //Make frame and all objects
         frame = new JFrame();
 	frame.getContentPane().setBackground(setBackgroundColor);
@@ -64,9 +65,20 @@ public class BinaryClock extends JFrame implements Runnable
 	tut.setForeground(Color.BLACK);
 	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
     }
-  
 
-    void resetAll() {
+    public static int getFrameHeight(){
+	
+	return frameheight;
+    }
+
+    public static int getFrameWidth(){
+
+	return framewidth;
+    }
+   
+
+    
+        void resetAll() {
 	frame.getContentPane().removeAll();
 	frame.setSize(frameheight,framewidth);
 	JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
