@@ -6,7 +6,10 @@ import java.awt.event.*;
 import java.util.*;
 import java.lang.reflect.Array;
 import javax.swing.Timer;
-
+import java.io.*;
+import sun.audio.*;
+import java.applet.*;
+import java.net.*;
 
 /**
  * Creates a power of 2 binary clock widget that gets the
@@ -405,7 +408,7 @@ public class BinaryClock extends JFrame implements Runnable
 	bc.setBackgroundColor();
 	bc.setBlockColor();
 	bc.setWindowSize();
-
+	//bc.sound();
         Thread ClockUpdater = new Thread(bc);
 	ClockUpdater.start();
     }
@@ -489,6 +492,9 @@ public class BinaryClock extends JFrame implements Runnable
 	    second1s = Integer.toBinaryString(Integer.parseInt(date.substring(7, 8)));
 	    updateBlocks(second1s, panel.getSecond1s());
 	    slast = System.currentTimeMillis();
+
+	    playSound();
+
 	}
 	
 	
@@ -573,4 +579,26 @@ public class BinaryClock extends JFrame implements Runnable
 	d.setVisible(true);
     }
 
+    public static void playSound()
+    {       
+	AudioStream BGM;   
+	ContinuousAudioDataStream loop = null;
+	try
+	    {
+		File f= new File("Sounds/clock-tick1.wav");
+		String absolutePath= f.getAbsolutePath();
+		InputStream test= new FileInputStream(absolutePath);
+		AudioStream s= new AudioStream(test);
+		AudioPlayer.player.start(s);
+	    }
+	catch(FileNotFoundException e)
+	    {
+		System.out.print(e.toString());
+	    }
+	catch(IOException error)
+	    {
+		System.out.print(error.toString());
+	    }
+	
+    }
 }
