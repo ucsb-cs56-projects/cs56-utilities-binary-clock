@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.lang.reflect.Array;
+import javax.swing.Timer;
 
 
 /**
@@ -22,11 +23,13 @@ import java.lang.reflect.Array;
  */
 public class BinaryClock extends JFrame implements Runnable
 {
-    protected JFrame frame;
-    protected int frameheight;
-    protected int framewidth;
+    private JFrame frame;
+    private static int frameheight;
+    private static int framewidth;
 
     protected JLabel time, tut;
+
+    protected JTextField dateField;
 
     protected TimePanel panel;
 
@@ -39,38 +42,66 @@ public class BinaryClock extends JFrame implements Runnable
     private long secTimer,minTimer,hrTimer,slast,mlast,hlast;
     private long ampmTimer, ampmlast; // you need to implement these for the flickering issue
 
-    protected Color setBackgroundColor = new Color(0xFFFF66);
-    protected Color setOnBlockColor = Color.PINK;
-    protected Color setOffBlockColor = Color.CYAN;
+    protected Color setBackgroundColor = Color.BLACK;
+    // protected Color setOnBlockColor = new Color(0xFAFFFD);
+    protected Color setOnBlockColor = new Color(0x727473);
+    //protected Color setOffBlockColor = new Color(0x727473);
+    protected Color setOffBlockColor = new Color(0xFAFFFD);
 
 
     /**
-        Constructor
+         Constructor
     */
     public BinaryClock()
     {
-        frameheight = 1160;
-        framewidth = 720;
-	
+        frameheight = 720;
+        framewidth = 1280;
+       
+
         //Make frame and all objects
         frame = new JFrame();
 	frame.getContentPane().setBackground(setBackgroundColor);
-	frame.setSize(frameheight, framewidth);
+	frame.setSize(framewidth, frameheight);
 	frame.setTitle("Binary Clock");
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//frame.getContentPane().setLayout(new FlowLayout());
+        //frame.setVisible(true);
 	time = new JLabel();
-	time.setForeground(Color.BLACK);
-	tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
-	tut.setForeground(Color.BLACK);
+	time.setFont(new Font("URW Gothic L", Font.BOLD,20));
+	time.setForeground(Color.WHITE);
+	Date today = new Date();
+	tut = new JLabel("Today is: " + today);
+	tut.setForeground(Color.WHITE);
+	tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
+       	ActionListener updatetime = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+		    Date today = new Date();
+		    tut.setText("Today is: " + new Date().toString());
+		}
+	    };
+	new Timer(1000, updatetime).start();
 	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
     }
-  
 
-    void resetAll() {
+    public static int getFrameHeight(){
+	
+	return frameheight;
+    }
+
+    public static int getFrameWidth(){
+   	
+	return framewidth;
+    }
+   
+
+    
+        void resetAll() {
 	frame.getContentPane().removeAll();
-	frame.setSize(frameheight,framewidth);
-	JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
-	tut.setForeground(Color.BLACK);
+	frame.setSize(framewidth,frameheight);
+        Date today = new Date();
+	JLabel tut = new JLabel("Today is: "+ today);
+	tut.setForeground(Color.WHITE);
+	tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
 	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
 	frame. getContentPane().add(BorderLayout.CENTER, panel);
 	frame. getContentPane().add(BorderLayout.NORTH, time);
@@ -78,7 +109,14 @@ public class BinaryClock extends JFrame implements Runnable
 	frame.getContentPane().validate();
 	frame.getContentPane().repaint();
 	refresh = true;
-    }
+	 ActionListener updatetime = new ActionListener() {
+	       public void actionPerformed(ActionEvent e) {
+		   Date today = new Date();
+		   tut.setText("Today is: " + new Date().toString());
+	       }
+	    };
+	new Timer(1000, updatetime).start();
+	}
 
     // Menu bar
     JMenuBar menubar = new JMenuBar();
@@ -131,83 +169,84 @@ public class BinaryClock extends JFrame implements Runnable
 	
 	JMenu backgroundColorSelector = new JMenu("Background Color");
 	menubar.add(backgroundColorSelector);
-	JMenuItem yellowBackground = new JMenuItem("Yellow");
-	JMenuItem pinkBackground = new JMenuItem("Pink");
-	JMenuItem greenBackground = new JMenuItem("Green");
+	JMenuItem limegreenBackground = new JMenuItem("Lime Green");
+	JMenuItem whiteblueBackground = new JMenuItem("White blue");
+	JMenuItem blackBackground = new JMenuItem("Black");
+	JMenuItem navyblueBackground = new JMenuItem("Navy Blue");
+	JMenuItem darkblueBackground = new JMenuItem("Dark Blue");
 	JMenuItem redBackground = new JMenuItem("Red");
-	JMenuItem blueBackground = new JMenuItem("Blue");
-	JMenuItem orangeBackground = new JMenuItem("Orange");
-	backgroundColorSelector.add(yellowBackground);
-	backgroundColorSelector.add(pinkBackground);
-	backgroundColorSelector.add(greenBackground);
+	backgroundColorSelector.add(limegreenBackground);
+	backgroundColorSelector.add(whiteblueBackground);
+	backgroundColorSelector.add(blackBackground);
+	backgroundColorSelector.add(navyblueBackground);
+	backgroundColorSelector.add(darkblueBackground);
 	backgroundColorSelector.add(redBackground);
-	backgroundColorSelector.add(blueBackground);
-	backgroundColorSelector.add(orangeBackground);
 
-	// Yellow Background
-	class yellowBackgroundClass implements ActionListener{
+	// Lime Green Background
+	class limegreenBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-		Color newYellow = new Color(0xFFFF66);
-		frame.getContentPane().setBackground(newYellow);
-		setBackgroundColor = newYellow;
+		Color limegreen = new Color(0xB7FFD8);
+		frame.getContentPane().setBackground(limegreen);
+		setBackgroundColor = limegreen;
 		resetAll();
 	    }
 	}
-	yellowBackground.addActionListener( new yellowBackgroundClass());
+	limegreenBackground.addActionListener( new limegreenBackgroundClass());
 
-	// Pink Background
-	class pinkBackgroundClass implements ActionListener{
+	// Very very very very light blue Background
+	class whiteblueBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-		frame.getContentPane().setBackground(Color.PINK);
-		setBackgroundColor = Color.PINK;
+		Color whiteblue = new Color (0xD5E9EC);
+		frame.getContentPane().setBackground(whiteblue);
+		setBackgroundColor = whiteblue;
 	        resetAll();
 	    }
 	}
-	pinkBackground.addActionListener( new pinkBackgroundClass());
+	whiteblueBackground.addActionListener( new whiteblueBackgroundClass());
 
-	// Blue Background
-	class blueBackgroundClass implements ActionListener{
+	// Dark Blue Background
+	class darkblueBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-		Color newBlue = new Color(0x33CCFF);
-		frame.getContentPane().setBackground(newBlue);
-	        setBackgroundColor = newBlue;
+		Color darkBlue = new Color(0x273043);
+		frame.getContentPane().setBackground(darkBlue);
+	        setBackgroundColor = darkBlue;
 		resetAll();
 	    }
 	}
-	blueBackground.addActionListener( new blueBackgroundClass());
+	darkblueBackground.addActionListener( new darkblueBackgroundClass());
 
-	// Red Background
+	// Navy Blue Background
+	class navyblueBackgroundClass implements ActionListener{
+	    public void actionPerformed(ActionEvent e){
+		Color navyblue = new Color(0x175676);
+		frame.getContentPane().setBackground(navyblue);
+	        setBackgroundColor = navyblue;
+		resetAll();
+	    }
+	}
+	navyblueBackground.addActionListener( new navyblueBackgroundClass());
+
+	// Blood Red Background
 	class redBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-		Color newRed = new Color(0xFF5050);
-		frame.getContentPane().setBackground(newRed);
-	        setBackgroundColor = newRed;
+		Color bloodred = new Color(0xB3001B);
+		frame.getContentPane().setBackground(bloodred);
+		setBackgroundColor = bloodred;
 		resetAll();
 	    }
 	}
 	redBackground.addActionListener( new redBackgroundClass());
 
-	// Orange Background
-	class orangeBackgroundClass implements ActionListener{
+	//Black Background
+	class blackBackgroundClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-		Color newOrange = new Color(0xFFB84D);
-		frame.getContentPane().setBackground(newOrange);
-		setBackgroundColor = newOrange;
+		Color black = new Color(0x0F0D0F);
+		frame.getContentPane().setBackground(black);
+		setBackgroundColor = black;
 		resetAll();
 	    }
 	}
-	orangeBackground.addActionListener( new orangeBackgroundClass());
-
-	// Green Background
-	class greenBackgroundClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		Color jadeGreen = new Color(0x00CC66);
-		frame.getContentPane().setBackground(jadeGreen);
-		setBackgroundColor = jadeGreen;
-		resetAll();
-	    }
-	}
-	greenBackground.addActionListener( new greenBackgroundClass());
+	blackBackground.addActionListener( new blackBackgroundClass());
     }
 
 
@@ -218,19 +257,19 @@ public class BinaryClock extends JFrame implements Runnable
 	JMenu onBlockColorSelector = new JMenu("On Block Color");
 	menubar.add(onBlockColorSelector);
 	JMenuItem redOnBlock = new JMenuItem("Red");
-	JMenuItem orangeOnBlock = new JMenuItem("Orange");
-	JMenuItem magentaOnBlock = new JMenuItem("Mangenta");
+	JMenuItem grassOnBlock = new JMenuItem("Grass Green");
+	JMenuItem greyOnBlock = new JMenuItem("Grey");
 	onBlockColorSelector.add(redOnBlock);
-	onBlockColorSelector.add(orangeOnBlock);
-	onBlockColorSelector.add(magentaOnBlock);
+	onBlockColorSelector.add(grassOnBlock);
+	onBlockColorSelector.add(greyOnBlock);
 
 	JMenu offBlockColorSelector = new JMenu("Off Block Color");
 	menubar.add(offBlockColorSelector);
-	JMenuItem blueOffBlock = new JMenuItem("Blue");
-	JMenuItem greenOffBlock = new JMenuItem("Green");
-	JMenuItem whiteOffBlock = new JMenuItem("Grey");
-	offBlockColorSelector.add(blueOffBlock);
-	offBlockColorSelector.add(greenOffBlock);
+	JMenuItem cyanOffBlock = new JMenuItem("Blue");
+	JMenuItem blackOffBlock = new JMenuItem("Black");
+	JMenuItem whiteOffBlock = new JMenuItem("White");
+	offBlockColorSelector.add(cyanOffBlock);
+	offBlockColorSelector.add(blackOffBlock);
 	offBlockColorSelector.add(whiteOffBlock);
 
 	
@@ -243,43 +282,43 @@ public class BinaryClock extends JFrame implements Runnable
 	}
 	redOnBlock.addActionListener( new redOnBoxClass());
 
-	// Orange On Box
-	class orangeOnBoxClass implements ActionListener{
+	// Grass On Box
+	class grassOnBoxClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-		setOnBlockColor = Color.ORANGE;
+		setOnBlockColor = new Color(0x2AFC98);
 		resetAll();
 	    }
 	}
-	orangeOnBlock.addActionListener( new orangeOnBoxClass());
+        grassOnBlock.addActionListener( new grassOnBoxClass());
 
-	// Magenta On Box
-	class magentaOnBoxClass implements ActionListener{
+	// Grey On Box
+	class greyOnBoxClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-		setOnBlockColor = Color.MAGENTA;
+		setOnBlockColor = new Color(0x727473);
 		resetAll();
 	    }
 	}
-	magentaOnBlock.addActionListener( new magentaOnBoxClass());
+	greyOnBlock.addActionListener( new greyOnBoxClass());
 
-	// Blue Off Box
-	class blueOffBoxClass implements ActionListener{
+	// Cyan Off Box
+	class cyanOffBoxClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 		setOffBlockColor = Color.CYAN;
 		resetAll();
 	    }
 	}
-	blueOffBlock.addActionListener( new blueOffBoxClass());
+	cyanOffBlock.addActionListener( new cyanOffBoxClass());
 
-	// Green Off Box
-	class greenOffBoxClass implements ActionListener{
+	// Black Off Box
+	class blackOffBoxClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
-		setOffBlockColor = Color.GREEN;
+		setOffBlockColor = Color.BLACK;
 		resetAll();
 	    }
 	}
-	greenOffBlock.addActionListener( new greenOffBoxClass());
+	blackOffBlock.addActionListener( new blackOffBoxClass());
 
-	// Grey Off Box
+	// White Off Box
 	class whiteOffBoxClass implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 		setOffBlockColor = Color.WHITE;
@@ -306,13 +345,22 @@ public class BinaryClock extends JFrame implements Runnable
 	class minimizeScreen implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 
-		frameheight = 1050;
-		framewidth = 250;
+		framewidth = 1050;
+		frameheight = 480;
 		frame.getContentPane().removeAll();
-		frame.setSize(frameheight,framewidth);
-
-		JLabel tut = new JLabel("Each column represents a digit in time of the form hours:minutes:seconds. Add the values of each column to get the digit's total value.");
-		tut.setForeground(Color.BLACK);
+		frame.setSize(framewidth,frameheight);
+		
+		Date today= new Date();
+		JLabel tut = new JLabel("Today is: " + today);
+		tut.setForeground(Color.WHITE);
+		tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
+	       	ActionListener updatetime = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			    Date today = new Date();
+			    tut.setText("Today is: " + new Date().toString());
+			}
+		    };
+		new Timer(1000, updatetime).start();
 		panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
 		frame. getContentPane().add(BorderLayout.CENTER, panel);
 		frame. getContentPane().add(BorderLayout.NORTH, time);
@@ -326,13 +374,12 @@ public class BinaryClock extends JFrame implements Runnable
 	}
 
 	minimize.addActionListener(new minimizeScreen());
-
 	// Maximize Screen 
 	class maximizeScreen implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
 
-		frameheight = 1160;
-		framewidth = 720;
+		framewidth = 1160;
+     		frameheight = 720;
 		BorderLayout ex = new BorderLayout();
 		frame.getContentPane().setLayout(ex);
 		resetAll();
@@ -351,11 +398,13 @@ public class BinaryClock extends JFrame implements Runnable
     */
     public static void main(String[] args)
     {
-        BinaryClock bc = new BinaryClock();
+	//SwingUtilities.invokeLater(new ResolutionChangedDemo());
+	
+	BinaryClock bc = new BinaryClock();
 	bc.setFrameBase();
 	bc.setBackgroundColor();
 	bc.setBlockColor();
-	bc.setWindowSize();	   
+	bc.setWindowSize();
 
         Thread ClockUpdater = new Thread(bc);
 	ClockUpdater.start();
@@ -395,7 +444,7 @@ public class BinaryClock extends JFrame implements Runnable
         //set text on the time panel for debugging purposes. Temporary.
         //time.setText(date);
 
-        frame.setVisible(true);
+	frame.setVisible(true);
 
 	//start thread timer
 	startTime = System.currentTimeMillis();

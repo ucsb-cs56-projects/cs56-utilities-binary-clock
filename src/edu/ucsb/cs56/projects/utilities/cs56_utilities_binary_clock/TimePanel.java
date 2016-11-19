@@ -28,6 +28,7 @@ public class TimePanel extends JPanel
     protected Block h1, h2, h4, h8;
     protected Block PM, AM;
 
+   
     /**
         Constructor
         @param type String representing the layout type, "Tutorial", "Grid", or "Fill"
@@ -84,71 +85,116 @@ public class TimePanel extends JPanel
         //add gaps between components and edges
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
-
 	
-
+      
         //create the guide labels
         JLabel AMLabel = new JLabel("AM");
-            AMLabel.setForeground(Color.BLACK);
-            AMLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-            AMLabel.setVerticalTextPosition(SwingConstants.CENTER);
-        JLabel PMLabel = new JLabel("PM");
-            PMLabel.setForeground(Color.BLACK);
+	AMLabel.setFont(new Font("URW Gothic L", Font.BOLD,12));
+            AMLabel.setForeground(Color.WHITE);
+            AMLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            AMLabel.setVerticalAlignment(SwingConstants.CENTER);
+	    AMLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	    AMLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	    AMLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	JLabel PMLabel = new JLabel("PM");
+	PMLabel.setFont(new Font("URW Gothic L", Font.BOLD,12));
+            PMLabel.setForeground(Color.WHITE);
             PMLabel.setHorizontalAlignment(SwingConstants.CENTER);
             PMLabel.setVerticalAlignment(SwingConstants.CENTER);
-
+	    PMLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	    PMLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	    PMLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	JLabel extraLabel = new JLabel(" ");  //placeholder whitespace for leftmost column
+            extraLabel.setForeground(Color.WHITE);
+            extraLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            extraLabel.setVerticalAlignment(SwingConstants.CENTER);
+	    extraLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    extraLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    extraLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
         JLabel HLabel = new JLabel("Hours");
-            HLabel.setForeground(Color.BLACK);
+	HLabel.setFont(new Font("URW Gothic L", Font.BOLD,12));
+            HLabel.setForeground(Color.WHITE);
             HLabel.setHorizontalAlignment(SwingConstants.CENTER);
             HLabel.setVerticalAlignment(SwingConstants.CENTER);
-        JLabel M10Label = new JLabel("Minute 10's");
-	    M10Label.setForeground(Color.BLACK);
+	    HLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    HLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    HLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+        JLabel M10Label = new JLabel("Minutes 10's");
+	M10Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
+    	    M10Label.setForeground(Color.WHITE);
             M10Label.setHorizontalAlignment(SwingConstants.CENTER);
             M10Label.setVerticalAlignment(SwingConstants.CENTER);
-        JLabel M1_Label = new JLabel("Minute 1's");
-            M1_Label.setForeground(Color.BLACK);
-            M1_Label.setHorizontalAlignment(SwingConstants.CENTER);
-            M1_Label.setVerticalAlignment(SwingConstants.CENTER);
-        JLabel S10Label = new JLabel("Second 10's");
-            S10Label.setForeground(Color.BLACK);
+	    M10Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    M10Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    M10Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+        JLabel M1Label = new JLabel("Minutes 1's");
+	M1Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
+            M1Label.setForeground(Color.WHITE);
+            M1Label.setHorizontalAlignment(SwingConstants.CENTER);
+            M1Label.setVerticalAlignment(SwingConstants.CENTER);
+	    M1Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    M1Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    M1Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+        JLabel S10Label = new JLabel("Seconds 10's");
+	S10Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
+            S10Label.setForeground(Color.WHITE);
             S10Label.setHorizontalAlignment(SwingConstants.CENTER);
             S10Label.setVerticalAlignment(SwingConstants.CENTER);
-        JLabel S1_Label = new JLabel("Second 1's");
-            S1_Label.setForeground(Color.BLACK);
-            S1_Label.setHorizontalAlignment(SwingConstants.CENTER);
-            S1_Label.setVerticalAlignment(SwingConstants.CENTER);
-
-        JLabel N8Label = new JLabel("8");
-            N8Label.setForeground(Color.BLACK);
+      	    S10Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    S10Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    S10Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	JLabel S1Label = new JLabel("Seconds 1's");
+	S1Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
+            S1Label.setForeground(Color.WHITE);
+            S1Label.setHorizontalAlignment(SwingConstants.CENTER);
+            S1Label.setVerticalAlignment(SwingConstants.CENTER);
+	    S1Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    S1Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	    S1Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	JLabel N8Label = new JLabel("8"); //8
+	N8Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
+            N8Label.setForeground(Color.WHITE);
             N8Label.setHorizontalAlignment(SwingConstants.CENTER);
             N8Label.setVerticalAlignment(SwingConstants.CENTER);
-        JLabel N4Label = new JLabel("4");
-            N4Label.setForeground(Color.BLACK);
+	    N8Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N8Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N8Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+        JLabel N4Label = new JLabel("4"); //4
+	N4Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
+            N4Label.setForeground(Color.WHITE);
             N4Label.setHorizontalAlignment(SwingConstants.CENTER);
             N4Label.setVerticalAlignment(SwingConstants.CENTER);
-        JLabel N2Label = new JLabel("2");
-            N2Label.setForeground(Color.BLACK);
+	    N4Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N4Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N4Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+        JLabel N2Label = new JLabel("2"); //2
+	N2Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
+            N2Label.setForeground(Color.WHITE);
             N2Label.setHorizontalAlignment(SwingConstants.CENTER);
             N2Label.setVerticalAlignment(SwingConstants.CENTER);
+	    N2Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N2Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N2Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
         JLabel N1Label = new JLabel("1");
-            N1Label.setForeground(Color.BLACK);
+	N1Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
+	    N1Label.setForeground(Color.WHITE); //1
             N1Label.setHorizontalAlignment(SwingConstants.CENTER);
             N1Label.setVerticalAlignment(SwingConstants.CENTER);
+	    N1Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N1Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	    N1Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
 
-	
+ 	
         //tell the layout how to set up columns
         GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+
         hGroup.addGroup(layout.createParallelGroup().
              addComponent(AMLabel).
              addComponent(PMLabel));
         hGroup.addGroup(layout.createParallelGroup().
-             addComponent(AM ).
+	     addComponent(extraLabel). //extra
+	     addComponent(AM ).
              addComponent(PM ));
-        hGroup.addGroup(layout.createParallelGroup().
-             addComponent(N8Label).
-             addComponent(N4Label).
-             addComponent(N2Label).
-             addComponent(N1Label));
         hGroup.addGroup(layout.createParallelGroup().
              addComponent(HLabel).
              addComponent(h8 ).
@@ -161,7 +207,7 @@ public class TimePanel extends JPanel
              addComponent(m20).
              addComponent(m10));
         hGroup.addGroup(layout.createParallelGroup().
-             addComponent(M1_Label).
+             addComponent(M1Label).
              addComponent(m8 ).
              addComponent(m4 ).
              addComponent(m2 ).
@@ -172,45 +218,51 @@ public class TimePanel extends JPanel
              addComponent(s20).
              addComponent(s10));
         hGroup.addGroup(layout.createParallelGroup().
-             addComponent(S1_Label).
+             addComponent(S1Label).
              addComponent(s8 ).
              addComponent(s4 ).
              addComponent(s2 ).
              addComponent(s1 ));
+        hGroup.addGroup(layout.createParallelGroup().
+            addComponent(N8Label).
+            addComponent(N4Label).
+            addComponent(N2Label).
+            addComponent(N1Label));
         layout.setHorizontalGroup(hGroup);
 
         //tell the layout how to set up rows
         GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
         vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-            addComponent(HLabel).
-            addComponent(M10Label).
-            addComponent(M1_Label).
-            addComponent(S10Label).
-            addComponent(S1_Label));
+	     addComponent(extraLabel). //extra
+	     addComponent(HLabel).
+	     addComponent(M10Label).
+	     addComponent(M1Label).
+	     addComponent(S10Label).
+	     addComponent(S1Label));
         vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-            addComponent(N8Label).
+	    addComponent(N8Label).
             addComponent(h8 ).
             addComponent(m8 ).
             addComponent(s8 ));
-        vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-            addComponent(N4Label).
+            vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+	    addComponent(N4Label).
             addComponent(h4 ).
             addComponent(m40).
             addComponent(m4 ).
             addComponent(s40).
             addComponent(s4 ));
-        vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-            addComponent(AMLabel).
+	vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).	    
             addComponent(AM ).
-            addComponent(N2Label).
+	    addComponent(AMLabel).
+	    addComponent(N2Label).
             addComponent(h2 ).
             addComponent(m20).
             addComponent(m2 ).
             addComponent(s20).
             addComponent(s2 ));
-        vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-            addComponent(PMLabel).
+     	vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).		
             addComponent(PM ).
+	    addComponent(PMLabel).
             addComponent(N1Label).
             addComponent(h1 ).
             addComponent(m10).
