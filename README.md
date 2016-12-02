@@ -42,3 +42,17 @@ Other Notes
 
 * Currently, the gradient is done by using a for loop to pain several rectangles over each other, with each successive rectangle decreasing 1 pixel in height, and getting darker by 1 RGB value.
 * There may be a way to use GradientPaint, but that involves refactoring the entire project and changing the Block class to implement Shape rather than extend Canvas. You would have to change code in every single class.
+
+
+F16 Final Remarks
+=================
+
+* The project that we editted was a binary clock, representing a ticking clock that would sum up to its value for hours, minutes, and seconds. In the preset settings, the blue blocks are considered “off” while the red blocks are considered “on.” By adding the values of each red block in each column, you get the value of that particular section. If you turn on the volume of your computer, you are able to hear the ticking sound of the clock as well. 
+
+	Things to keep in mind:
+
+* When you expand the window size, the blocks will adjust accordingly. However when you try to shrink the window, the blocks will retain the largest size it had when expanding. Also, the ticking sound is slightly off.
+* F16 (us) commented out the gradient in the Block.java file because we thought that it was not that pleasing to the eye.
+* Look up GUIs and read up on border layout and flow layout to get a better understanding of how the blocks are positioned and created. 
+
+
