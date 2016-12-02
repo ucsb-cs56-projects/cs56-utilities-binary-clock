@@ -9,7 +9,8 @@ Here is an example of a digital clock versus a binary clock. Both clocks read 12
 ![example binary clock 2] (https://cloud.githubusercontent.com/assets/22383747/20042784/cd345452-a434-11e6-9ddb-1632acc35106.jpg)
 
 This is our default binary clock program. 
-![binary clock program](https://cloud.githubusercontent.com/assets/22383747/20042850/31aa3d38-a436-11e6-8ef4-463d73653569.png)
+![github_image](https://cloud.githubusercontent.com/assets/22383747/20818587/88005a6c-b7e3-11e6-92ea-8dffea11142c.png)
+
 #Project History
 ===============
 ```
