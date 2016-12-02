@@ -54,5 +54,6 @@ F16 Final Remarks
 * When you expand the window size, the blocks will adjust accordingly. However when you try to shrink the window, the blocks will retain the largest size it had when expanding. Also, the ticking sound is slightly off.
 * F16 (us) commented out the gradient in the Block.java file because we thought that it was not that pleasing to the eye.
 * Look up GUIs and read up on border layout and flow layout to get a better understanding of how the blocks are positioned and created. 
-
+* I would advise to focus on BinaryClock.java since thats where the bulk of the code for the application is. Timepanel.java is where you would want to go to be able to change the position of the componenets of the application.
+* The size of the box vary with the size of the text around the boxes. It would be good to be able to seperate the borderlayouts between the text and the boxes themselves.
 
