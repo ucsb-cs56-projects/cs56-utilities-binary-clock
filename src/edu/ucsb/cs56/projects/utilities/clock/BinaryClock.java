@@ -44,6 +44,7 @@ public class BinaryClock extends JFrame implements Runnable
     private long startTime,runningTime;
     private long secTimer,minTimer,hrTimer,slast,mlast,hlast;
     private long ampmTimer, ampmlast; // you need to implement these for the flickering issue
+    private Boolean soundmute;
 
     protected Color setBackgroundColor = Color.BLACK;
     // protected Color setOnBlockColor = new Color(0xFAFFFD);
@@ -57,6 +58,7 @@ public class BinaryClock extends JFrame implements Runnable
     */
     public BinaryClock()
     {
+    	soundmute = false;
         frameheight = 720;
         framewidth = 1280;
        
@@ -131,7 +133,7 @@ public class BinaryClock extends JFrame implements Runnable
     void setFrameBase() {
 
 	//add objects to the frame
-         frame. getContentPane().add(BorderLayout.CENTER, panel);
+   	 frame. getContentPane().add(BorderLayout.CENTER, panel);
 	 frame. getContentPane().add(BorderLayout.NORTH, time);
 	 frame. getContentPane().add(BorderLayout.SOUTH, tut);
 	 frame. setJMenuBar(menubar);
@@ -162,7 +164,32 @@ public class BinaryClock extends JFrame implements Runnable
 	    }
 	}
 	instructions.addActionListener(new instructions());
+    
+
+
+    // Turn sound on and off
+    JMenu soundOff = new JMenu("Sound Options");
+    menubar.add(soundOff);
+    JMenuItem mute = new JMenuItem("Sound Off");
+    soundOff.add(mute);
+    JMenuItem unmute = new JMenuItem("Sound On");
+    soundOff.add(unmute);
+
+    class mute implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		soundmute = true;
+    	}
     }
+    mute.addActionListener(new mute());
+
+    class unmute implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		soundmute = false;
+    	}
+    }
+    unmute.addActionListener(new unmute());
+
+	}
 
 
 
@@ -493,7 +520,9 @@ public class BinaryClock extends JFrame implements Runnable
 	    updateBlocks(second1s, panel.getSecond1s());
 	    slast = System.currentTimeMillis();
 
-	    playSound();
+	    if(!soundmute){ 
+	    	playSound();
+	    }
 
 	}
 	
