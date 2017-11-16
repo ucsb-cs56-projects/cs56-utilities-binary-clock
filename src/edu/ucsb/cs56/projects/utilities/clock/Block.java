@@ -2,8 +2,8 @@ package edu.ucsb.cs56.projects.utilities.clock;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
-import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.GeneralPathWrapper;
-import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.ShapeTransforms;
+import edu.ucsb.cs56.projects.utilities.clock.GeneralPathWrapper;
+import edu.ucsb.cs56.projects.utilities.clock.ShapeTransforms;
 
 /**
  * Used by TimePanel to build BinaryClock's graphical representation.
