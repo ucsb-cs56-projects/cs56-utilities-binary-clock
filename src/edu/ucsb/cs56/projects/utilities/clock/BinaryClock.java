@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock;
+package edu.ucsb.cs56.projects.utilities.clock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -580,21 +580,21 @@ public class BinaryClock extends JFrame implements Runnable
     }
 
     public static void playSound()
-    {
-
-	try {
-         File soundFile = new File("Sounds/clock-tick1.wav");
-		 AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-
-         Clip clip = AudioSystem.getClip();
-         clip.open(audioIn);
-         clip.start();
-      } catch (UnsupportedAudioFileException e) {
-         e.printStackTrace();
-      } catch (IOException e) {
-         e.printStackTrace();
-      } catch (LineUnavailableException e) {
-         e.printStackTrace();
-      }
+    {       
+    	try {
+    	    File soundFile = new File("Sounds/clock-tick1.wav");
+    		AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+    	    Clip clip = AudioSystem.getClip();
+    	    clip.open(audioIn);
+    	    clip.start();
+    	} catch (UnsupportedAudioFileException e) {
+    	    e.printStackTrace();
+    	} catch (IOException e) {
+    	    e.printStackTrace();
+    	} catch (LineUnavailableException e) {
+    	    e.printStackTrace();
+    	}
+	
     }
 }
+

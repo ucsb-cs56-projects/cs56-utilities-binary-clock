@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock;
+package edu.ucsb.cs56.projects.utilities.clock;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
