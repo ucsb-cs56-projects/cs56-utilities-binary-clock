@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock;
+package edu.ucsb.cs56.projects.utilities.clock;
 
 import java.awt.geom.GeneralPath; // combinations of lines and curves
 import java.awt.geom.AffineTransform; // translation, rotation, scale

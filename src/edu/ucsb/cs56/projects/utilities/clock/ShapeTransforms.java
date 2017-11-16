@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock;
+package edu.ucsb.cs56.projects.utilities.clock;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
