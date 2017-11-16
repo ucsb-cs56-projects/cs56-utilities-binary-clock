@@ -4,8 +4,8 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.GeneralPathWrapper;
-import edu.ucsb.cs56.projects.utilities.cs56_utilities_binary_clock.ShapeTransforms;
+import edu.ucsb.cs56.projects.utilities.clock.GeneralPathWrapper;
+import edu.ucsb.cs56.projects.utilities.clock.ShapeTransforms;
 
 
 /**
