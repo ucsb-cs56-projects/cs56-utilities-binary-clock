@@ -7,7 +7,7 @@ import java.util.*;
 import java.lang.reflect.Array;
 import javax.swing.Timer;
 import java.io.*;
-import sun.audio.*;
+import javax.sound.sampled.*;
 import java.applet.*;
 import java.net.*;
 
@@ -581,24 +581,20 @@ public class BinaryClock extends JFrame implements Runnable
 
     public static void playSound()
     {       
-	AudioStream BGM;   
-	ContinuousAudioDataStream loop = null;
-	try
-	    {
-		File f= new File("Sounds/clock-tick1.wav");
-		String absolutePath= f.getAbsolutePath();
-		InputStream test= new FileInputStream(absolutePath);
-		AudioStream s= new AudioStream(test);
-		AudioPlayer.player.start(s);
-	    }
-	catch(FileNotFoundException e)
-	    {
-		System.out.print(e.toString());
-	    }
-	catch(IOException error)
-	    {
-		System.out.print(error.toString());
-	    }
+    	try {
+    	    File soundFile = new File("Sounds/clock-tick1.wav");
+    		AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+    	    Clip clip = AudioSystem.getClip();
+    	    clip.open(audioIn);
+    	    clip.start();
+    	} catch (UnsupportedAudioFileException e) {
+    	    e.printStackTrace();
+    	} catch (IOException e) {
+    	    e.printStackTrace();
+    	} catch (LineUnavailableException e) {
+    	    e.printStackTrace();
+    	}
 	
     }
 }
+
