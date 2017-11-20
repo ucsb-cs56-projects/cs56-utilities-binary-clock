@@ -7,7 +7,7 @@
    <property name="webRoot" value="${env.HOME}/public_html/cs56" />
    <property name="webBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs56" />
    <property name="projectName" value="cp2" />
-   <property name="mainClass" value="edu.ucsb.cs56.projects.utilities.clock.BinaryClock" />
+   <property name="mainClass" value="edu.ucsb.cs56.projects.utilities.clock.BinaryClockGUI" />
    <property name="javadocDest" value="${webRoot}/${projectName}/javadoc" />
    <property name="javadocURL" value="${webBaseURL}/${projectName}/javadoc" />
 
