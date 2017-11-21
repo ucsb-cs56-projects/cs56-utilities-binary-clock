@@ -24,6 +24,7 @@ import java.net.*;
  * @author Chantel Chan
  * @version for UCSB CS56, F16, legacy code project
  */
+
 public class BinaryClockGUI extends JFrame implements Runnable
 {
     private JFrame frame;
@@ -53,7 +54,9 @@ public class BinaryClockGUI extends JFrame implements Runnable
     /**
          Constructor
     */
+
     public BinaryClockGUI()
+
     {
     	soundmute = false;
         frameheight = 720;
@@ -82,6 +85,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
 		}
 	    };
 	new Timer(1000, updatetime).start();
+
 	panel = new BinaryClockPanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
     }
 
@@ -104,12 +108,15 @@ public class BinaryClockGUI extends JFrame implements Runnable
 	JLabel tut = new JLabel("Today is: "+ today);
 	tut.setForeground(Color.WHITE);
 	tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
+
 	panel = new BinaryClockPanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+
 	frame. getContentPane().add(BorderLayout.CENTER, panel);
 	frame. getContentPane().add(BorderLayout.NORTH, time);
 	frame. getContentPane().add(BorderLayout.SOUTH, tut);
 	frame.getContentPane().validate();
 	frame.getContentPane().repaint();
+
 	panel.getInitialTime();
 
 	 ActionListener updatetime = new ActionListener() {
@@ -158,7 +165,9 @@ public class BinaryClockGUI extends JFrame implements Runnable
 		// Instructions under help
 	class instructions implements ActionListener{
 	    public void actionPerformed(ActionEvent e){
+
 		BinaryClockGUI.helpBox("This is a binary clock. Think of the clock showing the time as 00:00:00 AM/PM, \n which represents hours:minutes:seconds.Find out the time by adding each column \n with its respective value, shown on the left of each row. The first column on \n the left displays if it AM or PM. The next column shows the hours. The next two \n columns represents the minutes, where the third column is the minutes by multiples \n of ten and the fourth column with the minutes in ones. The last column shows the \n seconds.", "Instructions");
+
 	    }
 	}
 	instructions.addActionListener(new instructions());
@@ -389,7 +398,9 @@ public class BinaryClockGUI extends JFrame implements Runnable
 			}
 		    };
 		new Timer(1000, updatetime).start();
+
 		panel = new BinaryClockPanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+
 		frame. getContentPane().add(BorderLayout.CENTER, panel);
 		frame. getContentPane().add(BorderLayout.NORTH, time);
 		frame. getContentPane().add(BorderLayout.SOUTH, tut);
@@ -427,8 +438,9 @@ public class BinaryClockGUI extends JFrame implements Runnable
     public static void main(String[] args)
     {
 	//SwingUtilities.invokeLater(new ResolutionChangedDemo());
-	
+
 	BinaryClockGUI bc = new BinaryClockGUI();
+
 	bc.setFrameBase();
 	bc.setBackgroundColor();
 	bc.setBlockColor();
@@ -446,17 +458,20 @@ public class BinaryClockGUI extends JFrame implements Runnable
     
     public void run()
     {
+
         panel.getInitialTime();
 		frame.setVisible(true);
 
 		//This array will be used to keep track of when to update seconds, minutes, hours, and ampm based on how much time has passed
 		long[] prevTimes = new long[]{System.currentTimeMillis(),System.currentTimeMillis(),System.currentTimeMillis(),System.currentTimeMillis()};
 
+
         //tell the thread to sleep for a twentieth of a second before reiterating
         try
         {
             Thread.sleep(50);
         }
+
 		catch(InterruptedException ex)
         {
             ex.printStackTrace();
