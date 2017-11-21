@@ -34,7 +34,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
 
     protected JTextField dateField;
 
-    protected BinaryClock panel;
+    protected BinaryClockPanel panel;
 
     protected String hour, minute10s, minute1s, second10s, second1s, AM_PM;
     protected String date;
@@ -82,7 +82,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
 		}
 	    };
 	new Timer(1000, updatetime).start();
-	panel = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
+	panel = new BinaryClockPanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
     }
 
     public static int getFrameHeight(){
@@ -104,7 +104,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
 	JLabel tut = new JLabel("Today is: "+ today);
 	tut.setForeground(Color.WHITE);
 	tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
-	panel = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+	panel = new BinaryClockPanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
 	frame. getContentPane().add(BorderLayout.CENTER, panel);
 	frame. getContentPane().add(BorderLayout.NORTH, time);
 	frame. getContentPane().add(BorderLayout.SOUTH, tut);
@@ -389,7 +389,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
 			}
 		    };
 		new Timer(1000, updatetime).start();
-		panel = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+		panel = new BinaryClockPanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
 		frame. getContentPane().add(BorderLayout.CENTER, panel);
 		frame. getContentPane().add(BorderLayout.NORTH, time);
 		frame. getContentPane().add(BorderLayout.SOUTH, tut);
