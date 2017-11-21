@@ -111,13 +111,13 @@ public class TimePanel extends JPanel
         Initializes a beginner-friendly format with guide labels
     */
     public ArrayList<Block> createTempArrayList(int column_num){
-    ArrayList<Block> temporary = new ArrayList<Block>();
-    for(int i=0; i<timeBlocks.size(); i++){
-	if(timeBlocks.get(column_num)!= NULL)
-	    temporary.add(timeBlocks.get(i).get(column_num));
+	ArrayList<Block> temporary = new ArrayList<Block>();
+	for(int i=timeBlocks.size()-1; i>=0; i--){
+	    if(timeBlocks.get(column_num)!= NULL)
+		temporary.add(timeBlocks.get(i).get(column_num));
+	}
+	return temporary;
     }
-    return temporary;
-
 
     protected void createLabel(JLabel aLabel){
 	//layout.setAutoCreateGaps(true);
@@ -193,28 +193,33 @@ public class TimePanel extends JPanel
        ampmGroup.addComponent(am);
        ampmGroup.addComponent(pm);
 
-
+       
        GroupLayout.ParallelGroup hourGroup = layout.createParallelGroup();
-	   hGroup.addGroup(hourGroup);
-       createParallelG(timeBlocks.get(4), hourGroup, HLabel);
+       hGroup.addGroup(hourGroup);
+       hourGroup.addComponent(HLabel);
+       createParallelG(timeBlocks.get(4), hourGroup);
 
-	   hGroup.addGroup(layout.createParallelGroup().addComponent(HLabel));
+       //hGroup.addGroup(layout.createParallelGroup().addComponent(HLabel));
 
         GroupLayout.ParallelGroup minute10Group = layout.createParallelGroup();
         hGroup.addGroup(minute10Group);
-        createParallelG(timeBlocks.get(3), minute10Group, M10Label);
+	minute10Group.addComponent(M10Label);
+        createParallelG(timeBlocks.get(3), minute10Group);
 
         GroupLayout.ParallelGroup minute1Group = layout.createParallelGroup();
         hGroup.addGroup(minute1Group);
-        createParallelG(timeBlocks.get(2), minute1Group, M1Label);
+	minute1Group.addComponent(M1Label);
+        createParallelG(timeBlocks.get(2), minute1Group);
 
         GroupLayout.ParallelGroup second10Group = layout.createParallelGroup();
         hGroup.addGroup(second10Group);
-        createParallelG(timeBlocks.get(1), second10Group, S10Label);
+	second10Group.addComponent(S10Label);
+        createParallelG(timeBlocks.get(1), second10Group);
 
         GroupLayout.ParallelGroup second1Group = layout.createParallelGroup();
         hGroup.addGroup(second1Group);
-        createParallelG(timeBlocks.get(0), second1Group, S1Label);
+	second1Group.addComponent(S1Label);
+        createParallelG(timeBlocks.get(0), second1Group);
 
         
         hGroup.addGroup(layout.createParallelGroup().
@@ -241,39 +246,32 @@ public class TimePanel extends JPanel
             addComponent(m8 ).
             addComponent(s8 ));
 	
-            vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-	    addComponent(N4Label).
-            addComponent(h4 ).
-            addComponent(m40).
-            addComponent(m4 ).
-            addComponent(s40).
-            addComponent(s4 ));
-	vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).	    
-            addComponent(am).
-	    addComponent(AMLabel).
-	    addComponent(N2Label).
-            addComponent(h2 ).
-            addComponent(m20).
-            addComponent(m2 ).
-            addComponent(s20).
-            addComponent(s2 ));
-     	vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).		
-            addComponent(pm ).
-	    addComponent(PMLabel).
-            addComponent(N1Label).
-            addComponent(h1 ).
-            addComponent(m10).
-            addComponent(m1 ).
-            addComponent(s10).
-            addComponent(s1 ));
-	
+	GroupLayout.ParallelGroup 4Group = layout.createParallelGroup(Alignment.BASELINE);
+        vGroup.addGroup(4Group);
+	4Group.addComponent(N4Label);
+        createParallelG(createTempArrayList(2), 4Group);
+	   
+        
+	GroupLayout.ParallelGroup 2Group = layout.createParallelGroup(Alignment.BASELINE);
+	vGroup.addGroup(2Group);
+	2Group.addComponent(am);
+	2Group.addComponent(AMLabel);
+	2Group.addComponent(N2Label);
+        createParallelG(createTempArrayList(1), 2Group);
+  
+	GroupLayout.ParallelGroup 1Group = layout.createParallelGroup(Alignment.BASELINE);
+        vGroup.addGroup(1Group);
+	1Group.addComponent(pm );
+	1Group.addComponent(PMLabel);
+        1Group.addComponent(N1Label);
+        createParallelG(createTempArrayList(0), 1Group);
         layout.setVerticalGroup(vGroup);
     }
 
 
 
-    public void createParallelG(ArrayList<Block> blocks, GroupLayout.ParallelGroup pGroup, JLabel label){
-        pGroup.addComponent(label);
+    public void createParallelG(ArrayList<Block> blocks, GroupLayout.ParallelGroup pGroup){
+        //pGroup.addComponent(label);
         for(Block b : blocks){
             pGroup.addComponent(b);
         }
