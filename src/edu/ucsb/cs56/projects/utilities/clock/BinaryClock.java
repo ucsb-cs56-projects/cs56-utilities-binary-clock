@@ -21,21 +21,24 @@ import edu.ucsb.cs56.projects.utilities.clock.ShapeTransforms;
  */
 public class BinaryClock extends JPanel 
 {
-    protected GroupLayout layout;
-    
+    protected final String[] TOP_HORIZ_LABELS = {" ", "Hours", "Minutes 10's", "Minutes 1's", "Seconds 10's", "Seconds 1's"}; 
+    protected final String[] LEFT_VERT_LABELS = {" ", "AM", "PM"}; 
+    protected final String[] RIGHT_VERT_LABELS = {"8", "4", "2", "1"}; 
 
-    // protected Block s1, s2, s4, s8, s10, s20, s40;
-    // protected ArrayList<Block> sec1 = new ArrayList<Block>();
-    // protected ArrayList<Block> sec10 = new ArrayList<Block>();
-    // protected Block m1, m2, m4, m8, m10, m20, m40;
-    // protected ArrayList<Block> minute1 = new ArrayList<Block>();
-    // protected ArrayList<Block> minute10 = new ArrayList<Block>();
-    // protected Block h1, h2, h4, h8;
-    // protected ArrayList<Block> hour = new ArrayList<Block>();
+    private final int HOUR_INDEX = 4;
+    private final int MINUTE10_INDEX = 3;
+    private final int MINUTE1_INDEX = 2;
+    private final int SECOND10_INDEX = 1;
+    private final int SECOND1_INDEX = 0;
+
+
+    protected GroupLayout layout;
 
     protected ArrayList<ArrayList<Block>> timeBlocks = new ArrayList<ArrayList<Block>>();
-						
+
     protected Block pm, am;
+
+
 
    
     /**
@@ -47,11 +50,11 @@ public class BinaryClock extends JPanel
     public BinaryClock(String type, Color timePanelBackgroundColor_, Color onBlockColor_, Color offBlockColor_)
     {
         layout = new GroupLayout(this);
-	// Set input colors
-	setLayout(layout);
-	setBackground(timePanelBackgroundColor_);
-	initBlocks(onBlockColor_, offBlockColor_);
-	initTutorial();
+	   // Set input colors
+	   setLayout(layout);
+	   setBackground(timePanelBackgroundColor_);
+	   initBlocks(onBlockColor_, offBlockColor_);
+	   initTutorial();
     }
 
     /**
@@ -59,78 +62,78 @@ public class BinaryClock extends JPanel
     */
     protected void initBlocks(Color onBlockColor_, Color offBlockColor_)
     {
-	String [] seconds1 = {"s1","s2","s4","s8"};
-	ArrayList<Block> sec1 = new ArrayList<Block>();
-	for (String s: seconds1){
-	    sec1.add(new Block(onBlockColor_,  offBlockColor_));
+        String [] seconds1 = {"s1","s2","s4","s8"};
+        ArrayList<Block> sec1 = new ArrayList<Block>();
+        for (String s: seconds1){
+            sec1.add(new Block(onBlockColor_,  offBlockColor_));
         }
 
-	ArrayList<Block> sec10 = new ArrayList<Block>();
-	String [] seconds10 = {"s10","s20","s40"};
-	for (String s: seconds10){
-	    sec10.add(new Block(onBlockColor_,  offBlockColor_));
+        ArrayList<Block> sec10 = new ArrayList<Block>();
+        String [] seconds10 = {"s10","s20","s40"};
+        for (String s: seconds10){
+	       sec10.add(new Block(onBlockColor_,  offBlockColor_));
         }
 
-	ArrayList<Block> minute1 = new ArrayList<Block>();
-	String [] minutes1 = {"m1", "m2", "m4", "m8"};
-	for (String m: minutes1){
+        ArrayList<Block> minute1 = new ArrayList<Block>();
+        String [] minutes1 = {"m1", "m2", "m4", "m8"};
+        for (String m: minutes1){
             minute1.add(new Block(onBlockColor_,  offBlockColor_));
 
         }
 
-	ArrayList<Block> minute10 = new ArrayList<Block>();
-	String [] minutes10 = {"m10", "m20", "m40"};
-	for (String m: minutes10){
+        ArrayList<Block> minute10 = new ArrayList<Block>();
+        String [] minutes10 = {"m10", "m20", "m40"};
+        for (String m: minutes10){
             minute10.add(new Block(onBlockColor_,  offBlockColor_));
 
         }
 
-	ArrayList<Block> hour = new ArrayList<Block>();
-	String [] hr = {"h1", "h2", "h4", "h8"};
-	for (String h: hr){
+        ArrayList<Block> hour = new ArrayList<Block>();
+        String [] hr = {"h1", "h2", "h4", "h8"};
+        for (String h: hr){
             hour.add(new Block(onBlockColor_,  offBlockColor_));
         }
 	
-	am = new Block(onBlockColor_,  offBlockColor_);
-	pm = new Block(onBlockColor_,  offBlockColor_);
+        am = new Block(onBlockColor_,  offBlockColor_);
+        pm = new Block(onBlockColor_,  offBlockColor_);
 
-	timeBlocks.add(sec1);
-	timeBlocks.add(sec10);
-	timeBlocks.add(minute1);
-	timeBlocks.add(minute10);
-	timeBlocks.add(hour);
+        timeBlocks.add(sec1);
+        timeBlocks.add(sec10);
+        timeBlocks.add(minute1);
+        timeBlocks.add(minute10);
+        timeBlocks.add(hour);
 
     }
+
     /**
         Initializes a beginner-friendly format with guide labels
     */
     protected ArrayList<Block> createTempArrayList(int column_num){
-	ArrayList<Block> temporary = new ArrayList<Block>();
-	for(int i=timeBlocks.size()-1; i>=0; i--){
+        ArrayList<Block> temporary = new ArrayList<Block>();
+        for(int i=timeBlocks.size()-1; i>=0; i--){
 
-	    if(timeBlocks.get(i).size() > column_num){
-		  temporary.add(timeBlocks.get(i).get(column_num));
-	    }
-	}
-	return temporary;
+            if(timeBlocks.get(i).size() > column_num){
+                temporary.add(timeBlocks.get(i).get(column_num));
+            }
+        }
+
+	   return temporary;
     }
 
+
+
     protected void createLabel(JLabel aLabel){
-	//layout.setAutoCreateGaps(true);
-        //layout.setAutoCreateContainerGaps(true);
+
         aLabel.setFont(new Font("URW Gothic L", Font.BOLD,12));
         aLabel.setForeground(Color.WHITE);
         aLabel.setHorizontalAlignment(SwingConstants.CENTER);
         aLabel.setVerticalAlignment(SwingConstants.CENTER);
-        aLabel.setMinimumSize(new Dimension(BinaryClockGUI.getFrameWidth()/25, BinaryClockGUI.getFrameHeight()*3/20));
-        aLabel.setPreferredSize(new Dimension(BinaryClockGUI.getFrameWidth()/25, BinaryClockGUI.getFrameHeight()*3/20));
-        aLabel.setMaximumSize(new Dimension(BinaryClockGUI.getFrameWidth()/25, BinaryClockGUI.getFrameHeight()*3/20));
     }
     protected void initTutorial()
     {
-       //add gaps between components and edges
-       layout.setAutoCreateGaps(true);
-       layout.setAutoCreateContainerGaps(true);
+        //add gaps between components and edges
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
 
 	      
         //create the guide labels
@@ -192,30 +195,34 @@ public class BinaryClock extends JPanel
        
        GroupLayout.ParallelGroup hourGroup = layout.createParallelGroup();
        hGroup.addGroup(hourGroup);
-       hourGroup.addComponent(HLabel);
-       createParallelG(timeBlocks.get(4), hourGroup);
-
-       //hGroup.addGroup(layout.createParallelGroup().addComponent(HLabel));
 
         GroupLayout.ParallelGroup minute10Group = layout.createParallelGroup();
         hGroup.addGroup(minute10Group);
-	minute10Group.addComponent(M10Label);
-        createParallelG(timeBlocks.get(3), minute10Group);
 
         GroupLayout.ParallelGroup minute1Group = layout.createParallelGroup();
         hGroup.addGroup(minute1Group);
-	minute1Group.addComponent(M1Label);
-        createParallelG(timeBlocks.get(2), minute1Group);
 
         GroupLayout.ParallelGroup second10Group = layout.createParallelGroup();
         hGroup.addGroup(second10Group);
-	second10Group.addComponent(S10Label);
-        createParallelG(timeBlocks.get(1), second10Group);
 
         GroupLayout.ParallelGroup second1Group = layout.createParallelGroup();
         hGroup.addGroup(second1Group);
-	second1Group.addComponent(S1Label);
-        createParallelG(timeBlocks.get(0), second1Group);
+
+
+        hourGroup.addComponent(HLabel);
+        minute10Group.addComponent(M10Label);
+        minute1Group.addComponent(M1Label);
+        second10Group.addComponent(S10Label);
+        second1Group.addComponent(S1Label);
+
+
+        createParallelG(timeBlocks.get(HOUR_INDEX), hourGroup);
+        createParallelG(timeBlocks.get(MINUTE10_INDEX), minute10Group);
+        createParallelG(timeBlocks.get(MINUTE1_INDEX), minute1Group);
+        createParallelG(timeBlocks.get(SECOND10_INDEX), second10Group);
+        createParallelG(timeBlocks.get(SECOND1_INDEX), second1Group);
+
+
 
         
         hGroup.addGroup(layout.createParallelGroup().
@@ -239,41 +246,45 @@ public class BinaryClock extends JPanel
         GroupLayout.ParallelGroup eightGroup = layout.createParallelGroup(Alignment.BASELINE);
         vGroup.addGroup(eightGroup);
         eightGroup.addComponent(N8Label);
-        createParallelG(createTempArrayList(3), eightGroup);
 
         GroupLayout.ParallelGroup fourGroup = layout.createParallelGroup(Alignment.BASELINE);
         vGroup.addGroup(fourGroup);
         fourGroup.addComponent(N4Label);
-        createParallelG(createTempArrayList(2), fourGroup);
 	   
         
-	GroupLayout.ParallelGroup twoGroup = layout.createParallelGroup(Alignment.BASELINE);
-	vGroup.addGroup(twoGroup);
-	twoGroup.addComponent(am);
-	twoGroup.addComponent(AMLabel);
-	twoGroup.addComponent(N2Label);
-        createParallelG(createTempArrayList(1), twoGroup);
+        GroupLayout.ParallelGroup twoGroup = layout.createParallelGroup(Alignment.BASELINE);
+        vGroup.addGroup(twoGroup);
+        twoGroup.addComponent(am);
+        twoGroup.addComponent(AMLabel);
+        twoGroup.addComponent(N2Label);
   
-	GroupLayout.ParallelGroup oneGroup = layout.createParallelGroup(Alignment.BASELINE);
+        GroupLayout.ParallelGroup oneGroup = layout.createParallelGroup(Alignment.BASELINE);
         vGroup.addGroup(oneGroup);
-	oneGroup.addComponent(pm );
-	oneGroup.addComponent(PMLabel);
+        oneGroup.addComponent(pm );
+        oneGroup.addComponent(PMLabel);
         oneGroup.addComponent(N1Label);
+
+
+        createParallelG(createTempArrayList(3), eightGroup);
+        createParallelG(createTempArrayList(2), fourGroup);
+        createParallelG(createTempArrayList(1), twoGroup);
         createParallelG(createTempArrayList(0), oneGroup);
         layout.setVerticalGroup(vGroup);
     }
 
 
-
+    /**
+        Adds each Block object in blocks as a component of pGroup
+    */
     public void createParallelG(ArrayList<Block> blocks, GroupLayout.ParallelGroup pGroup){
-        //pGroup.addComponent(label);
+   
         for(Block b : blocks){
             pGroup.addComponent(b);
         }
     }
 
 
-    /*
+    /**
         Get the blocks corresponding to the string argument
         @return an array of Blocks from a certain column in timeBlocks
     */
@@ -282,19 +293,19 @@ public class BinaryClock extends JPanel
         int blockIndex = 0;
         switch (name){
             case "hour":
-                blockIndex = 4;
+                blockIndex = HOUR_INDEX;
                 break;
             case "min10":
-                blockIndex = 3;
+                blockIndex = MINUTE10_INDEX;
                 break;
             case "min1":
-                blockIndex = 2;
+                blockIndex = MINUTE1_INDEX;
                 break;
             case "sec10":
-                blockIndex = 1;
+                blockIndex = SECOND10_INDEX;
                 break;
             case "sec1":
-                blockIndex = 0;
+                blockIndex = SECOND1_INDEX;
                 break;
             default:
                 blockIndex = 0;
@@ -343,9 +354,9 @@ public class BinaryClock extends JPanel
 
     protected void updateAMPM(String date){
         if(date.charAt(9)=='A')
-            updateAmPmBlocks("1", getTimeBlocks("ampm"));
+            updateAmPmBlocks("1");
         else 
-            updateAmPmBlocks("0", getTimeBlocks("ampm"));
+            updateAmPmBlocks("0");
     }
 
     public void updateTime(long[] prevTimes, boolean refresh){
@@ -386,17 +397,17 @@ public class BinaryClock extends JPanel
         @param s Binary String to be input
         @param blocks Array of Blocks to be updated
     */
-    protected void updateAmPmBlocks(String s, Block[] blocks)
+    protected void updateAmPmBlocks(String s)
     {
         if(s.charAt(0) == '1') //if it's am
         {
-            blocks[0].input('1'); //am is on
-            blocks[1].input('0'); //pm is off
+            am.input('1'); //am is on
+            pm.input('0'); //pm is off
         } 
         else
         {
-            blocks[0].input('0');
-            blocks[1].input('1');
+            am.input('0');
+            pm.input('1');
         }
     }
 

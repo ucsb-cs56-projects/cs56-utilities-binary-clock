@@ -28,14 +28,14 @@ import java.net.*;
 public class BinaryClockGUI extends JFrame implements Runnable
 {
     private JFrame frame;
-    private static int frameheight;
-    private static int framewidth;
+    private int frameheight;
+    private int framewidth;
 
     protected JLabel time, tut;
 
     protected JTextField dateField;
 
-    protected BinaryClockPanel panel;
+    protected BinaryClock panel;
 
     protected String hour, minute10s, minute1s, second10s, second1s, AM_PM;
     protected String date;
@@ -58,7 +58,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
     public BinaryClockGUI()
 
     {
-    	soundmute = false;
+        soundmute = true;
         frameheight = 720;
         framewidth = 1280;
        
@@ -86,19 +86,8 @@ public class BinaryClockGUI extends JFrame implements Runnable
 	    };
 	new Timer(1000, updatetime).start();
 
-	panel = new BinaryClockPanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
+	panel = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
     }
-
-    public static int getFrameHeight(){
-	
-	return frameheight;
-    }
-
-    public static int getFrameWidth(){
-   	
-	return framewidth;
-    }
-   
 
     
         void resetAll() {
@@ -109,7 +98,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
 	tut.setForeground(Color.WHITE);
 	tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
 
-	panel = new BinaryClockPanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+	panel = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
 
 	frame. getContentPane().add(BorderLayout.CENTER, panel);
 	frame. getContentPane().add(BorderLayout.NORTH, time);
@@ -399,7 +388,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
 		    };
 		new Timer(1000, updatetime).start();
 
-		panel = new BinaryClockPanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+		panel = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
 
 		frame. getContentPane().add(BorderLayout.CENTER, panel);
 		frame. getContentPane().add(BorderLayout.NORTH, time);
