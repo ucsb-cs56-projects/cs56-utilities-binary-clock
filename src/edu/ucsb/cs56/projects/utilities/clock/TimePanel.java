@@ -22,10 +22,15 @@ import edu.ucsb.cs56.projects.utilities.clock.ShapeTransforms;
 public class TimePanel extends JPanel 
 {
     protected GroupLayout layout;
+    
 
     protected Block s1, s2, s4, s8, s10, s20, s40;
+    ArrayList<Block> sec = new ArrayList<Block>();
     protected Block m1, m2, m4, m8, m10, m20, m40;
+    ArrayList<Block> minute = new ArrayList<Block>();
     protected Block h1, h2, h4, h8;
+    ArrayList<Block> hour = new ArrayList<Block>();
+						
     protected Block PM, AM;
 
    
@@ -50,141 +55,93 @@ public class TimePanel extends JPanel
     */
     protected void initBlocks(Color onBlockColor_, Color offBlockColor_)
     {
-        s1 = new Block(onBlockColor_, offBlockColor_);
-        s2 = new Block(onBlockColor_, offBlockColor_);
-        s4 = new Block(onBlockColor_, offBlockColor_);
-        s8 = new Block(onBlockColor_, offBlockColor_);
-        s10= new Block(onBlockColor_, offBlockColor_);
-        s20= new Block(onBlockColor_, offBlockColor_);
-        s40= new Block(onBlockColor_, offBlockColor_);
+	String [] seconds = {"s1","s2","s4","s8","s10","s20","s40"};
+	for (String s: seconds){
+	    sec.add(new Block(onBlockColor_,  offBlockColor_));
+        }
 
-        m1 = new Block(onBlockColor_, offBlockColor_);
-        m2 = new Block(onBlockColor_, offBlockColor_);
-        m4 = new Block(onBlockColor_, offBlockColor_);
-        m8 = new Block(onBlockColor_, offBlockColor_);
-        m10= new Block(onBlockColor_, offBlockColor_);
-        m20= new Block(onBlockColor_, offBlockColor_);
-        m40= new Block(onBlockColor_, offBlockColor_);
+	String [] minutes = {"m1", "m2", "m4", "m8", "m10", "m20", "m40"};
+	for (String m: minutes){
+            minute.add(new Block(onBlockColor_,  offBlockColor_));
 
-        h1 = new Block(onBlockColor_, offBlockColor_);
-        h2 = new Block(onBlockColor_, offBlockColor_);
-        h4 = new Block(onBlockColor_, offBlockColor_);
-        h8 = new Block(onBlockColor_, offBlockColor_);
+        }
 
-        AM = new Block(onBlockColor_, offBlockColor_);
+	String [] hr = {"h1", "h2", "h4", "h8"};
+	for (String h: hr){
+            hour.add(new Block(onBlockColor_,  offBlockColor_));
+
+        }
+   
+	AM = new Block(onBlockColor_, offBlockColor_);
         PM = new Block(onBlockColor_, offBlockColor_);
 
     }
-
-
     /**
         Initializes a beginner-friendly format with guide labels
     */
+
+
+    protected void createLabel(JLabel aLabel){
+	//layout.setAutoCreateGaps(true);
+        //layout.setAutoCreateContainerGaps(true);
+        aLabel.setFont(new Font("URW Gothic L", Font.BOLD,12));
+        aLabel.setForeground(Color.WHITE);
+        aLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        aLabel.setVerticalAlignment(SwingConstants.CENTER);
+        aLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+        aLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+        aLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+    }
     protected void initTutorial()
     {
         //add gaps between components and edges
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
-	
-      
+
+	      
         //create the guide labels
         JLabel AMLabel = new JLabel("AM");
-	AMLabel.setFont(new Font("URW Gothic L", Font.BOLD,12));
-            AMLabel.setForeground(Color.WHITE);
-            AMLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            AMLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    AMLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
-	    AMLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
-	    AMLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	createLabel(AMLabel);
+                    
+	    
 	JLabel PMLabel = new JLabel("PM");
-	PMLabel.setFont(new Font("URW Gothic L", Font.BOLD,12));
-            PMLabel.setForeground(Color.WHITE);
-            PMLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            PMLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    PMLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
-	    PMLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
-	    PMLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/25, BinaryClock.getFrameHeight()*3/20));
+	createLabel(PMLabel);
+	        
+        
 	JLabel extraLabel = new JLabel(" ");  //placeholder whitespace for leftmost column
-            extraLabel.setForeground(Color.WHITE);
-            extraLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            extraLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    extraLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    extraLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    extraLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+        createLabel(extraLabel);	
+	
         JLabel HLabel = new JLabel("Hours");
-	HLabel.setFont(new Font("URW Gothic L", Font.BOLD,12));
-            HLabel.setForeground(Color.WHITE);
-            HLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            HLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    HLabel.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    HLabel.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    HLabel.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	createLabel(HLabel);
+           	    
+	    
         JLabel M10Label = new JLabel("Minutes 10's");
-	M10Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
-    	    M10Label.setForeground(Color.WHITE);
-            M10Label.setHorizontalAlignment(SwingConstants.CENTER);
-            M10Label.setVerticalAlignment(SwingConstants.CENTER);
-	    M10Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    M10Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    M10Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	createLabel(M10Label);
+    	    
+            	    
         JLabel M1Label = new JLabel("Minutes 1's");
-	M1Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
-            M1Label.setForeground(Color.WHITE);
-            M1Label.setHorizontalAlignment(SwingConstants.CENTER);
-            M1Label.setVerticalAlignment(SwingConstants.CENTER);
-	    M1Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    M1Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    M1Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	createLabel(M1Label);
+            
+                        	    
         JLabel S10Label = new JLabel("Seconds 10's");
-	S10Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
-            S10Label.setForeground(Color.WHITE);
-            S10Label.setHorizontalAlignment(SwingConstants.CENTER);
-            S10Label.setVerticalAlignment(SwingConstants.CENTER);
-      	    S10Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    S10Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    S10Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	createLabel(S10Label);
+                        
+            	    
 	JLabel S1Label = new JLabel("Seconds 1's");
-	S1Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
-            S1Label.setForeground(Color.WHITE);
-            S1Label.setHorizontalAlignment(SwingConstants.CENTER);
-            S1Label.setVerticalAlignment(SwingConstants.CENTER);
-	    S1Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    S1Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
-	    S1Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/10, BinaryClock.getFrameHeight()/20));
+	createLabel(S1Label);
+                        	    
 	JLabel N8Label = new JLabel("8"); //8
-	N8Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
-            N8Label.setForeground(Color.WHITE);
-            N8Label.setHorizontalAlignment(SwingConstants.CENTER);
-            N8Label.setVerticalAlignment(SwingConstants.CENTER);
-	    N8Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
-	    N8Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
-	    N8Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	createLabel(N8Label);
+            
         JLabel N4Label = new JLabel("4"); //4
-	N4Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
-            N4Label.setForeground(Color.WHITE);
-            N4Label.setHorizontalAlignment(SwingConstants.CENTER);
-            N4Label.setVerticalAlignment(SwingConstants.CENTER);
-	    N4Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
-	    N4Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
-	    N4Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	createLabel(N4Label);
+            
         JLabel N2Label = new JLabel("2"); //2
-	N2Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
-            N2Label.setForeground(Color.WHITE);
-            N2Label.setHorizontalAlignment(SwingConstants.CENTER);
-            N2Label.setVerticalAlignment(SwingConstants.CENTER);
-	    N2Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
-	    N2Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
-	    N2Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
+	createLabel(N2Label);
+            
         JLabel N1Label = new JLabel("1");
-	N1Label.setFont(new Font("URW Gothic L", Font.BOLD,12));
-	    N1Label.setForeground(Color.WHITE); //1
-            N1Label.setHorizontalAlignment(SwingConstants.CENTER);
-            N1Label.setVerticalAlignment(SwingConstants.CENTER);
-	    N1Label.setMinimumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
-	    N1Label.setPreferredSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
-	    N1Label.setMaximumSize(new Dimension(BinaryClock.getFrameWidth()/50, BinaryClock.getFrameHeight()*3/20));
-
- 	
+	createLabel(N1Label);
+	    
         //tell the layout how to set up columns
         GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
@@ -195,12 +152,11 @@ public class TimePanel extends JPanel
 	     addComponent(extraLabel). //extra
 	     addComponent(AM ).
              addComponent(PM ));
-        hGroup.addGroup(layout.createParallelGroup().
-             addComponent(HLabel).
-             addComponent(h8 ).
-             addComponent(h4 ).
-             addComponent(h2 ).
-             addComponent(h1 ));
+	HLabel.addComponent(hour.get(3) );
+	HLabel.addComponent(hour.get(2));
+	HLabel.addComponent(hour.get(1));
+	HLabel.addComponent(hour.get(0));
+	hGroup.addGroup(layout.createParallelGroup().addComponent(HLabel));
         hGroup.addGroup(layout.createParallelGroup().
              addComponent(M10Label).
              addComponent(m40).
