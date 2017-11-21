@@ -109,6 +109,13 @@ public class TimePanel extends JPanel
     /**
         Initializes a beginner-friendly format with guide labels
     */
+    public ArrayList<Block> createTempArrayList(int column_num){
+    ArrayList<Block> temporary = new ArrayList<Block>();
+    for(int i=1; i<timeBlocks.size(); i++){
+	if(timeBlocks.get(column_num)!= NULL)
+	    temporary.add(timeBlocks.get(i).get(column_num));
+    }
+    return temporary;
 
 
     protected void createLabel(JLabel aLabel){
@@ -214,6 +221,7 @@ public class TimePanel extends JPanel
             addComponent(N1Label));
         layout.setHorizontalGroup(hGroup);
 
+	
         //tell the layout how to set up rows
         GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
         vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
@@ -223,13 +231,13 @@ public class TimePanel extends JPanel
 	     addComponent(M1Label).
 	     addComponent(S10Label).
 	     addComponent(S1Label));
-
         GroupLayout.ParallelGroup eightGroup = layout.createParallelGroup(Alignment.BASELINE);
         vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
 	    addComponent(N8Label).
             addComponent(h8 ).
             addComponent(m8 ).
             addComponent(s8 ));
+	
             vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
 	    addComponent(N4Label).
             addComponent(h4 ).
@@ -255,6 +263,7 @@ public class TimePanel extends JPanel
             addComponent(m1 ).
             addComponent(s10).
             addComponent(s1 ));
+	
         layout.setVerticalGroup(vGroup);
     }
 
