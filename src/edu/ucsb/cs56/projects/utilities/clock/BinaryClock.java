@@ -21,22 +21,25 @@ import edu.ucsb.cs56.projects.utilities.clock.ShapeTransforms;
  */
 public class BinaryClock extends JPanel 
 {
-    protected final String[] TOP_HORIZ_LABELS = {" ", "Hours", "Minutes 10's", "Minutes 1's", "Seconds 10's", "Seconds 1's"}; 
-    protected final String[] LEFT_VERT_LABELS = {" ", "AM", "PM"}; 
-    protected final String[] RIGHT_VERT_LABELS = {"8", "4", "2", "1"}; 
 
-    private final int HOUR_INDEX = 4;
-    private final int MINUTE10_INDEX = 3;
-    private final int MINUTE1_INDEX = 2;
-    private final int SECOND10_INDEX = 1;
-    private final int SECOND1_INDEX = 0;
+    //Index of outer array in timeBlocks
+    private final int HOUR_INDEX = 5;
+    private final int MINUTE10_INDEX = 4;
+    private final int MINUTE1_INDEX = 3;
+    private final int SECOND10_INDEX = 2;
+    private final int SECOND1_INDEX = 1;
+    private final int AMPM_INDEX = 0;
+
+    //Index of inner array in timeBlocks
+    private final int ONES_INDEX = 0;
+    private final int TWOS_INDEX = 1;
+    private final int FOURS_INDEX = 2;
+    private final int EIGHTS_INDEX = 3;
 
 
     protected GroupLayout layout;
 
     protected ArrayList<ArrayList<Block>> timeBlocks = new ArrayList<ArrayList<Block>>();
-
-    protected Block pm, am;
 
 
 
@@ -93,22 +96,26 @@ public class BinaryClock extends JPanel
         for (String h: hr){
             hour.add(new Block(onBlockColor_,  offBlockColor_));
         }
-	
-        am = new Block(onBlockColor_,  offBlockColor_);
-        pm = new Block(onBlockColor_,  offBlockColor_);
 
-        timeBlocks.add(sec1);
-        timeBlocks.add(sec10);
-        timeBlocks.add(minute1);
-        timeBlocks.add(minute10);
-        timeBlocks.add(hour);
+        ArrayList<Block> ampm = new ArrayList<Block>();
+        String[] ap = {"PM", "AM"};
+        for(String h: ap){
+            ampm.add(new Block(onBlockColor_, offBlockColor_));
+        }
+	
+        timeBlocks.add(AMPM_INDEX, ampm);
+        timeBlocks.add(SECOND1_INDEX, sec1);
+        timeBlocks.add(SECOND10_INDEX, sec10);
+        timeBlocks.add(MINUTE1_INDEX, minute1);
+        timeBlocks.add(MINUTE10_INDEX, minute10);
+        timeBlocks.add(HOUR_INDEX, hour);
 
     }
 
     /**
         Initializes a beginner-friendly format with guide labels
     */
-    protected ArrayList<Block> createTempArrayList(int column_num){
+    protected ArrayList<Block> createColumnArrayList(int column_num){
         ArrayList<Block> temporary = new ArrayList<Block>();
         for(int i=timeBlocks.size()-1; i>=0; i--){
 
@@ -121,13 +128,15 @@ public class BinaryClock extends JPanel
     }
 
 
+    protected JLabel createLabel(String labelName){
 
-    protected void createLabel(JLabel aLabel){
+        JLabel label = new JLabel(labelName);
+        label.setFont(new Font("URW Gothic L", Font.BOLD,12));
+        label.setForeground(Color.WHITE);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
 
-        aLabel.setFont(new Font("URW Gothic L", Font.BOLD,12));
-        aLabel.setForeground(Color.WHITE);
-        aLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        aLabel.setVerticalAlignment(SwingConstants.CENTER);
+        return label;
     }
     protected void initTutorial()
     {
@@ -137,64 +146,33 @@ public class BinaryClock extends JPanel
 
 	      
         //create the guide labels
-       JLabel AMLabel = new JLabel("AM");
-	   createLabel(AMLabel);
-                    
-	    
-	   JLabel PMLabel = new JLabel("PM");
-	   createLabel(PMLabel);
-	        
-        
-	   JLabel extraLabel = new JLabel(" ");  //placeholder whitespace for leftmost column
-       createLabel(extraLabel);	
-	
-       JLabel HLabel = new JLabel("Hours");
-	   createLabel(HLabel);
-           	    
-	    
-       JLabel M10Label = new JLabel("Minutes 10's");
-	   createLabel(M10Label);
-    	    
-            	    
-       JLabel M1Label = new JLabel("Minutes 1's");
-	   createLabel(M1Label);
-            
-                        	    
-       JLabel S10Label = new JLabel("Seconds 10's");
-	   createLabel(S10Label);
-                        
-            	    
-	   JLabel S1Label = new JLabel("Seconds 1's");
-	   createLabel(S1Label);
-                        	    
-	   JLabel N8Label = new JLabel("8"); //8
-	   createLabel(N8Label);
-            
-       JLabel N4Label = new JLabel("4"); //4
-	   createLabel(N4Label);
-            
-       JLabel N2Label = new JLabel("2"); //2
-	   createLabel(N2Label);
-            
-       JLabel N1Label = new JLabel("1");
-	   createLabel(N1Label);
+        JLabel AMLabel = createLabel("AM");
+        JLabel PMLabel = createLabel("PM");        
+        JLabel extraLabel = createLabel(" ");	
+        JLabel HLabel = createLabel("Hours");
+        JLabel M10Label = createLabel("Minutes 10's");
+        JLabel M1Label = createLabel("Minutes 1's");
+        JLabel S10Label = createLabel("Seconds 10's");
+        JLabel S1Label = createLabel("Seconds 1's");
+        JLabel N8Label = createLabel("8"); 
+        JLabel N4Label = createLabel("4"); 
+        JLabel N2Label = createLabel("2"); 
+        JLabel N1Label =  createLabel("1");
 	       
         //tell the layout how to set up columns
-       GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+        GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-       hGroup.addGroup(layout.createParallelGroup().
-        addComponent(AMLabel).
-        addComponent(PMLabel));
+        hGroup.addGroup(layout.createParallelGroup().
+            addComponent(AMLabel).
+            addComponent(PMLabel));
 
-       GroupLayout.ParallelGroup ampmGroup = layout.createParallelGroup();
-       hGroup.addGroup(ampmGroup);
-       ampmGroup.addComponent(extraLabel);
-       ampmGroup.addComponent(am);
-       ampmGroup.addComponent(pm);
+        GroupLayout.ParallelGroup ampmGroup = layout.createParallelGroup();
+        hGroup.addGroup(ampmGroup);
+        ampmGroup.addComponent(extraLabel);
 
        
-       GroupLayout.ParallelGroup hourGroup = layout.createParallelGroup();
-       hGroup.addGroup(hourGroup);
+        GroupLayout.ParallelGroup hourGroup = layout.createParallelGroup();
+        hGroup.addGroup(hourGroup);
 
         GroupLayout.ParallelGroup minute10Group = layout.createParallelGroup();
         hGroup.addGroup(minute10Group);
@@ -215,7 +193,7 @@ public class BinaryClock extends JPanel
         second10Group.addComponent(S10Label);
         second1Group.addComponent(S1Label);
 
-
+        createParallelG(timeBlocks.get(AMPM_INDEX), ampmGroup);
         createParallelG(timeBlocks.get(HOUR_INDEX), hourGroup);
         createParallelG(timeBlocks.get(MINUTE10_INDEX), minute10Group);
         createParallelG(timeBlocks.get(MINUTE1_INDEX), minute1Group);
@@ -236,12 +214,12 @@ public class BinaryClock extends JPanel
         //tell the layout how to set up rows
         GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
         vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-	     addComponent(extraLabel). //extra
-	     addComponent(HLabel).
-	     addComponent(M10Label).
-	     addComponent(M1Label).
-	     addComponent(S10Label).
-	     addComponent(S1Label));
+        addComponent(extraLabel). //extra
+        addComponent(HLabel).
+        addComponent(M10Label).
+        addComponent(M1Label).
+        addComponent(S10Label).
+        addComponent(S1Label));
 
         GroupLayout.ParallelGroup eightGroup = layout.createParallelGroup(Alignment.BASELINE);
         vGroup.addGroup(eightGroup);
@@ -254,21 +232,20 @@ public class BinaryClock extends JPanel
         
         GroupLayout.ParallelGroup twoGroup = layout.createParallelGroup(Alignment.BASELINE);
         vGroup.addGroup(twoGroup);
-        twoGroup.addComponent(am);
+
         twoGroup.addComponent(AMLabel);
         twoGroup.addComponent(N2Label);
   
         GroupLayout.ParallelGroup oneGroup = layout.createParallelGroup(Alignment.BASELINE);
         vGroup.addGroup(oneGroup);
-        oneGroup.addComponent(pm );
         oneGroup.addComponent(PMLabel);
         oneGroup.addComponent(N1Label);
 
 
-        createParallelG(createTempArrayList(3), eightGroup);
-        createParallelG(createTempArrayList(2), fourGroup);
-        createParallelG(createTempArrayList(1), twoGroup);
-        createParallelG(createTempArrayList(0), oneGroup);
+        createParallelG(createColumnArrayList(EIGHTS_INDEX), eightGroup);
+        createParallelG(createColumnArrayList(FOURS_INDEX), fourGroup);
+        createParallelG(createColumnArrayList(TWOS_INDEX), twoGroup);
+        createParallelG(createColumnArrayList(ONES_INDEX), oneGroup);
         layout.setVerticalGroup(vGroup);
     }
 
@@ -288,10 +265,10 @@ public class BinaryClock extends JPanel
         Get the blocks corresponding to the string argument
         @return an array of Blocks from a certain column in timeBlocks
     */
-    protected Block[] getTimeBlocks(String name){
+    protected Block[] getTimeBlocks(String blockName){
 
         int blockIndex = 0;
-        switch (name){
+        switch (blockName){
             case "hour":
                 blockIndex = HOUR_INDEX;
                 break;
@@ -308,8 +285,7 @@ public class BinaryClock extends JPanel
                 blockIndex = SECOND1_INDEX;
                 break;
             default:
-                blockIndex = 0;
-                break;
+                return new Block[0];
         }
 
         Block[] b = new Block[timeBlocks.get(blockIndex).size()];
@@ -322,7 +298,7 @@ public class BinaryClock extends JPanel
 
 
 
-    public void getInitialTime(){
+    public void getTime(){
         //fetch time data
         String date = String.format("%tr", new Date());
     
@@ -333,6 +309,7 @@ public class BinaryClock extends JPanel
     }
 
     protected void updateSeconds(String date){
+
         String second10s = Integer.toBinaryString(Integer.parseInt(date.substring(6, 7)));
         updateBlocks(second10s, getTimeBlocks("sec10"));
 
@@ -348,6 +325,7 @@ public class BinaryClock extends JPanel
     }
 
     protected void updateHours(String date){
+
         String hour = Integer.toBinaryString(Integer.parseInt(date.substring(0, 2)));
         updateBlocks(hour, getTimeBlocks("hour")); 
     }
@@ -359,39 +337,6 @@ public class BinaryClock extends JPanel
             updateAmPmBlocks("0");
     }
 
-    public void updateTime(long[] prevTimes, boolean refresh){
-         //fetch time data
-        String date = String.format("%tr", new Date());
-        long secTimer = System.currentTimeMillis() - prevTimes[0];
-        long minTimer = System.currentTimeMillis() - prevTimes[1];
-        long hrTimer = System.currentTimeMillis() - prevTimes[2];
-        long ampmTimer = System.currentTimeMillis() - prevTimes[3];
-
-        // update seconds after every 1000 ms
-        if(secTimer > 900){
-            updateSeconds(date);
-            prevTimes[0] = System.currentTimeMillis();
-        }
-        // update minute after every 60,000 ms
-        if((minTimer > 1000 * 60 - 100) || (refresh)){
-            updateMinutes(date);
-            prevTimes[1] = System.currentTimeMillis();
-        }
-        
-        // update hour after 3,600,000 ms
-        if((hrTimer > 1000 * 60 * 60 - 100) || (refresh)){
-            updateHours(date);
-            prevTimes[2] = System.currentTimeMillis();
-        }
-               
-        // update am/pm after 12 hours (3,600,000 * 12)
-        if((ampmTimer > 1000 * 60 * 60 * 12 - 100) || (refresh)){
-            updateAMPM(date);
-            prevTimes[3] = System.currentTimeMillis();
-        }
-    }
-
-
      /*
         Inputs the string into the AmPm array of blocks
         @param s Binary String to be input
@@ -401,13 +346,13 @@ public class BinaryClock extends JPanel
     {
         if(s.charAt(0) == '1') //if it's am
         {
-            am.input('1'); //am is on
-            pm.input('0'); //pm is off
+            timeBlocks.get(AMPM_INDEX).get(1).input('1'); //am is on
+            timeBlocks.get(AMPM_INDEX).get(0).input('0'); //pm is off
         } 
         else
         {
-            am.input('0');
-            pm.input('1');
+            timeBlocks.get(AMPM_INDEX).get(1).input('0');
+            timeBlocks.get(AMPM_INDEX).get(0).input('1');
         }
     }
 
