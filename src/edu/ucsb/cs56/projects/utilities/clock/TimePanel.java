@@ -23,10 +23,10 @@ public class TimePanel extends JPanel
 {
     protected GroupLayout layout;
 
-    protected Block s1, s2, s4, s8, s10, s20, s40;
-    protected Block m1, m2, m4, m8, m10, m20, m40;
-    protected Block h1, h2, h4, h8;
-    protected Block PM, AM;
+    protected Shape s1, s2, s4, s8, s10, s20, s40;
+    protected Shape m1, m2, m4, m8, m10, m20, m40;
+    protected Shape h1, h2, h4, h8;
+    protected Shape PM, AM;
 
    
     /**
@@ -35,44 +35,45 @@ public class TimePanel extends JPanel
                     Defaults to "Tutorial" if invalid param
                     currently, only "Tutorial" is supported
     */
-    public TimePanel(String type, Color timePanelBackgroundColor_, Color onBlockColor_, Color offBlockColor_)
+    public TimePanel(String type, Color timePanelBackgroundColor_, Color onBlockColor_, Color offBlockColor_, ShapeFactory ini_factory)
     {
         layout = new GroupLayout(this);
 	// Set input colors
 	setLayout(layout);
 	setBackground(timePanelBackgroundColor_);
-	initBlocks(onBlockColor_, offBlockColor_);
+	initBlocks(onBlockColor_, offBlockColor_, timePanelBackgroundColor_, ini_factory);
 	initTutorial();
     }
 
     /**
         Initializes the blocks with a basic style.
     */
-    protected void initBlocks(Color onBlockColor_, Color offBlockColor_)
+    protected void initBlocks(Color onBlockColor_, Color offBlockColor_, Color BGcolor, ShapeFactory factory)
     {
-        s1 = new Block(onBlockColor_, offBlockColor_);
-        s2 = new Block(onBlockColor_, offBlockColor_);
-        s4 = new Block(onBlockColor_, offBlockColor_);
-        s8 = new Block(onBlockColor_, offBlockColor_);
-        s10= new Block(onBlockColor_, offBlockColor_);
-        s20= new Block(onBlockColor_, offBlockColor_);
-        s40= new Block(onBlockColor_, offBlockColor_);
+	
+        s1 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        s2 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        s4 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        s8 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        s10= factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        s20= factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        s40= factory.build(onBlockColor_, offBlockColor_, BGcolor);
 
-        m1 = new Block(onBlockColor_, offBlockColor_);
-        m2 = new Block(onBlockColor_, offBlockColor_);
-        m4 = new Block(onBlockColor_, offBlockColor_);
-        m8 = new Block(onBlockColor_, offBlockColor_);
-        m10= new Block(onBlockColor_, offBlockColor_);
-        m20= new Block(onBlockColor_, offBlockColor_);
-        m40= new Block(onBlockColor_, offBlockColor_);
+        m1 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        m2 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        m4 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        m8 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        m10= factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        m20= factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        m40= factory.build(onBlockColor_, offBlockColor_, BGcolor);
 
-        h1 = new Block(onBlockColor_, offBlockColor_);
-        h2 = new Block(onBlockColor_, offBlockColor_);
-        h4 = new Block(onBlockColor_, offBlockColor_);
-        h8 = new Block(onBlockColor_, offBlockColor_);
+        h1 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        h2 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        h4 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        h8 = factory.build(onBlockColor_, offBlockColor_, BGcolor);
 
-        AM = new Block(onBlockColor_, offBlockColor_);
-        PM = new Block(onBlockColor_, offBlockColor_);
+        AM = factory.build(onBlockColor_, offBlockColor_, BGcolor);
+        PM = factory.build(onBlockColor_, offBlockColor_, BGcolor);
 
     }
 
@@ -276,9 +277,9 @@ public class TimePanel extends JPanel
         Get the blocks representing hours
         @return an array of Blocks h8, h4, h2, h1
     */
-    public Block[] getHour()
+    public Shape[] getHour()
     {
-        Block[] b = {h1, h2, h4, h8};
+        Shape[] b = {h1, h2, h4, h8};
         return b;
     }
 
@@ -286,9 +287,9 @@ public class TimePanel extends JPanel
         Get the blocks representing the 10s digit of minutes
         @return an array of Blocks m40, m20, m10
     */
-    public Block[] getMinute10s()
+    public Shape[] getMinute10s()
     {
-        Block[] b = {m10, m20, m40};
+        Shape[] b = {m10, m20, m40};
         return b;
     }
 
@@ -296,9 +297,9 @@ public class TimePanel extends JPanel
         Get the blocks representing the 1s digit of minutes
         @return an array of Blocks m8, m4, m2, m1
     */
-    public Block[] getMinute1s()
+    public Shape[] getMinute1s()
     {
-        Block[] b = {m1, m2, m4, m8};
+        Shape[] b = {m1, m2, m4, m8};
         return b;
     }
 
@@ -306,9 +307,9 @@ public class TimePanel extends JPanel
         Get the blocks representing the 10s digit of seconds
         @return an array of Blocks s40, s20, s10
     */
-    public Block[] getSecond10s()
+    public Shape[] getSecond10s()
     {
-        Block[] b = {s10, s20, s40};
+        Shape[] b = {s10, s20, s40};
         return b;
     }
 
@@ -316,9 +317,9 @@ public class TimePanel extends JPanel
         Get the blocks representing the 1s digit of seconds
         @return an array of Blocks s8, s4, s2, s1
     */
-    public Block[] getSecond1s()
+    public Shape[] getSecond1s()
     {
-        Block[] b = {s1, s2, s4, s8};
+        Shape[] b = {s1, s2, s4, s8};
         return b;
     }
 
@@ -326,9 +327,9 @@ public class TimePanel extends JPanel
         Get the blocks representing Am and Pm
         @return an array of blocks AM, PM
     */
-    public Block[] getAmPm()
+    public Shape[] getAmPm()
     {
-        Block[] b = {AM, PM};
+        Shape[] b = {AM, PM};
         return b;
     }
 

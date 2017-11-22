@@ -17,19 +17,15 @@ import edu.ucsb.cs56.projects.utilities.clock.ShapeTransforms;
  * @author Yantsey Tsai
  * @version cs56 legacy code project, W14
 */
-public class Block extends Canvas
+public class Block extends Shape
 {
-    protected boolean on;
-    protected Color colorOn;
-    protected Color colorOff;
-    protected Color brushColor;
-
+    
+    
     int x, y, w, h;
-
     /**
         Constructor
     */
-    public Block()
+    /* public Block()
     {
         super();
 
@@ -46,33 +42,44 @@ public class Block extends Canvas
         setBackground(colorOff);
         repaint();
     }
+    */
 
     /**
         Constructor
         @param on fill color when on
         @param off fill color when off
     */
-    public Block(Color on, Color off)
+    public Block(Color on, Color off, Color bg)
     {
-        super();
+        super(on,off,bg);
 
-        x = getX();
-        y = getY();
-        w = getWidth();
-        h = getHeight();
-
+        //x = getX();
+        //y = getY();
+        //w = getWidth();
+        //h = getHeight();
+	/*
         this.colorOn = on;
         this.colorOff = off;
         this.on = false;
-
-        setBackground(colorOff);
-        repaint();
+	*/
+        //setBackground(colorOff);
+        //repaint();
 	
     }
 
     /**
         Toggles the block's 'on' state. For testing purposes.
     */
+    public void paint(Graphics g){
+	if(on){
+	    g.setColor(colorOn);
+	}
+	else{
+	    g.setColor(colorOff);
+	}
+	g.fillRect(0,0,getWidth(),getHeight());
+	
+    }
     public void toggle()
     {
         on = !on;
@@ -85,6 +92,7 @@ public class Block extends Canvas
         @param c A char representing the desired state, '1' for on,
                  anything else ('0') for off.
     */
+    /*
     public void input(char c)
     {
 	/*
@@ -100,7 +108,7 @@ public class Block extends Canvas
 	    setBackground(colorOff);
         }
 	repaint();
-	*/
+	
 	
 	// New verison
 	if(c == '1' && on == false){
@@ -119,7 +127,7 @@ public class Block extends Canvas
 
 	
     }
-    
+    */
     /**
         Used by the system to render the block. Currently bugged and will only display background color.
         @param g A variable representing graphics. Only available to the system.

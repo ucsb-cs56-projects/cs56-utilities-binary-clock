@@ -85,7 +85,7 @@ public class BinaryClock extends JFrame implements Runnable
 		}
 	    };
 	new Timer(1000, updatetime).start();
-	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
+	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, new BlockFactory()); //No real modes are supported at the moment
     }
 
     public static int getFrameHeight(){
@@ -107,7 +107,7 @@ public class BinaryClock extends JFrame implements Runnable
 	JLabel tut = new JLabel("Today is: "+ today);
 	tut.setForeground(Color.WHITE);
 	tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
-	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, new BlockFactory());
 	frame. getContentPane().add(BorderLayout.CENTER, panel);
 	frame. getContentPane().add(BorderLayout.NORTH, time);
 	frame. getContentPane().add(BorderLayout.SOUTH, tut);
@@ -391,7 +391,7 @@ public class BinaryClock extends JFrame implements Runnable
 			}
 		    };
 		new Timer(1000, updatetime).start();
-		panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+		panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, new CircleFactory());
 		frame. getContentPane().add(BorderLayout.CENTER, panel);
 		frame. getContentPane().add(BorderLayout.NORTH, time);
 		frame. getContentPane().add(BorderLayout.SOUTH, tut);
@@ -570,7 +570,7 @@ public class BinaryClock extends JFrame implements Runnable
         @param s Binary String to be input
         @param blocks Array of Blocks to be updated
     */
-    protected void updateBlocks(String s, Block[] blocks)
+    protected void updateBlocks(String s, Shape[] blocks)
     {
         for(int i =  Array.getLength(blocks) - 1; i >= 0; i--)
         {
@@ -587,7 +587,7 @@ public class BinaryClock extends JFrame implements Runnable
         @param s Binary String to be input
         @param blocks Array of Blocks to be updated
     */
-    protected void updateAmPmBlocks(String s, Block[] blocks)
+    protected void updateAmPmBlocks(String s, Shape[] blocks)
     {
         if(s.charAt(0) == '1') //if it's am
         {
