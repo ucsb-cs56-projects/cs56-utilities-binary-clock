@@ -36,6 +36,8 @@ public class BinaryClock extends JFrame implements Runnable
 
     protected TimePanel panel;
 
+    private ShapeFactory factory;
+
     protected String hour, minute10s, minute1s, second10s, second1s, AM_PM;
     protected String date;
 
@@ -61,7 +63,7 @@ public class BinaryClock extends JFrame implements Runnable
     	soundmute = false;
         frameheight = 720;
         framewidth = 1280;
-       
+       this.factory = new BlockFactory();
 
         //Make frame and all objects
         frame = new JFrame();
@@ -85,7 +87,7 @@ public class BinaryClock extends JFrame implements Runnable
 		}
 	    };
 	new Timer(1000, updatetime).start();
-	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, new BlockFactory()); //No real modes are supported at the moment
+	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, factory); //No real modes are supported at the moment
     }
 
     public static int getFrameHeight(){
@@ -107,7 +109,7 @@ public class BinaryClock extends JFrame implements Runnable
 	JLabel tut = new JLabel("Today is: "+ today);
 	tut.setForeground(Color.WHITE);
 	tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
-	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, new BlockFactory());
+	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, factory);
 	frame. getContentPane().add(BorderLayout.CENTER, panel);
 	frame. getContentPane().add(BorderLayout.NORTH, time);
 	frame. getContentPane().add(BorderLayout.SOUTH, tut);
@@ -391,7 +393,7 @@ public class BinaryClock extends JFrame implements Runnable
 			}
 		    };
 		new Timer(1000, updatetime).start();
-		panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, new CircleFactory());
+		panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, factory);
 		frame. getContentPane().add(BorderLayout.CENTER, panel);
 		frame. getContentPane().add(BorderLayout.NORTH, time);
 		frame. getContentPane().add(BorderLayout.SOUTH, tut);
@@ -419,6 +421,32 @@ public class BinaryClock extends JFrame implements Runnable
 	maximize.addActionListener(new maximizeScreen());
 	
     }
+
+    void setBlockShape(){
+    	JMenu blockShape = new JMenu("Shape");
+    	menubar.add(blockShape);
+
+    	JMenuItem circle = new JMenuItem("Circle");
+    	JMenuItem square = new JMenuItem("Square");
+    	blockShape.add(circle);
+    	blockShape.add(square);
+
+    	class changeToCircle implements ActionListener{
+    		public void actionPerformed(ActionEvent e){
+    			factory = new CircleFactory();
+    			resetAll();
+    		}
+    	}
+
+    	class changeToSquare implements ActionListener{
+    		public void actionPerformed(ActionEvent e){
+    			factory = new BlockFactory();
+    			resetAll();
+    		}
+    	}
+    	circle.addActionListener(new changeToCircle());
+    	square.addActionListener(new changeToSquare());
+    }
        
 
 
@@ -435,6 +463,7 @@ public class BinaryClock extends JFrame implements Runnable
 	bc.setBackgroundColor();
 	bc.setBlockColor();
 	bc.setWindowSize();
+	bc.setBlockShape();
 	//bc.sound();
         Thread ClockUpdater = new Thread(bc);
 	ClockUpdater.start();
