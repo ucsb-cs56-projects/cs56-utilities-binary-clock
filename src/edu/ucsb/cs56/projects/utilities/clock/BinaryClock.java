@@ -19,7 +19,7 @@ import edu.ucsb.cs56.projects.utilities.clock.ShapeTransforms;
  * @author Yantsey Tsai
  * @version legacy code project cs56, W14
  */
-public class BinaryClock extends JPanel 
+public class BinaryClock extends JPanel implements Runnable
 {
 
     //Index of outer array in timeBlocks
@@ -371,6 +371,26 @@ public class BinaryClock extends JPanel
             else 
                 blocks[i].input('0');
 
+        }
+    }
+
+    public void run(){
+
+        //The clock will run forever until the application is closed
+        while(true){
+
+            this.getTime();
+
+            //Update the clock every 500 milliseconds
+            try
+            {
+                Thread.sleep(500);
+            }
+
+            catch(InterruptedException ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 }

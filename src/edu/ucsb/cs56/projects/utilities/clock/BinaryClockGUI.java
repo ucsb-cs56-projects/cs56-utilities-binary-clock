@@ -108,8 +108,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
         frame.getContentPane().validate();
         frame.getContentPane().repaint();
 
-        clock.getTime();
-
+        setBinaryClockThread();
 	}
 
 
@@ -394,7 +393,8 @@ public class BinaryClockGUI extends JFrame implements Runnable
                 
 
                 clock = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
-
+                setBinaryClockThread();
+                
                 frame. getContentPane().add(BorderLayout.CENTER, clock);
                 frame. getContentPane().add(BorderLayout.NORTH, time);
                 frame. getContentPane().add(BorderLayout.SOUTH, tut);
@@ -402,6 +402,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
                 frame.getContentPane().setLayout(ex);
                 frame.getContentPane().validate();
                 frame.getContentPane().repaint();
+
             }
         }
 
@@ -421,6 +422,11 @@ public class BinaryClockGUI extends JFrame implements Runnable
         maximize.addActionListener(new maximizeScreen());
 
     }
+
+    public void setBinaryClockThread(){
+        Thread clockUpdater = new Thread(clock);
+        clockUpdater.start();
+    }
        
 
 
@@ -437,8 +443,9 @@ public class BinaryClockGUI extends JFrame implements Runnable
         bc.setBackgroundColor();
         bc.setBlockColor();
         bc.setWindowSize();
-        Thread ClockUpdater = new Thread(bc);
-        ClockUpdater.start();
+        bc.setBinaryClockThread();
+        Thread tickingSound = new Thread(bc);
+        tickingSound.start();
     }
     
     /**
@@ -450,7 +457,6 @@ public class BinaryClockGUI extends JFrame implements Runnable
     public void run()
     {
 
-        clock.getTime();
         frame.setVisible(true);
 
 
@@ -460,8 +466,6 @@ public class BinaryClockGUI extends JFrame implements Runnable
             if(!soundmute){ 
                 playSound();
             }
-
-            clock.getTime();
 
             //tell the thread to sleep before reiterating
             try
