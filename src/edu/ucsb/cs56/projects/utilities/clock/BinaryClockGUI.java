@@ -37,6 +37,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
     private int framewidth;
     private Boolean soundmute;
     private JMenuBar menubar;
+    private ShapeFactory factory;
 
     protected JLabel time, tut;
 
@@ -64,6 +65,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
         frameheight = MAX_FRAME_HEIGHT;
         framewidth = MAX_FRAME_WIDTH;
         soundmute = false;
+        factory = new BlockFactory();
 
         menubar = new JMenuBar();
 
@@ -90,7 +92,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
 
 	   new Timer(1000, updatetime).start();
 
-	   clock = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
+	   clock = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, factory); //No real modes are supported at the moment
     
 
     }
@@ -100,7 +102,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
         frame.getContentPane().removeAll();
         frame.setSize(framewidth,frameheight);
 
-        clock = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+        clock = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, factory);
 
         frame. getContentPane().add(BorderLayout.CENTER, clock);
         frame. getContentPane().add(BorderLayout.NORTH, time);
@@ -392,7 +394,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
                 frame.setSize(framewidth,frameheight);
                 
 
-                clock = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
+                clock = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor, factory);
                 setBinaryClockThread();
 
                 frame. getContentPane().add(BorderLayout.CENTER, clock);
@@ -423,6 +425,32 @@ public class BinaryClockGUI extends JFrame implements Runnable
 
     }
 
+    void setBlockShape(){
+        JMenu blockShape = new JMenu("Shape");
+        menubar.add(blockShape);
+
+        JMenuItem circle = new JMenuItem("Circle");
+        JMenuItem square = new JMenuItem("Square");
+        blockShape.add(circle);
+        blockShape.add(square);
+
+        class changeToCircle implements ActionListener{
+            public void actionPerformed(ActionEvent e){
+                factory = new CircleFactory();
+                resetAll();
+            }
+        }
+
+        class changeToSquare implements ActionListener{
+            public void actionPerformed(ActionEvent e){
+                factory = new BlockFactory();
+                resetAll();
+            }
+        }
+        circle.addActionListener(new changeToCircle());
+        square.addActionListener(new changeToSquare());
+    }
+
     public void setBinaryClockThread(){
         Thread clockUpdater = new Thread(clock);
         clockUpdater.start();
@@ -443,6 +471,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
         bc.setBackgroundColor();
         bc.setBlockColor();
         bc.setWindowSize();
+        bc.setBlockShape();
         bc.setBinaryClockThread();
         Thread tickingSound = new Thread(bc);
         tickingSound.start();

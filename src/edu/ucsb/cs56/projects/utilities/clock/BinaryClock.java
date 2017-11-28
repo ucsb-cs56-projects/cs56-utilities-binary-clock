@@ -39,7 +39,7 @@ public class BinaryClock extends JPanel implements Runnable
 
     protected GroupLayout layout;
 
-    protected ArrayList<ArrayList<Block>> timeBlocks = new ArrayList<ArrayList<Block>>();
+    protected ArrayList<ArrayList<Shape>> timeBlocks = new ArrayList<ArrayList<Shape>>();
 
 
 
@@ -50,57 +50,57 @@ public class BinaryClock extends JPanel implements Runnable
                     Defaults to "Tutorial" if invalid param
                     currently, only "Tutorial" is supported
     */
-    public BinaryClock(String type, Color timePanelBackgroundColor_, Color onBlockColor_, Color offBlockColor_)
+    public BinaryClock(String type, Color timePanelBackgroundColor_, Color onBlockColor_, Color offBlockColor_, ShapeFactory ini_factory)
     {
         layout = new GroupLayout(this);
 	   // Set input colors
 	   setLayout(layout);
 	   setBackground(timePanelBackgroundColor_);
-	   initBlocks(onBlockColor_, offBlockColor_);
+	   initBlocks(onBlockColor_, offBlockColor_, timePanelBackgroundColor_, ini_factory);
 	   initTutorial();
     }
 
     /**
         Initializes the blocks with a basic style.
     */
-    protected void initBlocks(Color onBlockColor_, Color offBlockColor_)
+    protected void initBlocks(Color onBlockColor_, Color offBlockColor_, Color BGcolor, ShapeFactory factory)
     {
         String [] seconds1 = {"s1","s2","s4","s8"};
-        ArrayList<Block> sec1 = new ArrayList<Block>();
+        ArrayList<Shape> sec1 = new ArrayList<Shape>();
         for (String s: seconds1){
-            sec1.add(new Block(onBlockColor_,  offBlockColor_));
+            sec1.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
         }
 
-        ArrayList<Block> sec10 = new ArrayList<Block>();
+        ArrayList<Shape> sec10 = new ArrayList<Shape>();
         String [] seconds10 = {"s10","s20","s40"};
         for (String s: seconds10){
-	       sec10.add(new Block(onBlockColor_,  offBlockColor_));
+	       sec10.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
         }
 
-        ArrayList<Block> minute1 = new ArrayList<Block>();
+        ArrayList<Shape> minute1 = new ArrayList<Shape>();
         String [] minutes1 = {"m1", "m2", "m4", "m8"};
         for (String m: minutes1){
-            minute1.add(new Block(onBlockColor_,  offBlockColor_));
+            minute1.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
 
         }
 
-        ArrayList<Block> minute10 = new ArrayList<Block>();
+        ArrayList<Shape> minute10 = new ArrayList<Shape>();
         String [] minutes10 = {"m10", "m20", "m40"};
         for (String m: minutes10){
-            minute10.add(new Block(onBlockColor_,  offBlockColor_));
+            minute10.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
 
         }
 
-        ArrayList<Block> hour = new ArrayList<Block>();
+        ArrayList<Shape> hour = new ArrayList<Shape>();
         String [] hr = {"h1", "h2", "h4", "h8"};
         for (String h: hr){
-            hour.add(new Block(onBlockColor_,  offBlockColor_));
+            hour.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
         }
 
-        ArrayList<Block> ampm = new ArrayList<Block>();
+        ArrayList<Shape> ampm = new ArrayList<Shape>();
         String[] ap = {"PM", "AM"};
         for(String h: ap){
-            ampm.add(new Block(onBlockColor_, offBlockColor_));
+            ampm.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
         }
 	
         timeBlocks.add(AMPM_INDEX, ampm);
@@ -115,8 +115,8 @@ public class BinaryClock extends JPanel implements Runnable
     /**
         Initializes a beginner-friendly format with guide labels
     */
-    protected ArrayList<Block> createColumnArrayList(int column_num){
-        ArrayList<Block> temporary = new ArrayList<Block>();
+    protected ArrayList<Shape> createColumnArrayList(int column_num){
+        ArrayList<Shape> temporary = new ArrayList<Shape>();
         for(int i=timeBlocks.size()-1; i>=0; i--){
 
             if(timeBlocks.get(i).size() > column_num){
@@ -253,9 +253,9 @@ public class BinaryClock extends JPanel implements Runnable
     /**
         Adds each Block object in blocks as a component of pGroup
     */
-    public void createParallelG(ArrayList<Block> blocks, GroupLayout.ParallelGroup pGroup){
+    public void createParallelG(ArrayList<Shape> blocks, GroupLayout.ParallelGroup pGroup){
    
-        for(Block b : blocks){
+        for(Shape b : blocks){
             pGroup.addComponent(b);
         }
     }
@@ -265,7 +265,7 @@ public class BinaryClock extends JPanel implements Runnable
         Get the blocks corresponding to the string argument
         @return an array of Blocks from a certain column in timeBlocks
     */
-    protected Block[] getTimeBlocks(String blockName){
+    protected Shape[] getTimeBlocks(String blockName){
 
         int blockIndex = 0;
         switch (blockName){
@@ -285,10 +285,10 @@ public class BinaryClock extends JPanel implements Runnable
                 blockIndex = SECOND1_INDEX;
                 break;
             default:
-                return new Block[0];  //Return empty array
+                return new Shape[0];  //Return empty array of shapes
         }
 
-        Block[] b = new Block[timeBlocks.get(blockIndex).size()];
+        Shape[] b = new Shape[timeBlocks.get(blockIndex).size()];
         for(int i = 0; i < b.length; i++){
             b[i] = timeBlocks.get(blockIndex).get(i);
         }
@@ -361,7 +361,7 @@ public class BinaryClock extends JPanel implements Runnable
         @param s Binary String to be input
         @param blocks Array of Blocks to be updated
     */
-    private void updateBlocks(String s, Block[] blocks)
+    private void updateBlocks(String s, Shape[] blocks)
     {
         for(int i =  blocks.length - 1; i >= 0; i--)
         {
@@ -394,7 +394,5 @@ public class BinaryClock extends JPanel implements Runnable
         }
     }
 }
-
-
 
 
