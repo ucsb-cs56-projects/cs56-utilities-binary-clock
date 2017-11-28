@@ -285,7 +285,7 @@ public class BinaryClock extends JPanel implements Runnable
                 blockIndex = SECOND1_INDEX;
                 break;
             default:
-                return new Block[0];
+                return new Block[0];  //Return empty array
         }
 
         Block[] b = new Block[timeBlocks.get(blockIndex).size()];

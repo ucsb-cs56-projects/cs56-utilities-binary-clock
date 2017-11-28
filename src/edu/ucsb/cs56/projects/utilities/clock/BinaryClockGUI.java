@@ -394,7 +394,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
 
                 clock = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
                 setBinaryClockThread();
-                
+
                 frame. getContentPane().add(BorderLayout.CENTER, clock);
                 frame. getContentPane().add(BorderLayout.NORTH, time);
                 frame. getContentPane().add(BorderLayout.SOUTH, tut);
@@ -459,8 +459,6 @@ public class BinaryClockGUI extends JFrame implements Runnable
 
         frame.setVisible(true);
 
-
-        //The clock will run forever until the application is closed
         while(true){
 
             if(!soundmute){ 
@@ -468,6 +466,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
             }
 
             //tell the thread to sleep before reiterating
+            //Tick every 1000 milliseconds
             try
             {
                 Thread.sleep(1000);
