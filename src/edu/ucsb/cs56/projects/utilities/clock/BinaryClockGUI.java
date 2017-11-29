@@ -100,6 +100,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
         frame.getContentPane().removeAll();
         frame.setSize(framewidth,frameheight);
 
+        clock.turnOffClock();
         clock = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
 
         frame. getContentPane().add(BorderLayout.CENTER, clock);
@@ -391,7 +392,7 @@ public class BinaryClockGUI extends JFrame implements Runnable
                 frame.getContentPane().removeAll();
                 frame.setSize(framewidth,frameheight);
                 
-
+                clock.turnOffClock();
                 clock = new BinaryClock("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
                 setBinaryClockThread();
 
