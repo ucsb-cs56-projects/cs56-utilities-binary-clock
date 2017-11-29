@@ -40,6 +40,7 @@ public class BinaryClock extends JPanel implements Runnable
     protected GroupLayout layout;
 
     protected ArrayList<ArrayList<Shape>> timeBlocks = new ArrayList<ArrayList<Shape>>();
+    private boolean continueRunning;
 
 
 
@@ -53,11 +54,15 @@ public class BinaryClock extends JPanel implements Runnable
     public BinaryClock(String type, Color timePanelBackgroundColor_, Color onBlockColor_, Color offBlockColor_, ShapeFactory ini_factory)
     {
         layout = new GroupLayout(this);
-	   // Set input colors
-	   setLayout(layout);
-	   setBackground(timePanelBackgroundColor_);
-	   initBlocks(onBlockColor_, offBlockColor_, timePanelBackgroundColor_, ini_factory);
-	   initTutorial();
+
+        continueRunning = true;
+
+        // Set input colors
+        setLayout(layout);
+        setBackground(timePanelBackgroundColor_);
+        initBlocks(onBlockColor_, offBlockColor_, ini_factory);
+        initTutorial();
+
     }
 
     /**
@@ -110,6 +115,10 @@ public class BinaryClock extends JPanel implements Runnable
         timeBlocks.add(MINUTE10_INDEX, minute10);
         timeBlocks.add(HOUR_INDEX, hour);
 
+    }
+
+    public void turnOffClock(){
+        continueRunning = false;
     }
 
     /**
@@ -376,8 +385,8 @@ public class BinaryClock extends JPanel implements Runnable
 
     public void run(){
 
-        //The clock will run forever until the application is closed
-        while(true){
+        // If this is while (true), then the old threads might never die
+        while(continueRunning){
 
             this.getTime();
 
@@ -385,8 +394,9 @@ public class BinaryClock extends JPanel implements Runnable
             try
             {
                 Thread.sleep(500);
+                // System.out.println("Thread: " + this.hashCode());
+                // Conrad told me to leave this line of code in so he could demo this in lecture
             }
-
             catch(InterruptedException ex)
             {
                 ex.printStackTrace();
