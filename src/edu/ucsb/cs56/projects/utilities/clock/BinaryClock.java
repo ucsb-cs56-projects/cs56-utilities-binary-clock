@@ -60,7 +60,7 @@ public class BinaryClock extends JPanel implements Runnable
         // Set input colors
         setLayout(layout);
         setBackground(timePanelBackgroundColor_);
-        initBlocks(onBlockColor_, offBlockColor_, ini_factory);
+        initBlocks(onBlockColor_, offBlockColor_, timePanelBackgroundColor_, ini_factory);
         initTutorial();
 
     }
