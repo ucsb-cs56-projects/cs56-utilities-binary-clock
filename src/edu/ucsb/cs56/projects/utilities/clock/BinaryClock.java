@@ -1,629 +1,408 @@
 package edu.ucsb.cs56.projects.utilities.clock;
-
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.geom.*;
 import java.util.*;
-import java.lang.reflect.Array;
-import javax.swing.Timer;
-import java.io.*;
-import javax.sound.sampled.*;
-import java.applet.*;
-import java.net.*;
+import edu.ucsb.cs56.projects.utilities.clock.GeneralPathWrapper;
+import edu.ucsb.cs56.projects.utilities.clock.ShapeTransforms;
+
 
 /**
- * Creates a power of 2 binary clock widget that gets the
- * current time and displays it as a set of 2D blocks.
+ * The main display for the Binary Clock, uses Block.
  * @@@ To Do:
- * @@@ - Configuration settings import and GUI
- * @@@ - Support for multiple render styles such as 'tutorial', 'no text',
- *          and maybe a multicolored one with tick animations.
- * @@@ - More efficient thread loop
- * @@@ - Windowless fullscreen support? (ie ctrl+shift+F11)
- * @author Kevin La
- * @author Chantel Chan
- * @version for UCSB CS56, F16, legacy code project
+ * @@@ - Additional render layouts, currently only tutorial
+ * @@@ - Support for additional block styles, currently only basic
+ * @@@ - Better looking text labels for tutorial mode
+ * @@@ - Windowless fullscreen support?
+ * @author Peter Bennion
+ * @author Yantsey Tsai
+ * @version legacy code project cs56, W14
  */
-public class BinaryClock extends JFrame implements Runnable
+public class BinaryClock extends JPanel implements Runnable
 {
-    private JFrame frame;
-    private static int frameheight;
-    private static int framewidth;
 
-    protected JLabel time, tut;
+    //Index of outer array in timeBlocks
+    private final int HOUR_INDEX = 5;
+    private final int MINUTE10_INDEX = 4;
+    private final int MINUTE1_INDEX = 3;
+    private final int SECOND10_INDEX = 2;
+    private final int SECOND1_INDEX = 1;
+    private final int AMPM_INDEX = 0;
 
-    protected JTextField dateField;
-
-    protected TimePanel panel;
-
-    protected String hour, minute10s, minute1s, second10s, second1s, AM_PM;
-    protected String date;
-
-    protected static Boolean refresh = false;
-
-    private long startTime,runningTime;
-    private long secTimer,minTimer,hrTimer,slast,mlast,hlast;
-    private long ampmTimer, ampmlast; // you need to implement these for the flickering issue
-    private Boolean soundmute;
-
-    protected Color setBackgroundColor = Color.BLACK;
-    // protected Color setOnBlockColor = new Color(0xFAFFFD);
-    protected Color setOnBlockColor = new Color(0x727473);
-    //protected Color setOffBlockColor = new Color(0x727473);
-    protected Color setOffBlockColor = new Color(0xFAFFFD);
+    //Index of inner array in timeBlocks
+    private final int ONES_INDEX = 0;
+    private final int TWOS_INDEX = 1;
+    private final int FOURS_INDEX = 2;
+    private final int EIGHTS_INDEX = 3;
 
 
-    /**
-         Constructor
-    */
-    public BinaryClock()
-    {
-    	soundmute = false;
-        frameheight = 720;
-        framewidth = 1280;
-       
+    protected GroupLayout layout;
 
-        //Make frame and all objects
-        frame = new JFrame();
-	frame.getContentPane().setBackground(setBackgroundColor);
-	frame.setSize(framewidth, frameheight);
-	frame.setTitle("Binary Clock");
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	//frame.getContentPane().setLayout(new FlowLayout());
-        //frame.setVisible(true);
-	time = new JLabel();
-	time.setFont(new Font("URW Gothic L", Font.BOLD,20));
-	time.setForeground(Color.WHITE);
-	Date today = new Date();
-	tut = new JLabel("Today is: " + today);
-	tut.setForeground(Color.WHITE);
-	tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
-       	ActionListener updatetime = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		    Date today = new Date();
-		    tut.setText("Today is: " + new Date().toString());
-		}
-	    };
-	new Timer(1000, updatetime).start();
-	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor); //No real modes are supported at the moment
-    }
+    protected ArrayList<ArrayList<Shape>> timeBlocks = new ArrayList<ArrayList<Shape>>();
+    private boolean continueRunning;
 
-    public static int getFrameHeight(){
-	
-	return frameheight;
-    }
 
-    public static int getFrameWidth(){
-   	
-	return framewidth;
-    }
+
    
+    /**
+        Constructor
+        @param type String representing the layout type, "Tutorial", "Grid", or "Fill"
+                    Defaults to "Tutorial" if invalid param
+                    currently, only "Tutorial" is supported
+    */
+    public BinaryClock(String type, Color timePanelBackgroundColor_, Color onBlockColor_, Color offBlockColor_, ShapeFactory ini_factory)
+    {
+        layout = new GroupLayout(this);
 
-    
-        void resetAll() {
-	frame.getContentPane().removeAll();
-	frame.setSize(framewidth,frameheight);
-        Date today = new Date();
-	JLabel tut = new JLabel("Today is: "+ today);
-	tut.setForeground(Color.WHITE);
-	tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
-	panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
-	frame. getContentPane().add(BorderLayout.CENTER, panel);
-	frame. getContentPane().add(BorderLayout.NORTH, time);
-	frame. getContentPane().add(BorderLayout.SOUTH, tut);
-	frame.getContentPane().validate();
-	frame.getContentPane().repaint();
-	refresh = true;
-	 ActionListener updatetime = new ActionListener() {
-	       public void actionPerformed(ActionEvent e) {
-		   Date today = new Date();
-		   tut.setText("Today is: " + new Date().toString());
-	       }
-	    };
-	new Timer(1000, updatetime).start();
-	}
+        continueRunning = true;
 
-    // Menu bar
-    JMenuBar menubar = new JMenuBar();
+        // Set input colors
+        setLayout(layout);
+        setBackground(timePanelBackgroundColor_);
+        initBlocks(onBlockColor_, offBlockColor_, timePanelBackgroundColor_, ini_factory);
+        initTutorial();
 
+    }
 
+    /**
+        Initializes the blocks with a basic style.
+    */
+    protected void initBlocks(Color onBlockColor_, Color offBlockColor_, Color BGcolor, ShapeFactory factory)
+    {
+        String [] seconds1 = {"s1","s2","s4","s8"};
+        ArrayList<Shape> sec1 = new ArrayList<Shape>();
+        for (String s: seconds1){
+            sec1.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
+        }
 
+        ArrayList<Shape> sec10 = new ArrayList<Shape>();
+        String [] seconds10 = {"s10","s20","s40"};
+        for (String s: seconds10){
+	       sec10.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
+        }
 
-    //This is the Drop Down Menu Bar, options
-    void setFrameBase() {
+        ArrayList<Shape> minute1 = new ArrayList<Shape>();
+        String [] minutes1 = {"m1", "m2", "m4", "m8"};
+        for (String m: minutes1){
+            minute1.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
 
-	//add objects to the frame
-   	 frame. getContentPane().add(BorderLayout.CENTER, panel);
-	 frame. getContentPane().add(BorderLayout.NORTH, time);
-	 frame. getContentPane().add(BorderLayout.SOUTH, tut);
-	 frame. setJMenuBar(menubar);
+        }
+
+        ArrayList<Shape> minute10 = new ArrayList<Shape>();
+        String [] minutes10 = {"m10", "m20", "m40"};
+        for (String m: minutes10){
+            minute10.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
+
+        }
+
+        ArrayList<Shape> hour = new ArrayList<Shape>();
+        String [] hr = {"h1", "h2", "h4", "h8"};
+        for (String h: hr){
+            hour.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
+        }
+
+        ArrayList<Shape> ampm = new ArrayList<Shape>();
+        String[] ap = {"PM", "AM"};
+        for(String h: ap){
+            ampm.add(factory.build(onBlockColor_, offBlockColor_, BGcolor));
+        }
 	
-	// Menus
-	JMenu file = new JMenu("File");
-	menubar.add(file);
-	JMenuItem exit = new JMenuItem("Exit");
-	file.add(exit);
-
-	// Exit listener for exit menuItem
-	class exitaction implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		System.exit(0);
-	    }
-	}
-	exit.addActionListener(new exitaction());
-
-	JMenu help = new JMenu("Help");
-	menubar.add(help);
-	JMenuItem instructions = new JMenuItem("Instructions");
-	help.add(instructions);
-
-		// Instructions under help
-	class instructions implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		BinaryClock.helpBox("This is a binary clock. Think of the clock showing the time as 00:00:00 AM/PM, \n which represents hours:minutes:seconds.Find out the time by adding each column \n with its respective value, shown on the left of each row. The first column on \n the left displays if it AM or PM. The next column shows the hours. The next two \n columns represents the minutes, where the third column is the minutes by multiples \n of ten and the fourth column with the minutes in ones. The last column shows the \n seconds.", "Instructions");
-	    }
-	}
-	instructions.addActionListener(new instructions());
-    
-
-
-    // Turn sound on and off
-    JMenu soundOff = new JMenu("Sound Options");
-    menubar.add(soundOff);
-    JMenuItem mute = new JMenuItem("Sound Off");
-    soundOff.add(mute);
-    JMenuItem unmute = new JMenuItem("Sound On");
-    soundOff.add(unmute);
-
-    class mute implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
-    		soundmute = true;
-    	}
-    }
-    mute.addActionListener(new mute());
-
-    class unmute implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
-    		soundmute = false;
-    	}
-    }
-    unmute.addActionListener(new unmute());
-
-	}
-
-
-
-
-    //This is to set the color of the background
-    void setBackgroundColor() {
-	
-	JMenu backgroundColorSelector = new JMenu("Background Color");
-	menubar.add(backgroundColorSelector);
-	JMenuItem limegreenBackground = new JMenuItem("Lime Green");
-	JMenuItem whiteblueBackground = new JMenuItem("White blue");
-	JMenuItem blackBackground = new JMenuItem("Black");
-	JMenuItem navyblueBackground = new JMenuItem("Navy Blue");
-	JMenuItem darkblueBackground = new JMenuItem("Dark Blue");
-	JMenuItem redBackground = new JMenuItem("Red");
-	backgroundColorSelector.add(limegreenBackground);
-	backgroundColorSelector.add(whiteblueBackground);
-	backgroundColorSelector.add(blackBackground);
-	backgroundColorSelector.add(navyblueBackground);
-	backgroundColorSelector.add(darkblueBackground);
-	backgroundColorSelector.add(redBackground);
-
-	// Lime Green Background
-	class limegreenBackgroundClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		Color limegreen = new Color(0xB7FFD8);
-		frame.getContentPane().setBackground(limegreen);
-		setBackgroundColor = limegreen;
-		resetAll();
-	    }
-	}
-	limegreenBackground.addActionListener( new limegreenBackgroundClass());
-
-	// Very very very very light blue Background
-	class whiteblueBackgroundClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		Color whiteblue = new Color (0xD5E9EC);
-		frame.getContentPane().setBackground(whiteblue);
-		setBackgroundColor = whiteblue;
-	        resetAll();
-	    }
-	}
-	whiteblueBackground.addActionListener( new whiteblueBackgroundClass());
-
-	// Dark Blue Background
-	class darkblueBackgroundClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		Color darkBlue = new Color(0x273043);
-		frame.getContentPane().setBackground(darkBlue);
-	        setBackgroundColor = darkBlue;
-		resetAll();
-	    }
-	}
-	darkblueBackground.addActionListener( new darkblueBackgroundClass());
-
-	// Navy Blue Background
-	class navyblueBackgroundClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		Color navyblue = new Color(0x175676);
-		frame.getContentPane().setBackground(navyblue);
-	        setBackgroundColor = navyblue;
-		resetAll();
-	    }
-	}
-	navyblueBackground.addActionListener( new navyblueBackgroundClass());
-
-	// Blood Red Background
-	class redBackgroundClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		Color bloodred = new Color(0xB3001B);
-		frame.getContentPane().setBackground(bloodred);
-		setBackgroundColor = bloodred;
-		resetAll();
-	    }
-	}
-	redBackground.addActionListener( new redBackgroundClass());
-
-	//Black Background
-	class blackBackgroundClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		Color black = new Color(0x0F0D0F);
-		frame.getContentPane().setBackground(black);
-		setBackgroundColor = black;
-		resetAll();
-	    }
-	}
-	blackBackground.addActionListener( new blackBackgroundClass());
-    }
-
-
-
-    
-    //Set the color of the individual blocks
-    void setBlockColor(){
-	JMenu onBlockColorSelector = new JMenu("On Block Color");
-	menubar.add(onBlockColorSelector);
-	JMenuItem redOnBlock = new JMenuItem("Red");
-	JMenuItem grassOnBlock = new JMenuItem("Grass Green");
-	JMenuItem greyOnBlock = new JMenuItem("Grey");
-	onBlockColorSelector.add(redOnBlock);
-	onBlockColorSelector.add(grassOnBlock);
-	onBlockColorSelector.add(greyOnBlock);
-
-	JMenu offBlockColorSelector = new JMenu("Off Block Color");
-	menubar.add(offBlockColorSelector);
-	JMenuItem cyanOffBlock = new JMenuItem("Blue");
-	JMenuItem blackOffBlock = new JMenuItem("Black");
-	JMenuItem whiteOffBlock = new JMenuItem("White");
-	offBlockColorSelector.add(cyanOffBlock);
-	offBlockColorSelector.add(blackOffBlock);
-	offBlockColorSelector.add(whiteOffBlock);
-
-	
-	// Red On Box
-	class redOnBoxClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		setOnBlockColor = Color.RED;
-		resetAll();
-	    }
-	}
-	redOnBlock.addActionListener( new redOnBoxClass());
-
-	// Grass On Box
-	class grassOnBoxClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		setOnBlockColor = new Color(0x2AFC98);
-		resetAll();
-	    }
-	}
-        grassOnBlock.addActionListener( new grassOnBoxClass());
-
-	// Grey On Box
-	class greyOnBoxClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		setOnBlockColor = new Color(0x727473);
-		resetAll();
-	    }
-	}
-	greyOnBlock.addActionListener( new greyOnBoxClass());
-
-	// Cyan Off Box
-	class cyanOffBoxClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		setOffBlockColor = Color.CYAN;
-		resetAll();
-	    }
-	}
-	cyanOffBlock.addActionListener( new cyanOffBoxClass());
-
-	// Black Off Box
-	class blackOffBoxClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		setOffBlockColor = Color.BLACK;
-		resetAll();
-	    }
-	}
-	blackOffBlock.addActionListener( new blackOffBoxClass());
-
-	// White Off Box
-	class whiteOffBoxClass implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-		setOffBlockColor = Color.WHITE;
-		resetAll();
-	    }
-	}
-	whiteOffBlock.addActionListener( new whiteOffBoxClass());
+        timeBlocks.add(AMPM_INDEX, ampm);
+        timeBlocks.add(SECOND1_INDEX, sec1);
+        timeBlocks.add(SECOND10_INDEX, sec10);
+        timeBlocks.add(MINUTE1_INDEX, minute1);
+        timeBlocks.add(MINUTE10_INDEX, minute10);
+        timeBlocks.add(HOUR_INDEX, hour);
 
     }
 
-
-
-
-    //Method to be able to set the screen size in JMenu 
-    void setWindowSize(){
-	JMenu screenSettings = new JMenu("Screen Settings");
-	menubar.add(screenSettings);
-	JMenuItem minimize = new JMenuItem("Minimize");
-	screenSettings.add(minimize);
-	JMenuItem maximize = new JMenuItem("Maximize");
-	screenSettings.add(maximize);
-
-	// Minimize Screen 
-	class minimizeScreen implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-
-		framewidth = 1050;
-		frameheight = 480;
-		frame.getContentPane().removeAll();
-		frame.setSize(framewidth,frameheight);
-		
-		Date today= new Date();
-		JLabel tut = new JLabel("Today is: " + today);
-		tut.setForeground(Color.WHITE);
-		tut.setFont(new Font("URW Gothic L", Font.BOLD,20));
-	       	ActionListener updatetime = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			    Date today = new Date();
-			    tut.setText("Today is: " + new Date().toString());
-			}
-		    };
-		new Timer(1000, updatetime).start();
-		panel = new TimePanel("Tutorial", setBackgroundColor, setOnBlockColor, setOffBlockColor);
-		frame. getContentPane().add(BorderLayout.CENTER, panel);
-		frame. getContentPane().add(BorderLayout.NORTH, time);
-		frame. getContentPane().add(BorderLayout.SOUTH, tut);
-		FlowLayout ex = new FlowLayout();
-		frame.getContentPane().setLayout(ex);
-		frame.getContentPane().validate();
-		frame.getContentPane().repaint();
-		refresh = true;
-	    }
-	}
-
-	minimize.addActionListener(new minimizeScreen());
-	// Maximize Screen 
-	class maximizeScreen implements ActionListener{
-	    public void actionPerformed(ActionEvent e){
-
-		framewidth = 1160;
-     		frameheight = 720;
-		BorderLayout ex = new BorderLayout();
-		frame.getContentPane().setLayout(ex);
-		resetAll();
-	    }
-	}
-
-	maximize.addActionListener(new maximizeScreen());
-	
+    public void turnOffClock(){
+        continueRunning = false;
     }
+
+    /**
+        Initializes a beginner-friendly format with guide labels
+    */
+    protected ArrayList<Shape> createColumnArrayList(int column_num){
+        ArrayList<Shape> temporary = new ArrayList<Shape>();
+        for(int i=timeBlocks.size()-1; i>=0; i--){
+
+            if(timeBlocks.get(i).size() > column_num){
+                temporary.add(timeBlocks.get(i).get(column_num));
+            }
+        }
+
+	   return temporary;
+    }
+
+
+    protected JLabel createLabel(String labelName){
+
+        JLabel label = new JLabel(labelName);
+        label.setFont(new Font("URW Gothic L", Font.BOLD,12));
+        label.setForeground(Color.WHITE);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+
+        return label;
+    }
+    protected void initTutorial()
+    {
+        //add gaps between components and edges
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+	      
+        //create the guide labels
+        JLabel AMLabel = createLabel("AM");
+        JLabel PMLabel = createLabel("PM");        
+        JLabel extraLabel = createLabel(" ");	
+        JLabel HLabel = createLabel("Hours");
+        JLabel M10Label = createLabel("Minutes 10's");
+        JLabel M1Label = createLabel("Minutes 1's");
+        JLabel S10Label = createLabel("Seconds 10's");
+        JLabel S1Label = createLabel("Seconds 1's");
+        JLabel N8Label = createLabel("8"); 
+        JLabel N4Label = createLabel("4"); 
+        JLabel N2Label = createLabel("2"); 
+        JLabel N1Label =  createLabel("1");
+	       
+        //tell the layout how to set up columns
+        GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+
+        hGroup.addGroup(layout.createParallelGroup().
+            addComponent(AMLabel).
+            addComponent(PMLabel));
+
+        GroupLayout.ParallelGroup ampmGroup = layout.createParallelGroup();
+        hGroup.addGroup(ampmGroup);
+        ampmGroup.addComponent(extraLabel);
+
        
+        GroupLayout.ParallelGroup hourGroup = layout.createParallelGroup();
+        hGroup.addGroup(hourGroup);
+
+        GroupLayout.ParallelGroup minute10Group = layout.createParallelGroup();
+        hGroup.addGroup(minute10Group);
+
+        GroupLayout.ParallelGroup minute1Group = layout.createParallelGroup();
+        hGroup.addGroup(minute1Group);
+
+        GroupLayout.ParallelGroup second10Group = layout.createParallelGroup();
+        hGroup.addGroup(second10Group);
+
+        GroupLayout.ParallelGroup second1Group = layout.createParallelGroup();
+        hGroup.addGroup(second1Group);
 
 
-    /**
-        Main Function
-        @param args not used
-    */
-    public static void main(String[] args)
-    {
-	//SwingUtilities.invokeLater(new ResolutionChangedDemo());
-	
-	BinaryClock bc = new BinaryClock();
-	bc.setFrameBase();
-	bc.setBackgroundColor();
-	bc.setBlockColor();
-	bc.setWindowSize();
-	//bc.sound();
-        Thread ClockUpdater = new Thread(bc);
-	ClockUpdater.start();
-    }
-    
-    /**
-       Used by main's thread to finish initializing clock display.
-       Loops into itself for inefficient updates.
-       @@@ Will call update() to begin more efficient loop@@@
-    */
-    
-    public void run()
-    {
-        //fetch time data
-        date = String.format("%tr", new Date());
-	
-        //break up time data into binary strings, then feed to blocks
-        hour = Integer.toBinaryString(Integer.parseInt(date.substring(0, 2)));
-	    updateBlocks(hour, panel.getHour());
-	
-        minute10s = Integer.toBinaryString(Integer.parseInt(date.substring(3, 4)));
-	    updateBlocks(minute10s, panel.getMinute10s());
-        minute1s = Integer.toBinaryString(Integer.parseInt(date.substring(4, 5)));
-	    updateBlocks(minute1s, panel.getMinute1s());
-	
-        second10s = Integer.toBinaryString(Integer.parseInt(date.substring(6, 7)));
-            updateBlocks(second10s, panel.getSecond10s());
-        second1s = Integer.toBinaryString(Integer.parseInt(date.substring(7, 8)));
-            updateBlocks(second1s, panel.getSecond1s());
+        hourGroup.addComponent(HLabel);
+        minute10Group.addComponent(M10Label);
+        minute1Group.addComponent(M1Label);
+        second10Group.addComponent(S10Label);
+        second1Group.addComponent(S1Label);
 
-        //translate Am/Pm data and feed to blocks
-        if(date.charAt(9)=='A')
-	    AM_PM = "1";
-        else AM_PM = "0";
-            updateAmPmBlocks(AM_PM, panel.getAmPm());
+        createParallelG(timeBlocks.get(AMPM_INDEX), ampmGroup);
+        createParallelG(timeBlocks.get(HOUR_INDEX), hourGroup);
+        createParallelG(timeBlocks.get(MINUTE10_INDEX), minute10Group);
+        createParallelG(timeBlocks.get(MINUTE1_INDEX), minute1Group);
+        createParallelG(timeBlocks.get(SECOND10_INDEX), second10Group);
+        createParallelG(timeBlocks.get(SECOND1_INDEX), second1Group);
 
-        //set text on the time panel for debugging purposes. Temporary.
-        //time.setText(date);
 
-	frame.setVisible(true);
 
-	//start thread timer
-	startTime = System.currentTimeMillis();
-	slast = System.currentTimeMillis(); // temporary
-	mlast = System.currentTimeMillis(); // temporary
-	hlast = System.currentTimeMillis(); // temporary
-	ampmlast = System.currentTimeMillis(); // temporary
-        //tell the thread to sleep for a twentieth of a second before reiterating
-        try
-        {
-            Thread.sleep(50);
-        }
-
-	catch(InterruptedException ex)
-        {
-            ex.printStackTrace();
-        }
-        update();
-    }
-
-    /**
-        Used by main's thread to update the clock display every 50ms.
-        Currently an unused placeholder, will be a more efficient loop than run().
-    */
-    
-    protected void update()
-    {
-	secTimer = System.currentTimeMillis() - slast;
-	minTimer = System.currentTimeMillis() - mlast;
-	hrTimer = System.currentTimeMillis() - hlast;
-	ampmTimer = System.currentTimeMillis() - ampmlast;
-        date = String.format("%tr", new Date());
-
-	// This loop is more efficient because it only updates the blocks that need to be updated
-	// For example, hour won't get updated every single second
-	
-	// update seconds after every 1000 ms
-	if(secTimer > 900){
-	    second10s = Integer.toBinaryString(Integer.parseInt(date.substring(6, 7)));
-            updateBlocks(second10s, panel.getSecond10s());
-
-	    second1s = Integer.toBinaryString(Integer.parseInt(date.substring(7, 8)));
-	    updateBlocks(second1s, panel.getSecond1s());
-	    slast = System.currentTimeMillis();
-
-	    if(!soundmute){ 
-	    	playSound();
-	    }
-
-	}
-	
-	
-	// update minute after every 60,000 ms
-	if((minTimer > 1000 * 60 - 100) || (refresh == true)){
-	    minute10s = Integer.toBinaryString(Integer.parseInt(date.substring(3, 4)));
-	    updateBlocks(minute10s, panel.getMinute10s());
-	    minute1s = Integer.toBinaryString(Integer.parseInt(date.substring(4, 5)));
-	    updateBlocks(minute1s, panel.getMinute1s());
-	    mlast = System.currentTimeMillis();
-	}
-	
-	// update hour after 3,600,000 ms
-	if((hrTimer > 1000 * 60 * 60 - 100) || (refresh == true)){
-	    hour = Integer.toBinaryString(Integer.parseInt(date.substring(0, 2)));
-	    updateBlocks(hour, panel.getHour()); 
-	    hlast = System.currentTimeMillis();
-	    }
         
-	// update am/pm after 12 hours (3,600,000 * 12)
-	if((ampmTimer > 1000 * 60 * 60 * 12 - 100) || (refresh == true)){
-	    if(date.charAt(9)=='A')
-		AM_PM = "1";
-	    else AM_PM = "0";
-	    updateAmPmBlocks(AM_PM, panel.getAmPm());
-	    refresh = false;
-	}
-	
-        //tell the thread to sleep before reiterating
-        try
-	    {
-		Thread.sleep(500);
-	    }
+        hGroup.addGroup(layout.createParallelGroup().
+            addComponent(N8Label).
+            addComponent(N4Label).
+            addComponent(N2Label).
+            addComponent(N1Label));
+        layout.setHorizontalGroup(hGroup);
 
-	catch(InterruptedException ex)
-	    {
-		ex.printStackTrace();
-	    }
-        update();
+	
+        //tell the layout how to set up rows
+        GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+        vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+        addComponent(extraLabel). //extra
+        addComponent(HLabel).
+        addComponent(M10Label).
+        addComponent(M1Label).
+        addComponent(S10Label).
+        addComponent(S1Label));
+
+        GroupLayout.ParallelGroup eightGroup = layout.createParallelGroup(Alignment.BASELINE);
+        vGroup.addGroup(eightGroup);
+        eightGroup.addComponent(N8Label);
+
+        GroupLayout.ParallelGroup fourGroup = layout.createParallelGroup(Alignment.BASELINE);
+        vGroup.addGroup(fourGroup);
+        fourGroup.addComponent(N4Label);
+	   
+        
+        GroupLayout.ParallelGroup twoGroup = layout.createParallelGroup(Alignment.BASELINE);
+        vGroup.addGroup(twoGroup);
+
+        twoGroup.addComponent(AMLabel);
+        twoGroup.addComponent(N2Label);
+  
+        GroupLayout.ParallelGroup oneGroup = layout.createParallelGroup(Alignment.BASELINE);
+        vGroup.addGroup(oneGroup);
+        oneGroup.addComponent(PMLabel);
+        oneGroup.addComponent(N1Label);
+
+
+        createParallelG(createColumnArrayList(EIGHTS_INDEX), eightGroup);
+        createParallelG(createColumnArrayList(FOURS_INDEX), fourGroup);
+        createParallelG(createColumnArrayList(TWOS_INDEX), twoGroup);
+        createParallelG(createColumnArrayList(ONES_INDEX), oneGroup);
+        layout.setVerticalGroup(vGroup);
     }
 
-    /**
-        Inputs the string into the array of blocks
-        @param s Binary String to be input
-        @param blocks Array of Blocks to be updated
-    */
-    protected void updateBlocks(String s, Block[] blocks)
-    {
-        for(int i =  Array.getLength(blocks) - 1; i >= 0; i--)
-        {
-            //associates appropriate blocks to their bits
-            if(i<s.length())
-                blocks[i].input(s.charAt(s.length()-1-i));
-            else blocks[i].input('0');
 
+    /**
+        Adds each Block object in blocks as a component of pGroup
+    */
+    public void createParallelG(ArrayList<Shape> blocks, GroupLayout.ParallelGroup pGroup){
+   
+        for(Shape b : blocks){
+            pGroup.addComponent(b);
         }
     }
 
+
     /**
+        Get the blocks corresponding to the string argument
+        @return an array of Blocks from a certain column in timeBlocks
+    */
+    protected Shape[] getTimeBlocks(String blockName){
+
+        int blockIndex = 0;
+        switch (blockName){
+            case "hour":
+                blockIndex = HOUR_INDEX;
+                break;
+            case "min10":
+                blockIndex = MINUTE10_INDEX;
+                break;
+            case "min1":
+                blockIndex = MINUTE1_INDEX;
+                break;
+            case "sec10":
+                blockIndex = SECOND10_INDEX;
+                break;
+            case "sec1":
+                blockIndex = SECOND1_INDEX;
+                break;
+            default:
+                return new Shape[0];  //Return empty array of shapes
+        }
+
+        Shape[] b = new Shape[timeBlocks.get(blockIndex).size()];
+        for(int i = 0; i < b.length; i++){
+            b[i] = timeBlocks.get(blockIndex).get(i);
+        }
+
+        return b;
+    }
+
+
+
+    public void getTime(){
+        //fetch time data
+        String date = String.format("%tr", new Date());
+    
+        updateHours(date);
+        updateMinutes(date);
+        updateSeconds(date);
+        updateAMPM(date);
+    }
+
+    protected void updateSeconds(String date){
+
+        String second10s = Integer.toBinaryString(Integer.parseInt(date.substring(6, 7)));
+        updateBlocks(second10s, getTimeBlocks("sec10"));
+
+        String second1s = Integer.toBinaryString(Integer.parseInt(date.substring(7, 8)));
+        updateBlocks(second1s, getTimeBlocks("sec1"));
+    }
+
+    protected void updateMinutes(String date){
+        String minute10s = Integer.toBinaryString(Integer.parseInt(date.substring(3, 4)));
+        updateBlocks(minute10s, getTimeBlocks("min10"));
+        String minute1s = Integer.toBinaryString(Integer.parseInt(date.substring(4, 5)));
+        updateBlocks(minute1s, getTimeBlocks("min1"));
+    }
+
+    protected void updateHours(String date){
+
+        String hour = Integer.toBinaryString(Integer.parseInt(date.substring(0, 2)));
+        updateBlocks(hour, getTimeBlocks("hour")); 
+    }
+
+    protected void updateAMPM(String date){
+        if(date.charAt(9)=='A')
+            updateAmPmBlocks("1");
+        else 
+            updateAmPmBlocks("0");
+    }
+
+     /*
         Inputs the string into the AmPm array of blocks
         @param s Binary String to be input
         @param blocks Array of Blocks to be updated
     */
-    protected void updateAmPmBlocks(String s, Block[] blocks)
+    protected void updateAmPmBlocks(String s)
     {
         if(s.charAt(0) == '1') //if it's am
         {
-            blocks[0].input('1'); //am is on
-            blocks[1].input('0'); //pm is off
-        } else
+            timeBlocks.get(AMPM_INDEX).get(1).input('1'); //am is on
+            timeBlocks.get(AMPM_INDEX).get(0).input('0'); //pm is off
+        } 
+        else
         {
-            blocks[0].input('0');
-            blocks[1].input('1');
+            timeBlocks.get(AMPM_INDEX).get(1).input('0');
+            timeBlocks.get(AMPM_INDEX).get(0).input('1');
         }
     }
 
-    public static void helpBox(String helpMessage, String titleBar)
+    /*
+        Inputs the string into the array of blocks
+        @param s Binary String to be input
+        @param blocks Array of Blocks to be updated
+    */
+    private void updateBlocks(String s, Shape[] blocks)
     {
-	final JOptionPane pane = new JOptionPane(helpMessage);
-	final JDialog d = pane.createDialog((JFrame)null, titleBar);
-	d.setLocation(250,80);
-	d.setVisible(true);
+        for(int i =  blocks.length - 1; i >= 0; i--)
+        {
+            //associates appropriate blocks to their bits
+            if(i<s.length())
+                blocks[i].input(s.charAt(s.length()-1-i));
+            else 
+                blocks[i].input('0');
+
+        }
     }
 
-    public static void playSound()
-    {       
-    	try {
-    	    File soundFile = new File("Sounds/clock-tick1.wav");
-    		AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-    	    Clip clip = AudioSystem.getClip();
-    	    clip.open(audioIn);
-    	    clip.start();
-    	} catch (UnsupportedAudioFileException e) {
-    	    e.printStackTrace();
-    	} catch (IOException e) {
-    	    e.printStackTrace();
-    	} catch (LineUnavailableException e) {
-    	    e.printStackTrace();
-    	}
-	
+    public void run(){
+
+        // If this is while (true), then the old threads might never die
+        while(continueRunning){
+
+            this.getTime();
+
+            //Update the clock every 500 milliseconds
+            try
+            {
+                Thread.sleep(500);
+                // System.out.println("Thread: " + this.hashCode());
+                // Conrad told me to leave this line of code in so he could demo this in lecture
+            }
+            catch(InterruptedException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
     }
 }
+
 
