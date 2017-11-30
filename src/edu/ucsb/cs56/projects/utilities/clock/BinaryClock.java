@@ -39,7 +39,7 @@ public class BinaryClock extends JPanel implements Runnable
 
     protected GroupLayout layout;
 
-    protected ArrayList<ArrayList<Shape>> timeBlocks = new ArrayList<ArrayList<Shape>>();
+    protected ArrayList<ArrayList<Shape>> timeBlocks;
     private boolean continueRunning;
 
 
@@ -54,6 +54,7 @@ public class BinaryClock extends JPanel implements Runnable
     public BinaryClock(String type, Color timePanelBackgroundColor_, Color onBlockColor_, Color offBlockColor_, ShapeFactory ini_factory)
     {
         layout = new GroupLayout(this);
+        timeBlocks = new ArrayList<ArrayList<Shape>>();
 
         continueRunning = true;
 
