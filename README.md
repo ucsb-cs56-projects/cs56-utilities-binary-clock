@@ -14,6 +14,7 @@ This is our default binary clock program.
 #Project History
 ===============
 ```
+F17 | shudaniel, sitaochen   | Graphical Binary Clock
 F16 | KevinL123, mschanteltc | Graphical Binary Clock
 W15 | JohnUCSB, mbahia (4pm) | Graphical Binary Clock
 W14 | bkiefer13, yantsey (5pm) | Graphical Binary Clock
@@ -44,6 +45,24 @@ Other Notes
 * Currently, the gradient is done by using a for loop to pain several rectangles over each other, with each successive rectangle decreasing 1 pixel in height, and getting darker by 1 RGB value.
 * There may be a way to use GradientPaint, but that involves refactoring the entire project and changing the Block class to implement Shape rather than extend Canvas. You would have to change code in every single class.
 
+F17 Final Remarks
+=================
+
+* The BinaryClock.java contains the JPanel that contains the clock itself, which is the main display for the Binary Clock. The BinaryClockGUI.java contains the menubar options and the JFrame that holds the clock. BinaryClock implements Runnable and is independent of BinaryClockGUI. It can run by itself as long as a new thread is created and start() is called. 
+
+* The shape of the blocks are created using the factory pattern. The ShapeFactory.java file handles the creation of different shapes of blocks independent of the BinaryClock object.
+
+
+	Things to keep in mind:
+
+* Currently, for BinaryClockGUI to change how the clock looks (such as the color), it stops the current BinaryClock thread and creates a new BinaryClock object with the new settings.
+
+* The size of each block is not the same. They are not set by us. They layout manager automatically determined each size.
+
+* We changed the names of the files. BinaryClock.java used to be called TimePanel.java, and BinaryClockGUI.java used to be called BinaryClock.java. Keep this in mind when reading old comments or issues.   
+
+* In the BinaryClock.java run() function, there this line of code: System.out.println("Thread: " + this.hashCode());
+Professor Conrad wants to leave this in for demo purposes in lecture
 
 F16 Final Remarks
 =================
